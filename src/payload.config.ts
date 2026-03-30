@@ -8,6 +8,9 @@ import { Categories } from './collections/Categories'
 import { Media } from './collections/Media'
 import { Pages } from './collections/Pages'
 import { Posts } from './collections/Posts'
+import { News } from './collections/News'
+import { Gallery } from './collections/Gallery'
+import { Videos } from './collections/Videos'
 import { Users } from './collections/Users'
 import { Footer } from './Footer/config'
 import { Header } from './Header/config'
@@ -17,6 +20,8 @@ import { getServerSideURL } from './utilities/getURL'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
+
+import { Timeline } from './collections/Timeline'
 
 export default buildConfig({
   admin: {
@@ -57,10 +62,24 @@ export default buildConfig({
   },
   // This config helps us configure global or default features that the other editors can inherit
   editor: defaultLexical,
+  localization: {
+    locales: [
+      {
+        label: 'Nepali',
+        code: 'ne',
+      },
+      {
+        label: 'English',
+        code: 'en',
+      },
+    ],
+    defaultLocale: 'ne',
+    fallback: true,
+  },
   db: mongooseAdapter({
     url: process.env.DATABASE_URL || '',
   }),
-  collections: [Pages, Posts, Media, Categories, Users],
+  collections: [Pages, Posts, Media, Categories, Users, News, Gallery, Videos, Timeline],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [Header, Footer],
   plugins,

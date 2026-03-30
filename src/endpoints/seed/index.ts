@@ -1,20 +1,13 @@
 import type { CollectionSlug, GlobalSlug, Payload, PayloadRequest, File } from 'payload'
 
-import { contactForm as contactFormData } from './contact-form'
-import { contact as contactPageData } from './contact-page'
-import { home } from './home'
-import { image1 } from './image-1'
-import { image2 } from './image-2'
-import { imageHero1 } from './image-hero-1'
-import { post1 } from './post-1'
-import { post2 } from './post-2'
-import { post3 } from './post-3'
-
 const collections: CollectionSlug[] = [
   'categories',
   'media',
   'pages',
   'posts',
+  'news',
+  'gallery',
+  'videos',
   'forms',
   'form-submissions',
   'search',
@@ -22,12 +15,6 @@ const collections: CollectionSlug[] = [
 
 const globals: GlobalSlug[] = ['header', 'footer']
 
-const categories = ['Technology', 'News', 'Finance', 'Design', 'Software', 'Engineering']
-
-// Next.js revalidation errors are normal when seeding the database without a server running
-// i.e. running `yarn seed` locally instead of using the admin UI within an active app
-// The app is not running to revalidate the pages and so the API routes are not available
-// These error messages can be ignored: `Error hitting revalidate route for...`
 export const seed = async ({
   payload,
   req,
@@ -35,15 +22,11 @@ export const seed = async ({
   payload: Payload
   req: PayloadRequest
 }): Promise<void> => {
-  payload.logger.info('Seeding database...')
+  payload.logger.info('Seeding database with custom Politician Portfolio data...')
 
-  // we need to clear the media directory before seeding
-  // as well as the collections and globals
-  // this is because while `yarn seed` drops the database
-  // the custom `/api/seed` endpoint does not
   payload.logger.info(`— Clearing collections and globals...`)
 
-  // clear the database
+  // clear the database globals
   await Promise.all(
     globals.map((global) =>
       payload.updateGlobal({
@@ -59,6 +42,7 @@ export const seed = async ({
     ),
   )
 
+  // clear collections
   await Promise.all(
     collections.map((collection) => payload.db.deleteMany({ collection, req, where: {} })),
   )
@@ -70,7 +54,6 @@ export const seed = async ({
   )
 
   payload.logger.info(`— Seeding demo author and user...`)
-
   await payload.delete({
     collection: 'users',
     depth: 0,
@@ -82,199 +65,108 @@ export const seed = async ({
   })
 
   payload.logger.info(`— Seeding media...`)
+  const heroImageBuffer = await fetchFileByURL(
+    'https://raw.githubusercontent.com/payloadcms/payload/refs/heads/main/templates/website/src/endpoints/seed/image-hero1.webp',
+  )
 
-  const [image1Buffer, image2Buffer, image3Buffer, hero1Buffer] = await Promise.all([
-    fetchFileByURL(
-      'https://raw.githubusercontent.com/payloadcms/payload/refs/heads/main/templates/website/src/endpoints/seed/image-post1.webp',
-    ),
-    fetchFileByURL(
-      'https://raw.githubusercontent.com/payloadcms/payload/refs/heads/main/templates/website/src/endpoints/seed/image-post2.webp',
-    ),
-    fetchFileByURL(
-      'https://raw.githubusercontent.com/payloadcms/payload/refs/heads/main/templates/website/src/endpoints/seed/image-post3.webp',
-    ),
-    fetchFileByURL(
-      'https://raw.githubusercontent.com/payloadcms/payload/refs/heads/main/templates/website/src/endpoints/seed/image-hero1.webp',
-    ),
-  ])
-
-  const [demoAuthor, image1Doc, image2Doc, image3Doc, imageHomeDoc] = await Promise.all([
+  const [demoAuthor, demoMedia] = await Promise.all([
     payload.create({
       collection: 'users',
       data: {
-        name: 'Demo Author',
+        name: 'Admin User',
         email: 'demo-author@example.com',
         password: 'password',
       },
     }),
     payload.create({
       collection: 'media',
-      data: image1,
-      file: image1Buffer,
-    }),
-    payload.create({
-      collection: 'media',
-      data: image2,
-      file: image2Buffer,
-    }),
-    payload.create({
-      collection: 'media',
-      data: image2,
-      file: image3Buffer,
-    }),
-    payload.create({
-      collection: 'media',
-      data: imageHero1,
-      file: hero1Buffer,
-    }),
-    categories.map((category) =>
-      payload.create({
-        collection: 'categories',
-        data: {
-          title: category,
-          slug: category,
-        },
-      }),
-    ),
-  ])
-
-  payload.logger.info(`— Seeding posts...`)
-
-  // Do not create posts with `Promise.all` because we want the posts to be created in order
-  // This way we can sort them by `createdAt` or `publishedAt` and they will be in the expected order
-  const post1Doc = await payload.create({
-    collection: 'posts',
-    depth: 0,
-    context: {
-      disableRevalidate: true,
-    },
-    data: post1({ heroImage: image1Doc, blockImage: image2Doc, author: demoAuthor }),
-  })
-
-  const post2Doc = await payload.create({
-    collection: 'posts',
-    depth: 0,
-    context: {
-      disableRevalidate: true,
-    },
-    data: post2({ heroImage: image2Doc, blockImage: image3Doc, author: demoAuthor }),
-  })
-
-  const post3Doc = await payload.create({
-    collection: 'posts',
-    depth: 0,
-    context: {
-      disableRevalidate: true,
-    },
-    data: post3({ heroImage: image3Doc, blockImage: image1Doc, author: demoAuthor }),
-  })
-
-  // update each post with related posts
-  await payload.update({
-    id: post1Doc.id,
-    collection: 'posts',
-    data: {
-      relatedPosts: [post2Doc.id, post3Doc.id],
-    },
-  })
-  await payload.update({
-    id: post2Doc.id,
-    collection: 'posts',
-    data: {
-      relatedPosts: [post1Doc.id, post3Doc.id],
-    },
-  })
-  await payload.update({
-    id: post3Doc.id,
-    collection: 'posts',
-    data: {
-      relatedPosts: [post1Doc.id, post2Doc.id],
-    },
-  })
-
-  payload.logger.info(`— Seeding contact form...`)
-
-  const contactForm = await payload.create({
-    collection: 'forms',
-    depth: 0,
-    data: contactFormData,
-  })
-
-  payload.logger.info(`— Seeding pages...`)
-
-  const [_, contactPage] = await Promise.all([
-    payload.create({
-      collection: 'pages',
-      depth: 0,
-      data: home({ heroImage: imageHomeDoc, metaImage: image2Doc }),
-    }),
-    payload.create({
-      collection: 'pages',
-      depth: 0,
-      data: contactPageData({ contactForm: contactForm }),
+      data: { alt: 'Placeholder Media' },
+      file: heroImageBuffer,
     }),
   ])
 
-  payload.logger.info(`— Seeding globals...`)
+  payload.logger.info(`— Seeding News...`)
+  
+  const categories = await Promise.all([
+    payload.create({ collection: 'categories', data: { title: 'समाचार', slug: 'news' } }),
+    payload.create({ collection: 'categories', data: { title: 'प्रेस विज्ञप्ति', slug: 'press-release' } }),
+    payload.create({ collection: 'categories', data: { title: 'विचार', slug: 'opinion' } }),
+  ])
 
-  await Promise.all([
-    payload.updateGlobal({
-      slug: 'header',
+  for (let i = 1; i <= 20; i++) {
+    const isOpinion = i >= 13 && i <= 15
+    const category = isOpinion ? categories[2].id : (i % 3 === 0 ? categories[1].id : categories[0].id)
+    
+    await payload.create({
+      collection: 'news',
       data: {
-        navItems: [
-          {
-            link: {
-              type: 'custom',
-              label: 'Posts',
-              url: '/posts',
-            },
-          },
-          {
-            link: {
-              type: 'reference',
-              label: 'Contact',
-              reference: {
-                relationTo: 'pages',
-                value: contactPage.id,
-              },
-            },
-          },
-        ],
+        title: isOpinion 
+          ? `राजनीतिक विचार र दृष्टिकोण - भाग ${i}`
+          : `राष्ट्रिय स्वाधीनता र विकासको नेतृत्व सम्बन्धी महत्वपूर्ण ${i%3===0 ? 'विज्ञप्ति' : 'समाचार'} - ${i}`,
+        slug: `news-article-${i}`,
+        publishDate: new Date('2024-04-01T10:00:00Z').toISOString(),
+        category,
+        featuredImage: demoMedia.id,
+        hasVideo: i === 6 || i === 7, // Randomly flag a few as hasVideo
+        excerpt: 'नेपाल कम्युनिष्ट पार्टीको स्थापना दिवसको अवसरमा आम नेपाली जनतामा हार्दिक शुभकामना व्यक्त गर्दछु। देश विकास र समृद्धिको लागि हामी सबै एक जुट हुनु आवश्यक छ।',
+        content: {
+          root: {
+            type: 'root',
+            format: '',
+            indent: 0,
+            version: 1,
+            children: [
+              {
+                type: 'paragraph',
+                format: '',
+                indent: 0,
+                version: 1,
+                children: [
+                   {
+                     type: 'text',
+                     detail: 0,
+                     format: 0,
+                     mode: 'normal',
+                     style: '',
+                     text: 'यो नमुना समाचार सामग्री हो। यसमा विस्तृत विवरणहरू प्रस्तुत गर्न सकिन्छ।',
+                     version: 1,
+                   }
+                ]
+              }
+            ],
+            direction: 'ltr',
+          }
+        }
       },
-    }),
-    payload.updateGlobal({
-      slug: 'footer',
-      data: {
-        navItems: [
-          {
-            link: {
-              type: 'custom',
-              label: 'Admin',
-              url: '/admin',
-            },
-          },
-          {
-            link: {
-              type: 'custom',
-              label: 'Source Code',
-              newTab: true,
-              url: 'https://github.com/payloadcms/payload/tree/main/templates/website',
-            },
-          },
-          {
-            link: {
-              type: 'custom',
-              label: 'Payload',
-              newTab: true,
-              url: 'https://payloadcms.com/',
-            },
-          },
-        ],
-      },
-    }),
-  ])
+    })
+  }
 
-  payload.logger.info('Seeded database successfully!')
+  payload.logger.info(`— Seeding Gallery...`)
+  await payload.create({
+    collection: 'gallery',
+    data: {
+      title: 'संसद बैठक तथा कार्यक्रमहरु',
+      slug: 'parliament-sessions',
+      date: new Date().toISOString(),
+      photos: Array(6).fill({ image: demoMedia.id, caption: 'संसदमा सम्बोधन गर्दै' }),
+    }
+  })
+
+  payload.logger.info(`— Seeding Videos...`)
+  for (let i = 1; i <= 4; i++) {
+    await payload.create({
+      collection: 'videos',
+      data: {
+        title: i === 1 ? 'विशेष राष्ट्रिय सम्बोधन तथा निर्देशन' : `पार्टीको स्थायी समिति बैठकपछि पत्रकार सम्मेलन - भाग ${i}`,
+        slug: `video-post-${i}`,
+        videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+        thumbnail: demoMedia.id,
+        date: new Date().toISOString()
+      }
+    })
+  }
+
+  payload.logger.info('Seeded database successfully! Custom data ready for frontend.')
 }
 
 async function fetchFileByURL(url: string): Promise<File> {

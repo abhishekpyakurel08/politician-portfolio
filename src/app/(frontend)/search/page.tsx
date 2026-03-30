@@ -3,10 +3,13 @@ import type { Metadata } from 'next/types'
 import { CollectionArchive } from '@/components/CollectionArchive'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
-import React from 'react'
-import { Search } from '@/search/Component'
+import React, { Suspense } from 'react'
+import { Search as SearchComponent } from '@/search/Component'
 import PageClient from './page.client'
 import { CardPostData } from '@/components/Card'
+import { Search as SearchIcon } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import Link from 'next/link'
 
 type Args = {
   searchParams: Promise<{
@@ -59,30 +62,88 @@ export default async function Page({ searchParams: searchParamsPromise }: Args) 
       : {}),
   })
 
-  return (
-    <div className="pt-24 pb-24">
-      <PageClient />
-      <div className="container mb-16">
-        <div className="prose dark:prose-invert max-w-none text-center">
-          <h1 className="mb-8 lg:mb-16">Search</h1>
+  // Next.js Payload Pagination workaround for total count when pagination is false
+  const totalCount = posts.totalDocs ?? (posts.docs ? posts.docs.length : 0)
 
-          <div className="max-w-[50rem] mx-auto">
-            <Search />
+  return (
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 pb-24">
+      <PageClient />
+      
+      {/* Search Hero Section */}
+      <div className="relative bg-linear-to-b from-white to-slate-50 dark:from-slate-900 dark:to-slate-950 pt-24 pb-16 md:pt-32 md:pb-20 border-b border-slate-200 dark:border-slate-800 overflow-hidden">
+        {/* Decorative background elements */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[400px] opacity-20 bg-linear-to-tr from-red-100 to-transparent dark:from-red-900/20 blur-3xl pointer-events-none rounded-full" />
+        
+        <div className="container px-4 relative z-10">
+          <div className="max-w-3xl mx-auto text-center space-y-8">
+            <div className="inline-flex items-center justify-center p-4 bg-red-50 dark:bg-red-950/30 rounded-3xl mb-2 shadow-sm border border-red-100 dark:border-red-900/30">
+              <SearchIcon className="w-10 h-10 text-[#B31B20]" />
+            </div>
+            
+            <div className="space-y-4 px-4 sm:px-0">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-slate-900 dark:text-white tracking-tight leading-[1.1]">
+                Search Results
+              </h1>
+              <p className="text-lg md:text-xl text-slate-600 dark:text-slate-400 max-w-xl mx-auto leading-relaxed">
+                Find exactly what you're looking for across our news, activities, and updates.
+              </p>
+            </div>
+            
+            <div className="w-full max-w-2xl mx-auto bg-white dark:bg-slate-900/80 backdrop-blur-sm p-4 md:p-5 rounded-4xl shadow-[0_20px_50px_rgba(179,27,32,0.05)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.3)] border border-slate-100 dark:border-slate-800 transition-all hover:shadow-[0_20px_50px_rgba(179,27,32,0.1)] group">
+              <Suspense fallback={<div className="h-16 w-full animate-pulse bg-slate-100 dark:bg-slate-800 rounded-2xl" />}>
+                <SearchComponent />
+              </Suspense>
+            </div>
           </div>
         </div>
       </div>
 
-      {posts.totalDocs > 0 ? (
-        <CollectionArchive posts={posts.docs as CardPostData[]} />
-      ) : (
-        <div className="container">No results found.</div>
-      )}
+      {/* Results Section */}
+      <div className="container px-4 mt-12 md:mt-16 sm:mt-24">
+        <div className="mb-10 md:mb-16 flex flex-col sm:flex-row items-center justify-between gap-6">
+          <div className="space-y-2 text-center sm:text-left">
+            <h2 className="text-3xl md:text-4xl font-black flex items-center justify-center sm:justify-start gap-4 text-slate-900 dark:text-white">
+              <span className="w-2 h-10 bg-[#B31B20] rounded-full hidden sm:inline-block shadow-[0_0_15px_rgba(179,27,32,0.3)]"></span>
+              {query ? (
+                <span className="flex items-center flex-wrap gap-2">
+                  Results for <span className="text-[#B31B20]">"{query}"</span>
+                </span>
+              ) : (
+                'All Content'
+              )}
+            </h2>
+            <p className="text-slate-500 dark:text-slate-400 font-medium">Explore the latest updates and information</p>
+          </div>
+          <div className="bg-white dark:bg-slate-800 text-[#B31B20] text-base py-2 px-6 rounded-2xl font-bold border border-red-50 dark:border-slate-700 shadow-[0_4px_10px_rgba(0,0,0,0.03)] dark:shadow-none self-center sm:self-auto">
+            {totalCount} {totalCount === 1 ? 'match' : 'matches'}
+          </div>
+        </div>
+
+        {totalCount > 0 ? (
+          <div className="animate-in fade-in slide-in-from-bottom-8 duration-700 ease-out">
+            <CollectionArchive posts={posts.docs as CardPostData[]} />
+          </div>
+        ) : (
+          <div className="bg-white dark:bg-slate-900 rounded-[3rem] p-16 md:p-24 text-center border border-slate-100 dark:border-slate-800 shadow-[0_20px_40px_rgba(0,0,0,0.02)] mt-8 animate-in fade-in duration-500">
+            <div className="w-32 h-32 bg-slate-50 dark:bg-slate-800/50 rounded-full flex items-center justify-center mx-auto mb-8 border border-slate-100 dark:border-slate-700">
+              <SearchIcon className="w-12 h-12 text-slate-300 dark:text-slate-600" />
+            </div>
+            <h3 className="text-3xl font-black text-slate-900 dark:text-white mb-4">No results found</h3>
+            <p className="text-slate-500 dark:text-slate-400 max-w-md mx-auto text-xl leading-relaxed mb-10">
+              We couldn't find anything matching your search for <strong className="text-slate-700 dark:text-slate-300">"{query}"</strong>.
+            </p>
+            <Button asChild variant="outline" size="lg" className="rounded-2xl px-10 border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 font-bold h-14">
+              <Link href="/">Return to Home</Link>
+            </Button>
+          </div>
+        )}
+      </div>
     </div>
   )
 }
 
 export function generateMetadata(): Metadata {
   return {
-    title: `Payload Website Template Search`,
+    title: `Search Results | Jalsa Xettri`,
   }
 }

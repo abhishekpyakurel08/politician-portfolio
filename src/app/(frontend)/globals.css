@@ -20,6 +20,13 @@
     font-weight: unset;
     font-size: unset;
   }
+
+  /* Nepali text: Noto Sans Devanagari with system fallbacks */
+  :lang(ne),
+  .noto {
+    font-family: 'Mukta', 'Noto Sans Devanagari', 'Mangal', 'Shruti', sans-serif;
+    font-size: 0.9em; /* Further reduce size as Mukta is naturally larger */
+  }
 }
 
 @plugin "@tailwindcss/typography";
@@ -210,7 +217,89 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground min-h-[100vh] flex flex-col;
+    @apply bg-background text-foreground min-h-screen flex flex-col;
+  }
+  
+  /* Selection styling */
+  ::selection {
+    @apply bg-[#B31B20]/20 text-[#B31B20];
+  }
+
+  /* Smooth scrolling */
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@layer utilities {
+  .glass {
+    @apply bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl border border-white/20 dark:border-slate-800/20 shadow-[0_8px_32px_0_rgba(31,38,135,0.07)];
+  }
+
+  .glass-dark {
+    @apply bg-slate-950/80 backdrop-blur-2xl border border-white/5 shadow-[0_20px_50px_rgba(0,0,0,0.3)];
+  }
+
+  .text-gradient {
+    @apply bg-linear-to-r from-[#B31B20] to-[#E31E24] bg-clip-text text-transparent;
+  }
+
+  .bg-gradient-brand {
+    @apply bg-linear-to-br from-[#B31B20] via-[#D31D23] to-[#8E1519];
+  }
+
+  .glow-red {
+    @apply shadow-[0_0_20px_rgba(179,27,32,0.3)];
+  }
+
+  .glow-red-strong {
+    @apply shadow-[0_0_40px_rgba(179,27,32,0.5)];
+  }
+
+  .premium-border {
+    @apply border border-slate-100 dark:border-slate-800 transition-all duration-300 hover:border-[#B31B20]/30;
+  }
+
+  .mukta-extralight {
+    font-family: 'Mukta', sans-serif;
+    font-weight: 200;
+    font-style: normal;
+  }
+
+  .mukta-light {
+    font-family: 'Mukta', sans-serif;
+    font-weight: 300;
+    font-style: normal;
+  }
+
+  .mukta-regular {
+    font-family: 'Mukta', sans-serif;
+    font-weight: 400;
+    font-style: normal;
+  }
+
+  .mukta-medium {
+    font-family: 'Mukta', sans-serif;
+    font-weight: 500;
+    font-style: normal;
+  }
+
+  .mukta-semibold {
+    font-family: 'Mukta', sans-serif;
+    font-weight: 600;
+    font-style: normal;
+  }
+
+  .mukta-bold {
+    font-family: 'Mukta', sans-serif;
+    font-weight: 700;
+    font-style: normal;
+  }
+
+  .mukta-extrabold {
+    font-family: 'Mukta', sans-serif;
+    font-weight: 800;
+    font-style: normal;
   }
 }
 
@@ -222,3 +311,36 @@ html[data-theme='dark'],
 html[data-theme='light'] {
   opacity: initial;
 }
+
+/* ── Homepage custom utilities ──────────────────────────────────── */
+@keyframes marquee {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Section heading style */
+.section-heading {
+  border-bottom: 2px solid #e5e7eb;
+  padding-bottom: 0.5rem;
+  margin-bottom: 1rem;
+}
+.section-heading-title {
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #1f2937;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
