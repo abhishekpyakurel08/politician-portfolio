@@ -72,7 +72,7 @@ export default async function Page({ searchParams: searchParamsPromise }: Args) 
       {/* Search Hero Section */}
       <div className="relative bg-linear-to-b from-white to-slate-50 dark:from-slate-900 dark:to-slate-950 pt-24 pb-16 md:pt-32 md:pb-20 border-b border-slate-200 dark:border-slate-800 overflow-hidden">
         {/* Decorative background elements */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[400px] opacity-20 bg-linear-to-tr from-red-100 to-transparent dark:from-red-900/20 blur-3xl pointer-events-none rounded-full" />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-250 h-100 opacity-20 bg-linear-to-tr from-red-100 to-transparent dark:from-red-900/20 blur-3xl pointer-events-none rounded-full" />
         
         <div className="container px-4 relative z-10">
           <div className="max-w-3xl mx-auto text-center space-y-8">

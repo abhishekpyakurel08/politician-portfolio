@@ -10,7 +10,6 @@ import { X, Images, Calendar } from 'lucide-react'
 interface GalleryItemType {
   id: string
   title: string
-  date?: string
   imageUrl: string
   images: { url: string; alt?: string }[]
 }
