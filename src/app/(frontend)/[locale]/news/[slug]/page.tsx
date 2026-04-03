@@ -57,35 +57,38 @@ export default async function NewsPost({ params: paramsPromise }: Args) {
       : '/website-template-OG.webp'
 
   return (
-    <article className="min-h-screen bg-slate-50 pb-20">
+    <article className="min-h-screen bg-slate-50 dark:bg-slate-950 transition-colors duration-300 pb-20">
       <PayloadRedirects disableNotFound url={url} />
       {draft && <LivePreviewListener />}
 
       {/* Hero Section */}
-      <section className="relative w-full h-[50vh] min-h-[400px] md:h-[60vh] bg-slate-900">
-        <Image src={imageUrl} alt={post.title} fill className="object-cover brightness-50" priority />
-        <div className="absolute inset-0 bg-linear-to-t from-slate-950 via-slate-950/40 to-transparent" />
+      <section className="relative w-full pt-32 md:pt-48 pb-16 md:pb-24 bg-slate-950 overflow-hidden min-h-[50vh] md:min-h-[65vh] flex items-end">
+        <div className="absolute inset-0">
+          <Image src={imageUrl} alt={post.title} fill className="object-cover brightness-50" priority />
+          <div className="absolute inset-0 bg-linear-to-t from-slate-950 via-slate-950/40 to-transparent" />
+          <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10 mix-blend-overlay" />
+        </div>
         
-        <div className="container relative z-10 h-full flex flex-col justify-end pb-12 md:pb-16">
-          <Link href="/news" className="inline-flex items-center gap-2 text-slate-300 hover:text-white transition-colors mb-6 font-bold text-sm w-fit">
-            <ChevronLeft className="w-4 h-4" /> समाचारमा फर्कनुहोस्
+        <div className="container relative z-10">
+          <Link href="/news" className="inline-flex items-center gap-2 text-slate-300 hover:text-white transition-all mb-8 font-black text-xs uppercase tracking-widest group/back">
+            <ChevronLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" /> समाचारमा फर्कनुहोस्
           </Link>
           
-          <div className="flex flex-wrap gap-3 mb-4">
+          <div className="flex flex-wrap gap-4 mb-6">
             {post.category && typeof post.category === 'object' && (
-              <Badge className="bg-[#B31B20] text-white border-none px-3 py-1 font-black text-xs uppercase tracking-widest">
+              <Badge className="bg-[#B31B20] text-white border-none px-4 py-1.5 font-black text-xs uppercase tracking-[0.2em] rounded-full shadow-xl">
                 {post.category.title}
               </Badge>
             )}
             {post.publishDate && (
-              <Badge variant="outline" className="border-white/30 bg-white/10 text-white backdrop-blur-sm px-3 py-1 font-bold text-xs">
-                <Calendar className="w-3.5 h-3.5 mr-1.5" />
+              <div className="flex items-center gap-2 text-slate-300 font-bold text-sm bg-white/5 backdrop-blur-md px-4 py-1.5 rounded-full border border-white/10">
+                <Calendar className="w-4 h-4 text-[#B31B20]" />
                 {new Date(post.publishDate).toLocaleDateString('ne-NP')}
-              </Badge>
+              </div>
             )}
           </div>
           
-          <h1 className="text-3xl md:text-5xl lg:text-6xl font-black text-white leading-tight mb-4 max-w-5xl">
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-black text-white leading-[0.9] mb-6 max-w-5xl tracking-tighter uppercase">
             {post.title}
           </h1>
         </div>
@@ -143,24 +146,27 @@ const queryNewsBySlug = cache(async ({ slug }: { slug: string }) => {
 // Mock fallback for UI demo links
 function MockNewsPost({ slug }: { slug: string }) {
   return (
-    <article className="min-h-screen bg-slate-50 pb-20">
-      <section className="relative w-full h-[50vh] min-h-[400px] md:h-[60vh] bg-slate-900">
-        <Image src="/website-template-OG.webp" alt="Mock News" fill className="object-cover brightness-50" priority />
-        <div className="absolute inset-0 bg-linear-to-t from-slate-950 via-slate-950/40 to-transparent" />
-        <div className="container relative z-10 h-full flex flex-col justify-end pb-12 md:pb-16">
-          <Link href="/news" className="inline-flex items-center gap-2 text-slate-300 hover:text-white transition-colors mb-6 font-bold text-sm w-fit">
-            <ChevronLeft className="w-4 h-4" /> फर्कनुहोस्
+    <article className="min-h-screen bg-slate-50 dark:bg-slate-950 transition-colors duration-300 pb-20">
+      <section className="relative w-full pt-32 md:pt-48 pb-16 md:pb-24 bg-slate-950 overflow-hidden min-h-[50vh] md:min-h-[65vh] flex items-end">
+        <div className="absolute inset-0">
+          <Image src="/website-template-OG.webp" alt="Mock News" fill className="object-cover brightness-50" priority />
+          <div className="absolute inset-0 bg-linear-to-t from-slate-950 via-slate-950/40 to-transparent" />
+          <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10 mix-blend-overlay" />
+        </div>
+        <div className="container relative z-10">
+          <Link href="/news" className="inline-flex items-center gap-2 text-slate-300 hover:text-white transition-all mb-8 font-black text-xs uppercase tracking-widest group/back">
+            <ChevronLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" /> फर्कनुहोस्
           </Link>
-          <div className="flex flex-wrap gap-3 mb-4">
-            <Badge className="bg-[#B31B20] text-white border-none px-3 py-1 font-black text-xs uppercase tracking-widest">
+          <div className="flex flex-wrap gap-4 mb-6">
+            <Badge className="bg-[#B31B20] text-white border-none px-4 py-1.5 font-black text-xs uppercase tracking-[0.2em] rounded-full shadow-xl">
               विशेष अपडेट
             </Badge>
-            <Badge variant="outline" className="border-white/30 bg-white/10 text-white backdrop-blur-sm px-3 py-1 font-bold text-xs">
-              <Calendar className="w-3.5 h-3.5 mr-1.5" /> आज
-            </Badge>
+            <div className="flex items-center gap-2 text-slate-300 font-bold text-sm bg-white/5 backdrop-blur-md px-4 py-1.5 rounded-full border border-white/10">
+              <Calendar className="w-4 h-4 text-[#B31B20]" /> आज
+            </div>
           </div>
-          <h1 className="text-3xl md:text-5xl lg:text-6xl font-black text-white leading-tight mb-4 max-w-5xl">
-            पार्टीको सम्मेलन र विकासका नयाँ पाइला - विस्तृत विवरण ({slug})
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-black text-white leading-[0.9] mb-6 max-w-5xl tracking-tighter uppercase">
+            पार्टीको सम्मेलन र विकासका नयाँ पाइला ({slug})
           </h1>
         </div>
       </section>

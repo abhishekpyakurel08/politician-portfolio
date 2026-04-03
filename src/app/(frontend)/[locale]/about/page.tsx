@@ -1,13 +1,14 @@
 import React from 'react'
 import configPromise from '@payload-config'
 import Image from 'next/image'
-import { getPayload } from 'payload'
+import { getPayload, TypedLocale } from 'payload'
 import Link from 'next/link'
 import type { Metadata } from 'next'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
 import { SectionHeading } from '@/components/SectionHeading'
+import RichText from '@/components/RichText'
 import {
   Award,
   BookOpen,
@@ -71,7 +72,16 @@ const values = [
   { icon: CheckCircle, title: 'सुशासन', desc: 'पारदर्शिता, जवाबदेही र भ्रष्टाचारमुक्त प्रशासनको पक्षमा दृढ।' },
 ]
 
-export default async function AboutPage() {
+type Args = {
+  params: Promise<{
+    locale: TypedLocale  
+  }>
+}
+
+export default async function AboutPage({params:paramsPromise}:Args) {
+    const { locale = 'ne' } = await paramsPromise
+
+
     const payload = await getPayload({ config: configPromise })
     const galleryDoc=await payload.find({
     collection:'gallery',
@@ -80,14 +90,24 @@ export default async function AboutPage() {
     },
     depth:1,
   })
+
+  const post=await payload.find({
+    collection:'posts',
+    locale,
+    fallbackLocale: 'ne',
+    where:{
+      slug:{equals:'aboutpage'}
+    },
+    depth:1
+  })
   const personalsGallery = galleryDoc.docs?.[0].photos?.[0]?.image
 
   const personalsImageUrl =    typeof personalsGallery === 'object' && personalsGallery?.url
       && (personalsGallery.url as string) 
   return (
-    <main className="min-h-screen bg-slate-50">
+    <main className="min-h-screen bg-slate-50 dark:bg-slate-950">
       {/* Hero Banner */}
-      <section className="relative w-full bg-slate-950 py-0 overflow-hidden h-[60vh] md:h-[70vh] flex items-end">
+      <section className="relative w-full bg-slate-950 pt-32 md:pt-48 pb-16 md:pb-24 overflow-hidden h-[60vh] md:h-[70vh] flex items-end">
         {/* BG image */}
         <div className="absolute inset-0">
           <Image
@@ -130,7 +150,7 @@ export default async function AboutPage() {
       </section>
 
       {/* Profile Card + Bio */}
-      <section className="w-full bg-white py-16 md:py-24 border-b border-slate-100">
+      <section className="w-full bg-white dark:bg-slate-900 py-16 md:py-24 border-b border-slate-100 dark:border-slate-800">
         <div className="container">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 md:gap-16 items-start">
 
@@ -138,7 +158,7 @@ export default async function AboutPage() {
             <div className="lg:col-span-1">
               <div className="sticky top-24">
                 <Card className="border-none shadow-2xl overflow-hidden rounded-3xl">
-                  <div className="relative aspect-3/4 bg-slate-100">
+                  <div className="relative aspect-3/4 bg-slate-100 dark:bg-slate-800">
                     <Image
                       src={personalsImageUrl || '/placeholder-image.jpg'}
                       alt="Leader Portrait"
@@ -171,17 +191,9 @@ export default async function AboutPage() {
             {/* Right: Bio Content */}
             <div className="lg:col-span-2 space-y-10">
               <div>
-                <SectionHeading title="व्यक्तिगत परिचय" className="mb-6" />
-                <div className="space-y-5 text-slate-600 font-medium leading-[1.9] text-base md:text-lg">
-                  <p>
-                    My date of birth is BS 2054 Baishakh 5. After passing SLC in BS 2070 Baishakh, I got the opportunity to play a leadership role as the president of the youth club in BS 2071 Baishakh. Then I passed grade 11/12 in BS 2072/73 Baishakh and completed my CMA (Certified Medical Assistant) studies in BS 2074/75 Baishakh.
-                  </p>
-                  <p>
-                    I remained active in various public interest activities as a social activist, holding the responsibility of the President of Palanta Youth Network until 2075/76 BS. During this period, I played an important role in distributing relief to flood victims, distributing relief materials on the occasion of birthdays, collecting funds for the poor and helpless, supporting the sick and disabled, programs related to women and children's rights, youth awareness campaigns, agriculture-related programs, tree plantations, agricultural fairs, and campaigns against gender-based violence.
-                  </p>
-                  <p>
-                    2079 BS was a year that brought a new turn in my political life. In the local elections held that year, I was a candidate for the post of Vice-Chairman from Palanta Rural Municipality, Kalikot District on behalf of the CPN-UML. Even after the defeat, my political activism and service to the people have continued.
-                  </p>
+                {post.docs?.[0]?.title && <h1 className="text-6xl md:text-6xl lg:text-7xl font-black text-slate-900 dark:text-white leading-none tracking-tighter mb-4">{post.docs[0].title}</h1>}
+                <div className="space-y-5 font-medium leading-[1.9] text-base md:text-lg">
+                  {post.docs?.[0]?.content && <RichText data={post.docs[0].content} enableGutter={false} />}
                 </div>
               </div>
 
@@ -192,14 +204,14 @@ export default async function AboutPage() {
                 <SectionHeading title="मूल्य र सिद्धान्त" className="mb-6" />
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   {values.map(({ icon: Icon, title, desc }) => (
-                    <Card key={title} className="border border-slate-100 shadow-sm hover:shadow-lg transition-all duration-300 rounded-2xl group">
+                    <Card key={title} className="border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm hover:shadow-lg transition-all duration-300 rounded-2xl group">
                       <CardContent className="p-6 flex gap-4 items-start">
                         <div className="w-12 h-12 bg-[#B31B20]/10 rounded-2xl flex items-center justify-center shrink-0 group-hover:bg-[#B31B20] transition-colors duration-300">
                           <Icon className="w-6 h-6 text-[#B31B20] group-hover:text-white transition-colors duration-300" />
                         </div>
                         <div>
-                          <h3 className="font-black text-slate-900 text-lg mb-1">{title}</h3>
-                          <p className="text-slate-500 text-sm font-medium leading-relaxed">{desc}</p>
+                          <h3 className="font-black text-slate-900 dark:text-white text-lg mb-1">{title}</h3>
+                          <p className="text-slate-500 dark:text-slate-400 text-sm font-medium leading-relaxed">{desc}</p>
                         </div>
                       </CardContent>
                     </Card>
@@ -212,13 +224,13 @@ export default async function AboutPage() {
       </section>
 
 
-      <section className="w-full py-16 md:py-24 bg-white relative overflow-hidden">
+      <section className="w-full py-16 md:py-24 bg-white dark:bg-slate-900 relative overflow-hidden">
         <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-red-600/5 blur-[120px] -ml-20 -mt-20" />
         <div className="container relative z-10">
            <SectionHeading title="राजनीतिक यात्रा" viewAllHref="/activities" className="mb-12" />
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {careerMilestones.map((item, i) => (
-              <Card key={i} className="border-none shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden rounded-2xl group">
+              <Card key={i} className="border-none bg-white dark:bg-slate-800 shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden rounded-2xl group">
                 <CardContent className="p-0">
                   <div className={`h-2 w-full bg-linear-to-r ${item.color}`} />
                   <div className="p-7">
@@ -227,8 +239,8 @@ export default async function AboutPage() {
                         {item.year}
                       </div>
                       <div className="flex-1">
-                        <h3 className="font-black text-slate-900 text-xl mb-2 group-hover:text-[#B31B20] transition-colors">{item.title}</h3>
-                        <p className="text-slate-500 font-medium leading-relaxed text-sm">{item.detail}</p>
+                        <h3 className="font-black text-slate-900 dark:text-white text-xl mb-2 group-hover:text-[#B31B20] dark:group-hover:text-[#ff4d4d] transition-colors">{item.title}</h3>
+                        <p className="text-slate-500 dark:text-slate-300 font-medium leading-relaxed text-sm">{item.detail}</p>
                       </div>
                     </div>
                   </div>
@@ -240,7 +252,7 @@ export default async function AboutPage() {
       </section>
 
       {/* Education */}
-      <section className="w-full py-16 md:py-24 bg-white border-t border-slate-100">
+      <section className="w-full py-16 md:py-24 bg-white dark:bg-slate-900 border-t border-slate-100 dark:border-slate-800">
         <div className="container">
           <SectionHeading title="शैक्षिक योग्यता" className="mb-10" />
           <div className="relative">
@@ -251,11 +263,11 @@ export default async function AboutPage() {
                   <div className="absolute left-0 top-2 w-16 flex justify-center">
                     <div className="w-4 h-4 rounded-full bg-[#B31B20] border-4 border-white shadow-md" />
                   </div>
-                  <Card className="border-none shadow-md hover:shadow-lg transition-shadow rounded-2xl flex-1">
+                  <Card className="border-none bg-white dark:bg-slate-800 shadow-md hover:shadow-lg transition-shadow rounded-2xl flex-1">
                     <CardContent className="p-6 flex flex-col sm:flex-row sm:items-center gap-4 justify-between">
                       <div>
-                        <h3 className="font-black text-slate-900 text-lg">{edu.degree}</h3>
-                        <p className="text-slate-500 font-medium text-sm mt-1 flex items-center gap-2">
+                        <h3 className="font-black text-slate-900 dark:text-white text-lg">{edu.degree}</h3>
+                        <p className="text-slate-500 dark:text-slate-300 font-medium text-sm mt-1 flex items-center gap-2">
                           <Globe className="w-4 h-4 text-[#B31B20]" /> {edu.institution}
                         </p>
                       </div>

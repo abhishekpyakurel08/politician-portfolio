@@ -1,5 +1,5 @@
 import React from 'react'
-import { getPayload } from 'payload'
+import { getPayload, TypedLocale } from 'payload'
 import configPromise from '@payload-config'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -22,6 +22,7 @@ import { TimelineBlock } from '@/blocks/TimelineBlock/Component'
 
 import { Metadata } from 'next'
 import { generateMeta } from '@/utilities/generateMeta'
+import { Locale } from 'node_modules/next/dist/compiled/@vercel/og/satori'
 
 export const revalidate = 60
 
@@ -38,9 +39,19 @@ export async function generateMetadata(): Promise<Metadata> {
 
   return generateMeta({ doc: page.docs[0] })
 }
+type Args = {
+  params: Promise<{
+    locale: TypedLocale  
+  }>
+}
+export default async function HomePage({params: paramsPromise}:Args) {
 
-export default async function HomePage() {
+
   const payload = await getPayload({ config: configPromise })
+  const {locale='ne'}= await paramsPromise  
+
+
+
 
   // Sequential fetch to avoid MongoDB session expiration when parallelizing across the same Payload instance
   const newsResult = await payload.find({
@@ -74,9 +85,9 @@ export default async function HomePage() {
   })
 
   const silderImageResult=await payload.find({
-    collection:'gallery',
+    collection:'sliders',
     where:{
-      slug:{equals:'healthcare'}
+      slug:{equals:'homepage'}
     },
     limit:1,
     depth:1
@@ -91,11 +102,11 @@ export default async function HomePage() {
   const sliderImage=silderImageResult.docs
 
   const sliderImageArray = sliderImage.flatMap((doc: any) => {
-    const photosArray = doc.photos || []
-    return photosArray.map((photo: any) => ({
+    const photosArray = doc.slides || []
+    return photosArray.map((slides: any) => ({
       title: doc.title,
       description: doc.meta?.description || '',
-      mediaUrl: typeof photo.image === 'object' && photo.image?.url ? photo.image.url as string : undefined,
+      mediaUrl: typeof slides.image === 'object' && slides.image?.url ? slides.image.url as string : undefined,
     }))
   }).slice(0, 3)
 

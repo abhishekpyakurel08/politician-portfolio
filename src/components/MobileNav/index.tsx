@@ -5,16 +5,18 @@ import { usePathname } from 'next/navigation'
 import { Home, Newspaper, Info, MessageSquare, Phone } from 'lucide-react'
 import { cn } from '@/utilities/ui'
 import { useLocale } from '@/providers/LocaleProvider'
+import { Locale } from '@/locales'
 
-export const MobileNav = () => {
+export const MobileNav = ({ locale: propLocale }: { locale?: Locale }) => {
   const pathname = usePathname()
-  const { locale, t } = useLocale()
+  const { locale: contextLocale, t } = useLocale()
+  const locale = propLocale || contextLocale
 
   const navItems = [
-    { name: t.home, path: '/', icon: Home },
-    { name: t.news, path: '/news', icon: Newspaper },
-    { name: t.about, path: '/about', icon: Info },
-    { name: t.contact, path: '/contact', icon: MessageSquare },
+    { name: t.home, path: `/${locale}`, icon: Home },
+    { name: t.news, path: `/${locale}/news`, icon: Newspaper },
+    { name: t.about, path: `/${locale}/about`, icon: Info },
+    { name: t.contact, path: `/${locale}/contact`, icon: MessageSquare },
   ]
   const [isVisible, setIsVisible] = useState(true)
   const [lastScrollY, setLastScrollY] = useState(0)

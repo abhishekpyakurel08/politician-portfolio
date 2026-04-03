@@ -1,22 +1,26 @@
 'use client'
 import React, { createContext, useContext, useEffect, useState } from 'react'
-import { translations, Locale } from '@/utilities/translations'
+import { translations, type Locale, type TranslationKeys } from '@/locales'
 
 interface LocaleContextType {
   locale: Locale
   setLocale: (locale: Locale) => void
-  t: typeof translations['ne']
+  t: TranslationKeys
 }
 
 const LocaleContext = createContext<LocaleContextType | undefined>(undefined)
 
-export const LocaleProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [locale, setLocaleState] = useState<Locale>('ne')
+export const LocaleProvider: React.FC<{ children: React.ReactNode; initialLocale?: Locale }> = ({ children, initialLocale }) => {
+  const [locale, setLocaleState] = useState<Locale>(initialLocale || 'ne')
 
   useEffect(() => {
+    if (initialLocale) {
+      setLocaleState(initialLocale)
+      return
+    }
     const stored = localStorage.getItem('user_locale') as Locale
     if (stored) setLocaleState(stored)
-  }, [])
+  }, [initialLocale])
 
   const setLocale = (newLocale: Locale) => {
     setLocaleState(newLocale)

@@ -55,19 +55,23 @@ export default async function NewsList() {
   const grid = news.slice(1)
 
   return (
-    <main className="min-h-screen bg-slate-50">
+    <main className="min-h-screen bg-slate-50 dark:bg-slate-950 transition-colors duration-300">
       {/* Page Hero */}
-      <section className="w-full bg-slate-900 pt-12 pb-0 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#B31B20] opacity-[0.05] blur-[120px] -mr-20 -mt-20 rounded-full" />
+      <section className="w-full bg-slate-950 pt-32 md:pt-40 pb-0 relative overflow-hidden">
+        <div className="absolute inset-0">
+          <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#B31B20] opacity-[0.05] blur-[120px] -mr-20 -mt-20 rounded-full" />
+          <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10 mix-blend-overlay" />
+        </div>
+        
         <div className="container relative z-10">
           <div className="flex items-center gap-3 mb-6">
             <Newspaper className="w-6 h-6 text-[#B31B20]" />
-            <span className="text-slate-400 font-black uppercase text-sm tracking-widest">समाचार केन्द्र</span>
+            <span className="text-slate-400 font-black uppercase text-sm tracking-widest leading-none">समाचार केन्द्र</span>
           </div>
-          <h1 className="text-5xl md:text-7xl font-black text-white tracking-tighter mb-0 leading-none">
+          <h1 className="text-5xl md:text-8xl font-black text-white tracking-tighter mb-0 leading-[0.9] uppercase">
             ताजा समाचार
           </h1>
-          <p className="text-slate-400 font-bold mt-4 mb-12 text-lg max-w-2xl">
+          <p className="text-slate-400 font-bold mt-6 mb-12 text-lg md:text-xl max-w-2xl leading-relaxed">
             Jalsa Xettri को आधिकारिक भाषण, घोषणा र ताजा अपडेट।
           </p>
         </div>
@@ -154,7 +158,7 @@ export default async function NewsList() {
                         {doc.date}
                       </div>
                     )}
-                    <CardTitle className="text-lg font-black text-slate-900 group-hover:text-[#B31B20] transition-colors leading-snug line-clamp-2">
+                    <CardTitle className="text-lg font-black text-slate-900 dark:text-white group-hover:text-[#B31B20] transition-colors leading-snug line-clamp-2">
                       {doc.title}
                     </CardTitle>
                   </CardHeader>

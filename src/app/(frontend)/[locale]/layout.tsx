@@ -16,11 +16,20 @@ import { getServerSideURL } from '@/utilities/getURL'
 
 import { MobileNav } from '@/components/MobileNav'
 
-export default async function RootLayout({ children }: { children: React.ReactNode }) {
+import { Locale } from '@/locales'
+
+export default async function RootLayout({
+  children,
+  params,
+}: {
+  children: React.ReactNode
+  params: Promise<{ locale: Locale }>
+}) {
   const { isEnabled } = await draftMode()
+  const { locale } = await params
 
   return (
-    <html className={cn(GeistSans.variable, GeistMono.variable)} lang="ne" suppressHydrationWarning>
+    <html className={cn(GeistSans.variable, GeistMono.variable)} lang={locale} suppressHydrationWarning>
       <head suppressHydrationWarning>
         <link href="/favicon.ico" rel="icon" sizes="32x32" />
         <link href="/favicon.svg" rel="icon" type="image/svg+xml" />
@@ -30,13 +39,32 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           href="https://fonts.googleapis.com/css2?family=Mukta:wght@200;300;400;500;600;700;800&display=swap"
           rel="stylesheet"
         />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                var theme = 'light';
+                try {
+                  var storedTheme = localStorage.getItem('payload-theme');
+                  if (storedTheme) {
+                    theme = storedTheme;
+                  } else {
+                    var mql = window.matchMedia('(prefers-color-scheme: dark)');
+                    if (mql.matches) theme = 'dark';
+                  }
+                } catch (e) {}
+                document.documentElement.setAttribute('data-theme', theme);
+              })();
+            `,
+          }}
+        />
       </head>
       <body className="antialiased min-h-screen flex flex-col">
-        <Providers>
-          <Header />
+        <Providers locale={locale}>
+          <Header locale={locale} />
           <div className="grow">{children}</div>
-          <Footer />
-          <MobileNav />
+          <Footer locale={locale} />
+          <MobileNav locale={locale} />
         </Providers>
       </body>
     </html>

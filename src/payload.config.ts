@@ -22,6 +22,7 @@ const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
 import { Timeline } from './collections/Timeline'
+import { Sliders } from './collections/Sliders'
 
 export default buildConfig({
   admin: {
@@ -79,7 +80,7 @@ export default buildConfig({
   db: mongooseAdapter({
     url: process.env.DATABASE_URL || '',
   }),
-  collections: [Pages, Posts, Media, Categories, Users, News, Gallery, Videos, Timeline],
+  collections: [Pages, Posts, Media, Categories, Users, News, Gallery, Videos, Timeline,Sliders],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [Header, Footer],
   plugins,

@@ -6,8 +6,9 @@ import { Facebook, Twitter, Youtube, Heart, Instagram, Mail, Phone, MapPin } fro
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import { NewsletterForm } from './NewsletterForm.client'
+import { Locale } from '@/locales'
 
-export async function Footer() {
+export async function Footer({ locale }: { locale: Locale }) {
   const footerData: FooterType = await getCachedGlobal('footer', 1)()
 
   const currentYear = new Date().getFullYear()
@@ -22,7 +23,7 @@ export async function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 md:gap-16 mb-16">
           {/* Brand Column - High Impact */}
           <div className="space-y-8 col-span-1 md:col-span-2 lg:col-span-1">
-            <Link href="/" className="flex items-center gap-4 group w-fit">
+            <Link href={`/${locale}`} className="flex items-center gap-4 group w-fit">
               <div className="w-14 h-14 md:w-16 md:h-16 bg-white rounded-[18px] md:rounded-[22px] flex items-center justify-center font-black text-[#B31B20] text-3xl md:text-4xl shadow-[0_10px_30px_rgba(255,255,255,0.1)] group-hover:rotate-6 transition-all duration-500 mukta-extrabold">
                 ज
               </div>
@@ -54,10 +55,10 @@ export async function Footer() {
               मुख्य जानकारी
             </h4>
             <ul className="space-y-4 text-[15px] font-semibold">
-              <li><Link href="/about" className="hover:text-[#B31B20] transition-colors flex items-center gap-2 group"><span className="w-1.5 h-1.5 rounded-full bg-slate-800 group-hover:bg-[#B31B20] transition-colors"></span> परिचय</Link></li>
-              <li><Link href="/news" className="hover:text-[#B31B20] transition-colors flex items-center gap-2 group"><span className="w-1.5 h-1.5 rounded-full bg-slate-800 group-hover:bg-[#B31B20] transition-colors"></span> समाचार र विचार</Link></li>
-              <li><Link href="/activities" className="hover:text-[#B31B20] transition-colors flex items-center gap-2 group"><span className="w-1.5 h-1.5 rounded-full bg-slate-800 group-hover:bg-[#B31B20] transition-colors"></span> अभियान र गतिविधि</Link></li>
-              <li><Link href="/gallery" className="hover:text-[#B31B20] transition-colors flex items-center gap-2 group"><span className="w-1.5 h-1.5 rounded-full bg-slate-800 group-hover:bg-[#B31B20] transition-colors"></span> फोटो ग्यालरी</Link></li>
+              <li><Link href={`/${locale}/about`} className="hover:text-[#B31B20] transition-colors flex items-center gap-2 group"><span className="w-1.5 h-1.5 rounded-full bg-slate-800 group-hover:bg-[#B31B20] transition-colors"></span> परिचय</Link></li>
+              <li><Link href={`/${locale}/news`} className="hover:text-[#B31B20] transition-colors flex items-center gap-2 group"><span className="w-1.5 h-1.5 rounded-full bg-slate-800 group-hover:bg-[#B31B20] transition-colors"></span> समाचार र विचार</Link></li>
+              <li><Link href={`/${locale}/activities`} className="hover:text-[#B31B20] transition-colors flex items-center gap-2 group"><span className="w-1.5 h-1.5 rounded-full bg-slate-800 group-hover:bg-[#B31B20] transition-colors"></span> अभियान र गतिविधि</Link></li>
+              <li><Link href={`/${locale}/gallery`} className="hover:text-[#B31B20] transition-colors flex items-center gap-2 group"><span className="w-1.5 h-1.5 rounded-full bg-slate-800 group-hover:bg-[#B31B20] transition-colors"></span> फोटो ग्यालरी</Link></li>
             </ul>
           </div>
 
@@ -99,8 +100,8 @@ export async function Footer() {
           <div className="flex flex-col md:flex-row items-center gap-4 md:gap-8 text-xs font-bold uppercase tracking-widest text-slate-500">
              <p>© {currentYear} जलसा क्षेत्रीको सचिवालय । सर्वाधिकार सुरक्षित ।</p>
              <div className="hidden md:block w-1.5 h-1.5 rounded-full bg-slate-800"></div>
-             <Link href="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link>
-             <Link href="/terms" className="hover:text-white transition-colors">Terms of Service</Link>
+             <Link href={`/${locale}/privacy`} className="hover:text-white transition-colors">Privacy Policy</Link>
+             <Link href={`/${locale}/terms`} className="hover:text-white transition-colors">Terms of Service</Link>
           </div>
           
           <div className="flex items-center gap-3 px-6 py-2.5 rounded-2xl bg-white/5 text-[10px] font-black uppercase tracking-widest text-[#B31B20] border border-white/5">

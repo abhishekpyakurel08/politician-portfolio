@@ -70,6 +70,7 @@ export const Posts: CollectionConfig<'posts'> = {
       name: 'title',
       type: 'text',
       required: true,
+      localized:true
     },
     {
       type: 'tabs',
@@ -83,6 +84,7 @@ export const Posts: CollectionConfig<'posts'> = {
             },
             {
               name: 'content',
+              localized:true,
               type: 'richText',
               editor: lexicalEditor({
                 features: ({ rootFeatures }) => {

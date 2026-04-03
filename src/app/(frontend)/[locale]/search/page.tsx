@@ -7,8 +7,9 @@ import React, { Suspense } from 'react'
 import { Search as SearchComponent } from '@/search/Component'
 import PageClient from './page.client'
 import { CardPostData } from '@/components/Card'
-import { Search as SearchIcon } from 'lucide-react'
+import { Search as SearchIcon, Search } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { Badge } from '@/components/ui/badge'
 import Link from 'next/link'
 
 type Args = {
@@ -70,33 +71,37 @@ export default async function Page({ searchParams: searchParamsPromise }: Args) 
       <PageClient />
       
       {/* Search Hero Section */}
-      <div className="relative bg-linear-to-b from-white to-slate-50 dark:from-slate-900 dark:to-slate-950 pt-24 pb-16 md:pt-32 md:pb-20 border-b border-slate-200 dark:border-slate-800 overflow-hidden">
+      <section className="relative w-full bg-slate-950 pt-48 pb-20 md:pt-64 md:pb-24 overflow-hidden border-b border-white/5">
         {/* Decorative background elements */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-250 h-100 opacity-20 bg-linear-to-tr from-red-100 to-transparent dark:from-red-900/20 blur-3xl pointer-events-none rounded-full" />
+        <div className="absolute inset-x-1/2 -translate-x-1/2 top-0 w-250 h-100 opacity-10 bg-red-600 blur-[150px] pointer-events-none rounded-full" />
+        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10 mix-blend-overlay" />
         
-        <div className="container px-4 relative z-10">
-          <div className="max-w-3xl mx-auto text-center space-y-8">
-            <div className="inline-flex items-center justify-center p-4 bg-red-50 dark:bg-red-950/30 rounded-3xl mb-2 shadow-sm border border-red-100 dark:border-red-900/30">
-              <SearchIcon className="w-10 h-10 text-[#B31B20]" />
+        <div className="container relative z-10 px-4">
+          <div className="max-w-4xl mx-auto text-center space-y-8">
+            <div className="inline-flex items-center justify-center p-6 bg-white rounded-[32px] mb-2 shadow-2xl group hover:scale-105 transition-transform duration-500">
+              <SearchIcon className="w-12 h-12 text-[#B31B20]" />
             </div>
             
-            <div className="space-y-4 px-4 sm:px-0">
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-slate-900 dark:text-white tracking-tight leading-[1.1]">
+            <div className="space-y-6">
+              <Badge className="bg-[#B31B20] text-white border-none px-4 py-1.5 font-black text-xs uppercase tracking-[0.3em] rounded-full mx-auto">
+                खोज परिणाम
+              </Badge>
+              <h1 className="text-4xl md:text-6xl lg:text-7xl font-black text-white tracking-tighter leading-none uppercase">
                 Search Results
               </h1>
-              <p className="text-lg md:text-xl text-slate-600 dark:text-slate-400 max-w-xl mx-auto leading-relaxed">
+              <p className="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto font-bold leading-relaxed">
                 Find exactly what you're looking for across our news, activities, and updates.
               </p>
             </div>
             
-            <div className="w-full max-w-2xl mx-auto bg-white dark:bg-slate-900/80 backdrop-blur-sm p-4 md:p-5 rounded-4xl shadow-[0_20px_50px_rgba(179,27,32,0.05)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.3)] border border-slate-100 dark:border-slate-800 transition-all hover:shadow-[0_20px_50px_rgba(179,27,32,0.1)] group">
-              <Suspense fallback={<div className="h-16 w-full animate-pulse bg-slate-100 dark:bg-slate-800 rounded-2xl" />}>
+            <div className="w-full max-w-2xl mx-auto bg-white/10 backdrop-blur-xl p-4 md:p-5 rounded-[32px] border border-white/10 transition-all hover:border-[#B31B20]/50 group shadow-2xl">
+              <Suspense fallback={<div className="h-16 w-full animate-pulse bg-white/5 rounded-2xl" />}>
                 <SearchComponent />
               </Suspense>
             </div>
           </div>
         </div>
-      </div>
+      </section>
 
       {/* Results Section */}
       <div className="container px-4 mt-12 md:mt-16 sm:mt-24">

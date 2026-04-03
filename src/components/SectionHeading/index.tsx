@@ -13,7 +13,7 @@ export interface SectionHeadingProps {
 export function SectionHeading({
   title,
   className,
-  textColor = 'text-slate-900',
+  textColor = 'text-slate-900 dark:text-white',
   viewAllHref,
 }: SectionHeadingProps) {
   return (
@@ -30,7 +30,7 @@ export function SectionHeading({
       {viewAllHref && (
         <Link 
           href={viewAllHref} 
-          className="flex items-center gap-3 group/btn font-black text-[10px] md:text-xs uppercase tracking-widest text-slate-500 hover:text-[#B31B20] transition-all duration-500 bg-slate-100/50 hover:bg-white px-5 py-3 rounded-full border border-transparent hover:border-[#B31B20]/20 hover:shadow-xl mukta-bold"
+          className="flex items-center gap-3 group/btn font-black text-[10px] md:text-xs uppercase tracking-widest text-slate-500 dark:text-slate-400 hover:text-[#B31B20] transition-all duration-500 bg-slate-100/50 dark:bg-slate-800/50 hover:bg-white dark:hover:bg-slate-800 px-5 py-3 rounded-full border border-transparent hover:border-[#B31B20]/20 hover:shadow-xl mukta-bold"
         >
           <span>सबै हेर्नुहोस्</span>
           <div className="flex items-center justify-center w-6 h-6 md:w-7 md:h-7 rounded-lg bg-[#B31B20] text-white shadow-lg group-hover/btn:rotate-90 transition-all duration-500">

@@ -3,6 +3,7 @@ import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 import { GalleryClient } from './GalleryClient'
 import { SectionHeading } from '@/components/SectionHeading'
+import { Badge } from '@/components/ui/badge'
 
 export const revalidate = 60
 
@@ -60,21 +61,32 @@ export default async function GalleryPage() {
   }
 
   return (
-    <main className="min-h-screen bg-[#F5F7FA] pt-8 pb-16">
+    <main className="min-h-screen bg-slate-50 dark:bg-slate-950 transition-colors duration-300">
       {/* Page Header Area */}
-      <div className="bg-[#1A365D] text-white py-12 mb-10 text-center relative overflow-hidden border-b-4 border-[#B31B20] shadow-md">
-        <div className="absolute inset-0 opacity-10 blur-sm pointer-events-none bg-[url('/website-template-OG.webp')] bg-cover bg-center mix-blend-overlay" />
-        <div className="container relative z-10 max-w-[1240px] px-4 xl:px-8 mx-auto flex flex-col items-center">
-            <h1 className="text-4xl md:text-5xl font-extrabold drop-shadow tracking-wide mb-2">फोटो ग्यालरी</h1>
-            <p className="text-blue-100 max-w-2xl text-lg mt-2 font-medium">
+      <section className="relative w-full bg-slate-950 pt-32 md:pt-48 pb-16 md:pb-24 overflow-hidden h-[50vh] md:h-[70vh] flex items-end">
+        {/* BG pattern/gradients */}
+        <div className="absolute inset-0">
+          <div className="absolute inset-0 bg-[#B31B20] opacity-[0.05] blur-[120px] rounded-full" />
+          <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10 mix-blend-overlay" />
+          <div className="absolute inset-x-0 bottom-0 h-40 bg-linear-to-t from-slate-950 to-transparent" />
+        </div>
+        
+        <div className="container relative z-10 pb-16 md:pb-24 text-center">
+            <Badge className="bg-[#B31B20] text-white border-none px-4 py-1.5 font-black text-xs uppercase tracking-widest rounded-full mb-6 shadow-xl">
+              स्मृति र सङ्गालो
+            </Badge>
+            <h1 className="text-5xl md:text-7xl font-black text-white tracking-tighter leading-none mb-6 uppercase">
+              फोटो ग्यालरी
+            </h1>
+            <p className="text-slate-300 max-w-2xl text-lg md:text-xl font-bold mx-auto leading-relaxed">
                Jalsa Xettri का विविध गतिविधि, भ्रमण र कार्यक्रमका उल्लेखनीय तस्बिरहरूको सङ्गालो
             </p>
         </div>
-      </div>
+      </section>
 
       {/* Main Client Grid Container */}
-      <div className="container mx-auto max-w-[1240px] px-4 xl:px-8">
-        <SectionHeading title="सबै एल्बमहरू" textColor="text-[#1A365D]" className="mb-8" />
+      <div className="container mx-auto max-w-[1240px] px-4 xl:px-8 py-16 md:py-24">
+        <SectionHeading title="सबै एल्बमहरू" className="mb-12" />
         
         {/* Render interactive framer-motion grid */}
         <GalleryClient items={items} />
