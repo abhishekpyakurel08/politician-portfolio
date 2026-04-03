@@ -71,14 +71,6 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
         
         {/* Brand / Logo Area */}
         <Link href="/" className="flex items-center gap-5 group">
-          <div className={cn(
-            "rounded-[18px] md:rounded-[22px] transition-all duration-500 transform group-hover:rotate-6 flex items-center justify-center mukta-extrabold",
-            isScrolled 
-              ? "w-10 h-10 bg-[#B31B20] text-white text-xl shadow-lg" 
-              : "w-14 h-14 md:w-16 md:h-16 text-white text-3xl md:text-5xl group-hover:scale-110 drop-shadow-xl"
-          )}>
-            ज
-          </div>
           <div className="flex flex-col">
             <span className={cn(
               "font-black tracking-tighter leading-none transition-all duration-300 mukta-extrabold",

@@ -1,5 +1,7 @@
 import React from 'react'
+import configPromise from '@payload-config'
 import Image from 'next/image'
+import { getPayload } from 'payload'
 import Link from 'next/link'
 import type { Metadata } from 'next'
 import { Badge } from '@/components/ui/badge'
@@ -69,7 +71,19 @@ const values = [
   { icon: CheckCircle, title: 'सुशासन', desc: 'पारदर्शिता, जवाबदेही र भ्रष्टाचारमुक्त प्रशासनको पक्षमा दृढ।' },
 ]
 
-export default function AboutPage() {
+export default async function AboutPage() {
+    const payload = await getPayload({ config: configPromise })
+    const galleryDoc=await payload.find({
+    collection:'gallery',
+    where:{
+      slug:{equals:'personal'}
+    },
+    depth:1,
+  })
+  const personalsGallery = galleryDoc.docs?.[0].photos?.[0]?.image
+
+  const personalsImageUrl =    typeof personalsGallery === 'object' && personalsGallery?.url
+      && (personalsGallery.url as string) 
   return (
     <main className="min-h-screen bg-slate-50">
       {/* Hero Banner */}
@@ -77,7 +91,7 @@ export default function AboutPage() {
         {/* BG image */}
         <div className="absolute inset-0">
           <Image
-            src="/website-template-OG.webp"
+            src={`${personalsImageUrl || '/website-template-OG.webp'}`}
             alt="Leader Background"
             fill
             className="object-cover brightness-40"
@@ -126,7 +140,7 @@ export default function AboutPage() {
                 <Card className="border-none shadow-2xl overflow-hidden rounded-3xl">
                   <div className="relative aspect-3/4 bg-slate-100">
                     <Image
-                      src="/website-template-OG.webp"
+                      src={personalsImageUrl || '/placeholder-image.jpg'}
                       alt="Leader Portrait"
                       fill
                       className="object-cover"

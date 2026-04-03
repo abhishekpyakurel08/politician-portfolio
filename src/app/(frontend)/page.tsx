@@ -62,6 +62,7 @@ export default async function HomePage() {
     sort: '-date',
   })
 
+
   const homePageResult = await payload.find({
     collection: 'pages',
     where: {
@@ -72,21 +73,31 @@ export default async function HomePage() {
     limit: 1,
   })
 
+  const silderImageResult=await payload.find({
+    collection:'gallery',
+    where:{
+      slug:{equals:'healthcare'}
+    },
+    limit:1,
+    depth:1
+  })
+
   const newsDocs = newsResult.docs
   const videosDocs = videosResult.docs
   const galleryDocs = galleryResult.docs
   const homePageDocs = homePageResult.docs
-
   const homePage = homePageDocs[0]
   const heroData = homePage?.hero
+  const sliderImage=silderImageResult.docs
 
-  const heroSlides = Array.isArray(heroData?.slides)
-    ? heroData.slides.map((slide: any) => ({
-        title: slide.title,
-        description: slide.description,
-        media: slide.media,
-      }))
-    : undefined
+  const sliderImageArray = sliderImage.flatMap((doc: any) => {
+    const photosArray = doc.photos || []
+    return photosArray.map((photo: any) => ({
+      title: doc.title,
+      description: doc.meta?.description || '',
+      mediaUrl: typeof photo.image === 'object' && photo.image?.url ? photo.image.url as string : undefined,
+    }))
+  }).slice(0, 3)
 
   // Format fetched news docs to match our block props if available
   const mapDocToCard = (doc: any) => ({
@@ -152,7 +163,7 @@ export default async function HomePage() {
 
       {/* 1. Hero */}
       <BlueHeroSlider
-        slides={heroSlides}
+        slides={sliderImageArray}
         initialSlide={{
           title: homePage?.title || undefined,
           description: homePage?.meta?.description || undefined,
@@ -173,14 +184,14 @@ export default async function HomePage() {
               <Card className="overflow-hidden border-none glass hover:shadow-red-900/20 transition-all duration-700 h-full flex flex-col rounded-3xl md:rounded-[40px] premium-border hover:-translate-y-2">
                 <div className="relative aspect-video overflow-hidden">
                   <AspectRatio ratio={16 / 9}>
-                    {firstNews?.imageUrl ? (
-                      <Image
-                        src={firstNews.imageUrl}
+                    { firstNews?.imageUrl ? (
+                    <Image
+                        src={(firstNews?.imageUrl) as string}
                         alt={firstNews?.title || 'News article image'}
-                        fill
-                        className="object-cover group-hover:scale-105 transition-transform duration-700"
-                        sizes="(max-width: 768px) 100vw, 50vw"
-                      />
+                      fill
+                      className="object-cover group-hover:scale-105 transition-transform duration-700"
+                      sizes="(max-width: 768px) 100vw, 50vw"
+                    />
                     ) : (
                       <div className="w-full h-full bg-slate-200 flex items-center justify-center">
                         <span className="text-slate-500 text-sm">No image available</span>
