@@ -11,15 +11,22 @@ interface LocaleContextType {
 const LocaleContext = createContext<LocaleContextType | undefined>(undefined)
 
 export const LocaleProvider: React.FC<{ children: React.ReactNode; initialLocale?: Locale }> = ({ children, initialLocale }) => {
-  const [locale, setLocaleState] = useState<Locale>(initialLocale || 'ne')
+  const [locale, setLocaleState] = useState<Locale>(() => {
+    if (initialLocale && translations[initialLocale as Locale]) {
+      return initialLocale as Locale
+    }
+    return 'ne'
+  })
 
   useEffect(() => {
-    if (initialLocale) {
-      setLocaleState(initialLocale)
+    if (initialLocale && translations[initialLocale as Locale]) {
+      setLocaleState(initialLocale as Locale)
       return
     }
     const stored = localStorage.getItem('user_locale') as Locale
-    if (stored) setLocaleState(stored)
+    if (stored && translations[stored]) {
+      setLocaleState(stored)
+    }
   }, [initialLocale])
 
   const setLocale = (newLocale: Locale) => {
@@ -27,7 +34,7 @@ export const LocaleProvider: React.FC<{ children: React.ReactNode; initialLocale
     localStorage.setItem('user_locale', newLocale)
   }
 
-  const t = translations[locale]
+  const t = translations[locale] || translations['ne']
 
   return (
     <LocaleContext.Provider value={{ locale, setLocale, t }}>

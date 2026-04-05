@@ -65,7 +65,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
     >
       {/* Page Progress Indicator */}
       <motion.div 
-        className="absolute bottom-0 left-0 right-0 h-1 md:h-1.5 bg-gradient-brand origin-left z-[60] shadow-[0_0_15px_rgba(255,255,255,0.4)]"
+        className="absolute bottom-0 left-0 right-0 h-1 md:h-1.5 bg-gradient-brand origin-left z-60 shadow-[0_0_15px_rgba(255,255,255,0.4)]"
         style={{ scaleX }}
       />
 
