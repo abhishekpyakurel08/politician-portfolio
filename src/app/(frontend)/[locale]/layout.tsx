@@ -29,7 +29,12 @@ export default async function RootLayout({
   const { locale } = await params
 
   return (
-    <html className={cn(GeistSans.variable, GeistMono.variable)} lang={locale} suppressHydrationWarning>
+    <html
+      className={cn(GeistSans.variable, GeistMono.variable)}
+      lang={locale}
+      suppressHydrationWarning
+      style={{ colorScheme: 'light dark' }}
+    >
       <head suppressHydrationWarning>
         <link href="/favicon.ico" rel="icon" sizes="32x32" />
         <link href="/favicon.svg" rel="icon" type="image/svg+xml" />
@@ -39,7 +44,9 @@ export default async function RootLayout({
           href="https://fonts.googleapis.com/css2?family=Mukta:wght@200;300;400;500;600;700;800&display=swap"
           rel="stylesheet"
         />
-        <script
+        <Script
+          id="theme-initializer"
+          strategy="beforeInteractive"
           dangerouslySetInnerHTML={{
             __html: `
               (function() {
@@ -54,6 +61,7 @@ export default async function RootLayout({
                   }
                 } catch (e) {}
                 document.documentElement.setAttribute('data-theme', theme);
+                document.documentElement.style.colorScheme = theme;
               })();
             `,
           }}

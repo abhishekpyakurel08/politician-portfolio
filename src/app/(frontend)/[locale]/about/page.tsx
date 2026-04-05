@@ -24,37 +24,38 @@ import {
 
 export const metadata: Metadata = {
   title: 'परिचय | Jalsa Xettri',
-  description:
-    'Jalsa Xettri को व्यक्तिगत, राजनीतिक तथा सामाजिक जीवनको विस्तृत विवरण।',
+  description: 'Jalsa Xettri को व्यक्तिगत, राजनीतिक तथा सामाजिक जीवनको विस्तृत विवरण।',
 }
 
-export const revalidate = 3600
-
-
+export const revalidate = 60
 
 const careerMilestones = [
   {
     year: '२०७९',
     title: 'स्थानीय तह निर्वाचन उम्मेदवार',
-    detail: 'कालिकोटको पलाँता गाउँपालिकाबाट उपाध्यक्ष पदमा नेकपा एमालेको तर्फबाट उम्मेदवारी र १५९८ मत (७२ मतको अन्तर) सहित बलियो उपस्थिति।',
+    detail:
+      'कालिकोटको पलाँता गाउँपालिकाबाट उपाध्यक्ष पदमा नेकपा एमालेको तर्फबाट उम्मेदवारी र १५९८ मत (७२ मतको अन्तर) सहित बलियो उपस्थिति।',
     color: 'from-orange-600 to-orange-800',
   },
   {
     year: '२०७९',
     title: 'जिल्ला कमिटी सदस्य',
-    detail: 'पार्टीप्रति निरन्तर सक्रियता र योगदानको कदर गर्दै नेकपा एमालेद्वारा जिल्ला कमिटी सदस्यमा मनोनित।',
+    detail:
+      'पार्टीप्रति निरन्तर सक्रियता र योगदानको कदर गर्दै नेकपा एमालेद्वारा जिल्ला कमिटी सदस्यमा मनोनित।',
     color: 'from-blue-600 to-blue-800',
   },
   {
     year: '२०७९ फागुन',
     title: 'अनेरास्ववियु केन्द्रीय सदस्य',
-    detail: 'केन्द्रीय महाधिवेशनबाट केन्द्रीय सदस्यमा निर्वाचित हुनुका साथै कालिकोट जिल्लाको इन्चार्जको सफलतापूर्वक जिम्मेवारी बहन।',
+    detail:
+      'केन्द्रीय महाधिवेशनबाट केन्द्रीय सदस्यमा निर्वाचित हुनुका साथै कालिकोट जिल्लाको इन्चार्जको सफलतापूर्वक जिम्मेवारी बहन।',
     color: 'from-slate-600 to-slate-800',
   },
   {
     year: 'पछिल्लो समय',
     title: 'लेखा आयोग अध्यक्ष',
-    detail: 'नेकपा एमाले कालिकोट जिल्ला अधिवेशनबाट लेखा आयोगको अध्यक्षमा निर्वाचित। साथै, पार्टीको एघारौँ महाधिवेशन प्रतिनिधि।',
+    detail:
+      'नेकपा एमाले कालिकोट जिल्ला अधिवेशनबाट लेखा आयोगको अध्यक्षमा निर्वाचित। साथै, पार्टीको एघारौँ महाधिवेशन प्रतिनिधि।',
     color: 'from-emerald-600 to-emerald-800',
   },
 ]
@@ -62,48 +63,80 @@ const careerMilestones = [
 const educationItems = [
   { degree: 'SLC उत्तीर्ण', institution: 'नेपाल सरकार बोर्ड', year: '२०७०' },
   { degree: 'कक्षा ११/१२ उत्तीर्ण', institution: 'उच्च माध्यमिक शिक्षा परिषद्', year: '२०७२/७३' },
-  { degree: 'CMA (Certified Medical Assistant)', institution: 'सीटीईभीटी (CTEVT)', year: '२०७४/७५' },
+  {
+    degree: 'CMA (Certified Medical Assistant)',
+    institution: 'सीटीईभीटी (CTEVT)',
+    year: '२०७४/७५',
+  },
 ]
 
 const values = [
-  { icon: Heart, title: 'जनसेवा', desc: 'जनताको सेवालाई सर्वोपरि मानी राजनीतिमा प्रवेश गर्नुभएको हो।' },
+  {
+    icon: Heart,
+    title: 'जनसेवा',
+    desc: 'जनताको सेवालाई सर्वोपरि मानी राजनीतिमा प्रवेश गर्नुभएको हो।',
+  },
   { icon: Globe, title: 'राष्ट्रवाद', desc: 'राष्ट्रिय एकता र अखण्डताका लागि सतत् संघर्षरत।' },
-  { icon: BookOpen, title: 'शिक्षा र समृद्धि', desc: 'प्रत्येक नागरिकलाई गुणस्तरीय शिक्षाको अधिकार सुनिश्चित गर्ने प्रतिबद्धता।' },
-  { icon: CheckCircle, title: 'सुशासन', desc: 'पारदर्शिता, जवाबदेही र भ्रष्टाचारमुक्त प्रशासनको पक्षमा दृढ।' },
+  {
+    icon: BookOpen,
+    title: 'शिक्षा र समृद्धि',
+    desc: 'प्रत्येक नागरिकलाई गुणस्तरीय शिक्षाको अधिकार सुनिश्चित गर्ने प्रतिबद्धता।',
+  },
+  {
+    icon: CheckCircle,
+    title: 'सुशासन',
+    desc: 'पारदर्शिता, जवाबदेही र भ्रष्टाचारमुक्त प्रशासनको पक्षमा दृढ।',
+  },
 ]
 
 type Args = {
   params: Promise<{
-    locale: TypedLocale  
+    locale: TypedLocale
   }>
 }
 
-export default async function AboutPage({params:paramsPromise}:Args) {
-    const { locale = 'ne' } = await paramsPromise
+export default async function AboutPage({ params: paramsPromise }: Args) {
+  const { locale = 'ne' } = await paramsPromise
 
-
-    const payload = await getPayload({ config: configPromise })
-    const galleryDoc=await payload.find({
-    collection:'gallery',
-    where:{
-      slug:{equals:'personal'}
-    },
-    depth:1,
-  })
-
-  const post=await payload.find({
-    collection:'posts',
+  const payload = await getPayload({ config: configPromise })
+  const galleryDoc = await payload.find({
+    collection: 'gallery',
     locale,
     fallbackLocale: 'ne',
-    where:{
-      slug:{equals:'aboutpage'}
+    where: {
+      slug: { equals: 'personal' },
     },
-    depth:1
+    depth: 1,
   })
-  const personalsGallery = galleryDoc.docs?.[0].photos?.[0]?.image
 
-  const personalsImageUrl =    typeof personalsGallery === 'object' && personalsGallery?.url
-      && (personalsGallery.url as string) 
+  const slider = await payload.find({
+    collection: 'sliders',
+    locale,
+    fallbackLocale: 'ne',
+    where: {
+      slug: { equals: 'aboutpage' },
+    },
+    limit: 1,
+    depth: 1,
+  })
+  const post = await payload.find({
+    collection: 'posts',
+    locale,
+    fallbackLocale: 'ne',
+    where: {
+      slug: { equals: 'aboutpage' },
+    },
+    depth: 1,
+  })
+  const sliderImage = slider.docs?.[0]?.slides?.[0]?.image
+  const ImageURL =
+    typeof sliderImage === 'object' && sliderImage?.url && (sliderImage.url as string)
+  const personalsGallery = galleryDoc.docs?.[0]?.photos?.[0]?.image
+
+  const personalsImageUrl =
+    typeof personalsGallery === 'object' &&
+    personalsGallery?.url &&
+    (personalsGallery.url as string)
   return (
     <main className="min-h-screen bg-slate-50 dark:bg-slate-950">
       {/* Hero Banner */}
@@ -111,7 +144,7 @@ export default async function AboutPage({params:paramsPromise}:Args) {
         {/* BG image */}
         <div className="absolute inset-0">
           <Image
-            src={`${personalsImageUrl || '/website-template-OG.webp'}`}
+            src={ImageURL || '/placeholder-image.jpg'}
             alt="Leader Background"
             fill
             className="object-cover brightness-40"
@@ -124,27 +157,15 @@ export default async function AboutPage({params:paramsPromise}:Args) {
         {/* Content */}
         <div className="container relative z-10 pb-16 md:pb-24">
           <Badge className="bg-[#B31B20] text-white border-none mb-4 px-4 py-1.5 text-xs uppercase tracking-widest font-black rounded-full">
-            Jalsa Xettri को परिचय
+            {locale === 'en' ? 'About Jalsa Xettri' : 'जलसा क्षेत्री को परिचय'}
           </Badge>
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-black text-white leading-none tracking-tighter mb-4">
-            परिचय
+          <h1 className="text-4xl md:text-6xl lg:text-7xl leading-none tracking-tighter mb-4">
+            {slider?.docs?.[0]?.slides?.[0]?.title}
           </h1>
-          <p className="text-slate-300 text-lg md:text-xl font-bold max-w-2xl leading-relaxed">
-            सामाजिक अभियान्ता, युवा नेता साथै नेकपा एमालेका एक सशक्त जुझारु युवा व्यक्तित्व।
-          </p>
-
-          {/* Quick stats row */}
-          <div className="flex flex-wrap gap-6 mt-8">
-            {[
-              { label: 'वर्षको सक्रियता', value: '१०+' },
-              { label: 'प्राप्त मत (स्थानीय तह)', value: '१५९८' },
-              { label: 'सामाजिक अभियान', value: '५०+' },
-            ].map((s) => (
-              <div key={s.label} className="flex items-baseline gap-2">
-                <span className="text-3xl md:text-4xl font-black text-[#B31B20]">{s.value}</span>
-                <span className="text-slate-400 font-bold text-sm uppercase tracking-wider">{s.label}</span>
-              </div>
-            ))}
+          <div className="text-lg md:text-xl font-bold max-w-2xl leading-relaxed">
+            {slider?.docs?.[0]?.slides?.[0]?.description && (
+              <RichText data={slider.docs[0].slides[0].description} enableGutter={false} />
+            )}
           </div>
         </div>
       </section>
@@ -153,7 +174,6 @@ export default async function AboutPage({params:paramsPromise}:Args) {
       <section className="w-full bg-white dark:bg-slate-900 py-16 md:py-24 border-b border-slate-100 dark:border-slate-800">
         <div className="container">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 md:gap-16 items-start">
-
             {/* Left: Profile Card */}
             <div className="lg:col-span-1">
               <div className="sticky top-24">
@@ -168,17 +188,35 @@ export default async function AboutPage({params:paramsPromise}:Args) {
                     />
                     <div className="absolute inset-0 bg-linear-to-t from-slate-950 via-transparent to-transparent" />
                     <div className="absolute bottom-0 inset-x-0 p-6 text-white">
-                      <h2 className="text-2xl font-black leading-tight">Jalsa Xettri</h2>
-                      <p className="text-slate-300 text-sm font-bold mt-1">नेकपा (एमाले) कालिकोट जिल्ला लेखा आयोग अध्यक्ष</p>
+                      <h2 className="text-2xl font-black leading-tight">
+                        {locale === 'en' ? ' Jalsa Xettri' : ' जलसा क्षेत्री '}
+                      </h2>
+                      <p className="text-slate-300 text-sm font-bold mt-1">
+                        {locale === 'en'
+                          ? 'CPN (UML) Kalikot District Accounts Commission Chairman'
+                          : ' नेकपा (एमाले) कालिकोट जिल्ला लेखा आयोग अध्यक्ष '}
+                      </p>
                     </div>
                   </div>
                   <CardContent className="p-6 bg-slate-950 text-white space-y-3">
                     {[
-                      { icon: MapPin, text: 'कालिकोट, नेपाल' },
-                      { icon: Calendar, text: 'जन्म: वि.सं. २०५४ बैशाख ५' },
-                      { icon: Star, text: 'युवा नेता तथा अभियान्ता' },
+                      {
+                        icon: MapPin,
+                        text: `${locale === 'en' ? ' Kalikot, Nepal' : ' कालिकोट, नेपाल'}`,
+                      },
+                      {
+                        icon: Calendar,
+                        text: `${locale === 'en' ? ' BOD: 1997 May 20' : ' जन्म: वि.सं. २०५४ जेठ ५'}`,
+                      },
+                      {
+                        icon: Star,
+                        text: `${locale === 'en' ? ' Youth Leader and Activist' : ' युवा नेता तथा अभियान्ता'}`,
+                      },
                     ].map(({ icon: Icon, text }) => (
-                      <div key={text} className="flex items-center gap-3 text-slate-300 text-sm font-medium">
+                      <div
+                        key={text}
+                        className="flex items-center gap-3 text-slate-300 text-sm font-medium"
+                      >
                         <Icon className="w-4 h-4 text-[#B31B20] shrink-0" />
                         <span>{text}</span>
                       </div>
@@ -191,9 +229,15 @@ export default async function AboutPage({params:paramsPromise}:Args) {
             {/* Right: Bio Content */}
             <div className="lg:col-span-2 space-y-10">
               <div>
-                {post.docs?.[0]?.title && <h1 className="text-6xl md:text-6xl lg:text-7xl font-black text-slate-900 dark:text-white leading-none tracking-tighter mb-4">{post.docs[0].title}</h1>}
+                {post.docs?.[0]?.title && (
+                  <h1 className="text-6xl md:text-6xl lg:text-7xl font-black text-slate-900 dark:text-white leading-none tracking-tighter mb-4">
+                    {post.docs[0].title}
+                  </h1>
+                )}
                 <div className="space-y-5 font-medium leading-[1.9] text-base md:text-lg">
-                  {post.docs?.[0]?.content && <RichText data={post.docs[0].content} enableGutter={false} />}
+                  {post.docs?.[0]?.content && (
+                    <RichText data={post.docs[0].content} enableGutter={false} />
+                  )}
                 </div>
               </div>
 
@@ -204,14 +248,21 @@ export default async function AboutPage({params:paramsPromise}:Args) {
                 <SectionHeading title="मूल्य र सिद्धान्त" className="mb-6" />
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   {values.map(({ icon: Icon, title, desc }) => (
-                    <Card key={title} className="border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm hover:shadow-lg transition-all duration-300 rounded-2xl group">
+                    <Card
+                      key={title}
+                      className="border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm hover:shadow-lg transition-all duration-300 rounded-2xl group"
+                    >
                       <CardContent className="p-6 flex gap-4 items-start">
                         <div className="w-12 h-12 bg-[#B31B20]/10 rounded-2xl flex items-center justify-center shrink-0 group-hover:bg-[#B31B20] transition-colors duration-300">
                           <Icon className="w-6 h-6 text-[#B31B20] group-hover:text-white transition-colors duration-300" />
                         </div>
                         <div>
-                          <h3 className="font-black text-slate-900 dark:text-white text-lg mb-1">{title}</h3>
-                          <p className="text-slate-500 dark:text-slate-400 text-sm font-medium leading-relaxed">{desc}</p>
+                          <h3 className="font-black text-slate-900 dark:text-white text-lg mb-1">
+                            {title}
+                          </h3>
+                          <p className="text-slate-500 dark:text-slate-400 text-sm font-medium leading-relaxed">
+                            {desc}
+                          </p>
                         </div>
                       </CardContent>
                     </Card>
@@ -223,24 +274,32 @@ export default async function AboutPage({params:paramsPromise}:Args) {
         </div>
       </section>
 
-
       <section className="w-full py-16 md:py-24 bg-white dark:bg-slate-900 relative overflow-hidden">
         <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-red-600/5 blur-[120px] -ml-20 -mt-20" />
         <div className="container relative z-10">
-           <SectionHeading title="राजनीतिक यात्रा" viewAllHref="/activities" className="mb-12" />
+          <SectionHeading title="राजनीतिक यात्रा" viewAllHref="/activities" className="mb-12" />
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {careerMilestones.map((item, i) => (
-              <Card key={i} className="border-none bg-white dark:bg-slate-800 shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden rounded-2xl group">
+              <Card
+                key={i}
+                className="border-none bg-white dark:bg-slate-800 shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden rounded-2xl group"
+              >
                 <CardContent className="p-0">
                   <div className={`h-2 w-full bg-linear-to-r ${item.color}`} />
                   <div className="p-7">
                     <div className="flex items-start gap-4">
-                      <div className={`w-16 h-16 rounded-2xl bg-linear-to-br ${item.color} flex items-center justify-center text-white font-black text-sm shrink-0 shadow-lg`}>
+                      <div
+                        className={`w-16 h-16 rounded-2xl bg-linear-to-br ${item.color} flex items-center justify-center text-white font-black text-sm shrink-0 shadow-lg`}
+                      >
                         {item.year}
                       </div>
                       <div className="flex-1">
-                        <h3 className="font-black text-slate-900 dark:text-white text-xl mb-2 group-hover:text-[#B31B20] dark:group-hover:text-[#ff4d4d] transition-colors">{item.title}</h3>
-                        <p className="text-slate-500 dark:text-slate-300 font-medium leading-relaxed text-sm">{item.detail}</p>
+                        <h3 className="font-black text-slate-900 dark:text-white text-xl mb-2 group-hover:text-[#B31B20] dark:group-hover:text-[#ff4d4d] transition-colors">
+                          {item.title}
+                        </h3>
+                        <p className="text-slate-500 dark:text-slate-300 font-medium leading-relaxed text-sm">
+                          {item.detail}
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -266,7 +325,9 @@ export default async function AboutPage({params:paramsPromise}:Args) {
                   <Card className="border-none bg-white dark:bg-slate-800 shadow-md hover:shadow-lg transition-shadow rounded-2xl flex-1">
                     <CardContent className="p-6 flex flex-col sm:flex-row sm:items-center gap-4 justify-between">
                       <div>
-                        <h3 className="font-black text-slate-900 dark:text-white text-lg">{edu.degree}</h3>
+                        <h3 className="font-black text-slate-900 dark:text-white text-lg">
+                          {edu.degree}
+                        </h3>
                         <p className="text-slate-500 dark:text-slate-300 font-medium text-sm mt-1 flex items-center gap-2">
                           <Globe className="w-4 h-4 text-[#B31B20]" /> {edu.institution}
                         </p>

@@ -1,11 +1,21 @@
-import { lexicalEditor, HeadingFeature, FixedToolbarFeature, InlineToolbarFeature } from '@payloadcms/richtext-lexical'
+import {
+  lexicalEditor,
+  HeadingFeature,
+  FixedToolbarFeature,
+  InlineToolbarFeature,
+  BoldFeature,
+  ItalicFeature,
+  UnderlineFeature,
+  TextStateFeature,
+  defaultColors,
+} from '@payloadcms/richtext-lexical'
 import type { CollectionConfig } from 'payload'
 
 export const Sliders: CollectionConfig = {
   slug: 'sliders',
   admin: {
-    useAsTitle: 'title',           // explained below
-    defaultColumns: ['title', 'location', 'status'],
+    useAsTitle: 'title',
+    defaultColumns: ['title', 'status', 'createdAt'],
   },
   access: {
     read: () => true,
@@ -57,21 +67,32 @@ export const Sliders: CollectionConfig = {
         {
           name: 'title',
           type: 'text',
+          localized: true,
         },
         {
-            name: 'description',
-            type: 'richText',
-            editor: lexicalEditor({
+          name: 'description',
+          type: 'richText',
+          localized: true,
+          editor: lexicalEditor({
             features: ({ rootFeatures }) => {
-                return [
-                  ...rootFeatures,
-                  HeadingFeature({ enabledHeadingSizes: ['h2', 'h3', 'h4'] }),
-                  FixedToolbarFeature(),
-                  InlineToolbarFeature(),
-                ]
-              },
-            }),
-        }
+              return [
+                ...rootFeatures,
+                HeadingFeature({ enabledHeadingSizes: ['h1', 'h2', 'h3', 'h4'] }),
+                BoldFeature(),
+                ItalicFeature(),
+                UnderlineFeature(),
+                TextStateFeature({
+                  state: {
+                    color: defaultColors.text,
+                    background: defaultColors.background,
+                  },
+                }),
+                FixedToolbarFeature(),
+                InlineToolbarFeature(),
+              ]
+            },
+          }),
+        },
       ],
     },
   ],

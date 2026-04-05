@@ -48,7 +48,7 @@ export default async function HomePage({params: paramsPromise}:Args) {
 
 
   const payload = await getPayload({ config: configPromise })
-  const {locale='ne'}= await paramsPromise  
+    
 
 
 

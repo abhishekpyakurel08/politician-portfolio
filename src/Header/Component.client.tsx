@@ -80,7 +80,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
                 ? "text-xl md:text-3xl text-slate-900 dark:text-white" 
                 : "text-2xl md:text-5xl text-white"
             )}>
-              जलसा क्षेत्री
+              {locale === 'en' ? 'Jalsa Xettri' : 'जलसा क्षेत्री'}
             </span>
             <span className={cn(
               "text-[10px] md:text-sm font-black uppercase tracking-[0.4em] mt-1.5 transition-all duration-300 mukta-bold",
