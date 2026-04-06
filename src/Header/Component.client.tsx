@@ -86,7 +86,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
               "text-[10px] md:text-sm font-black uppercase tracking-[0.4em] mt-1.5 transition-all duration-300 mukta-bold",
               isScrolled ? "text-[#B31B20]" : "text-white"
             )}>
-              Personal Portal
+              {locale === 'en' ? 'Personal Portal' : 'व्यक्तिगत पोर्टल'}
             </span>
           </div>
         </Link>

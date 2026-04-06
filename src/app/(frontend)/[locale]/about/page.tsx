@@ -9,17 +9,13 @@ import { Card, CardContent } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
 import { SectionHeading } from '@/components/SectionHeading'
 import RichText from '@/components/RichText'
+import LucideIcon from '@/components/LucideIcon'
 import {
-  Award,
-  BookOpen,
-  Building2,
   Calendar,
-  CheckCircle,
   Globe,
   Heart,
   MapPin,
   Star,
-  Users,
 } from 'lucide-react'
 
 export const metadata: Metadata = {
@@ -70,24 +66,6 @@ const educationItems = [
   },
 ]
 
-const values = [
-  {
-    icon: Heart,
-    title: 'जनसेवा',
-    desc: 'जनताको सेवालाई सर्वोपरि मानी राजनीतिमा प्रवेश गर्नुभएको हो।',
-  },
-  { icon: Globe, title: 'राष्ट्रवाद', desc: 'राष्ट्रिय एकता र अखण्डताका लागि सतत् संघर्षरत।' },
-  {
-    icon: BookOpen,
-    title: 'शिक्षा र समृद्धि',
-    desc: 'प्रत्येक नागरिकलाई गुणस्तरीय शिक्षाको अधिकार सुनिश्चित गर्ने प्रतिबद्धता।',
-  },
-  {
-    icon: CheckCircle,
-    title: 'सुशासन',
-    desc: 'पारदर्शिता, जवाबदेही र भ्रष्टाचारमुक्त प्रशासनको पक्षमा दृढ।',
-  },
-]
 
 type Args = {
   params: Promise<{
@@ -128,9 +106,24 @@ export default async function AboutPage({ params: paramsPromise }: Args) {
     },
     depth: 1,
   })
+
+
+    const morals = await payload.find({
+    collection: 'sliders',
+    locale,
+    fallbackLocale: 'ne',
+    where: {
+      slug: { equals: 'morals-and-values' },
+    },
+    depth: 1,
+  })
+
   const sliderImage = slider.docs?.[0]?.slides?.[0]?.image
   const ImageURL =
     typeof sliderImage === 'object' && sliderImage?.url && (sliderImage.url as string)
+
+
+    
   const personalsGallery = galleryDoc.docs?.[0]?.photos?.[0]?.image
 
   const personalsImageUrl =
@@ -245,24 +238,38 @@ export default async function AboutPage({ params: paramsPromise }: Args) {
 
               {/* Values Grid */}
               <div>
-                <SectionHeading title="मूल्य र सिद्धान्त" className="mb-6" />
+                <SectionHeading title={morals.docs?.[0]?.title || (locale === 'en' ? 'Morals and Values' : 'मूल्य र सिद्धान्त')} className="mb-6" />
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                  {values.map(({ icon: Icon, title, desc }) => (
+                  {morals.docs?.[0]?.slides?.map((slide, index) => (
                     <Card
-                      key={title}
+                      key={index}
                       className="border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm hover:shadow-lg transition-all duration-300 rounded-2xl group"
                     >
                       <CardContent className="p-6 flex gap-4 items-start">
                         <div className="w-12 h-12 bg-[#B31B20]/10 rounded-2xl flex items-center justify-center shrink-0 group-hover:bg-[#B31B20] transition-colors duration-300">
-                          <Icon className="w-6 h-6 text-[#B31B20] group-hover:text-white transition-colors duration-300" />
+                          {slide.icon ? (
+                            <LucideIcon 
+                              name={slide.icon as string} 
+                              className="w-6 h-6 text-[#B31B20] group-hover:text-white transition-colors duration-300" 
+                            />
+                          ) : (
+                            <Heart className="w-6 h-6 text-[#B31B20] group-hover:text-white transition-colors duration-300" />
+                          )}
                         </div>
                         <div>
                           <h3 className="font-black text-slate-900 dark:text-white text-lg mb-1">
-                            {title}
+                            {slide.title}
                           </h3>
-                          <p className="text-slate-500 dark:text-slate-400 text-sm font-medium leading-relaxed">
-                            {desc}
-                          </p>
+                          {slide.subTitle && (
+                            <p className="text-xs font-bold text-[#B31B20] mb-2 uppercase tracking-tight">
+                              {slide.subTitle}
+                            </p>
+                          )}
+                          <div className="text-slate-500 dark:text-slate-400 text-sm font-medium leading-relaxed">
+                            {slide.description && (
+                              <RichText data={slide.description} enableGutter={false} />
+                            )}
+                          </div>
                         </div>
                       </CardContent>
                     </Card>
@@ -350,10 +357,10 @@ export default async function AboutPage({ params: paramsPromise }: Args) {
         <div className="container relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
           <div>
             <h2 className="text-3xl md:text-4xl font-black text-white leading-tight">
-              सम्पर्कमा रहनुहोस्
+             {locale==='en'?'Stay Connected':'सम्पर्कमा रहनुहोस्'}
             </h2>
             <p className="text-red-100 font-bold mt-3 text-lg max-w-xl">
-              Jalsa Xettri का गतिविधि, विचार र सामाजिक अभियानहरूको अपडेट पाउन जोडिनुहोस्।
+              {locale==='en'?"Stay updated with Jalsa Xettri's activities, ideas, and social campaigns.":'जल्सा क्षेत्रीका गतिविधि, विचार र सामाजिक अभियानहरूको अपडेट पाउन जोडिनुहोस्।'}
             </p>
           </div>
           <div className="flex gap-4 shrink-0">
@@ -361,13 +368,13 @@ export default async function AboutPage({ params: paramsPromise }: Args) {
               href="/news"
               className="bg-white text-[#B31B20] font-black px-8 py-4 rounded-2xl hover:bg-red-50 transition-all shadow-xl hover:-translate-y-1 text-base"
             >
-              समाचार हेर्नुहोस्
+              {locale==='en'?'News':'समाचार हेर्नुहोस्'}
             </Link>
             <Link
               href="/activities"
               className="bg-white/10 border border-white/30 text-white font-black px-8 py-4 rounded-2xl hover:bg-white/20 transition-all shadow-xl hover:-translate-y-1 text-base backdrop-blur-sm"
             >
-              गतिविधि
+              {locale==='en'?'Activities':'गतिविधि'}
             </Link>
           </div>
         </div>

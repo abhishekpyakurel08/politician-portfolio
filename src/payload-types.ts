@@ -948,8 +948,30 @@ export interface Slider {
   title: string;
   slug: string;
   slides: {
-    image: string | Media;
+    image?: (string | null) | Media;
+    /**
+     * Select an icon to display if no image is uploaded.
+     */
+    icon?:
+      | (
+          | 'User'
+          | 'Info'
+          | 'Calendar'
+          | 'Star'
+          | 'Heart'
+          | 'Globe'
+          | 'Search'
+          | 'MapPin'
+          | 'Activity'
+          | 'Award'
+          | 'BookOpen'
+          | 'Building2'
+          | 'CheckCircle'
+          | 'Users'
+        )
+      | null;
     title?: string | null;
+    subTitle?: string | null;
     description?: {
       root: {
         type: string;
@@ -1688,7 +1710,9 @@ export interface SlidersSelect<T extends boolean = true> {
     | T
     | {
         image?: T;
+        icon?: T;
         title?: T;
+        subTitle?: T;
         description?: T;
         id?: T;
       };
