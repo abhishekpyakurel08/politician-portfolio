@@ -52,7 +52,7 @@ export default async function ActivitiesList() {
   const payload = await getPayload({ config: configPromise })
 
   const { docs: activityDocs } = await payload.find({
-    collection: 'news',
+    collection: 'activities',
     limit: 24,
     sort: '-publishDate',
     draft: false,
@@ -88,11 +88,13 @@ export default async function ActivitiesList() {
           <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10 mix-blend-overlay" />
           <div className="absolute inset-0 bg-linear-to-t from-slate-950 via-slate-950/40 to-transparent" />
         </div>
-        
+
         <div className="container relative z-10">
           <div className="flex items-center gap-3 mb-6">
             <Activity className="w-6 h-6 text-[#B31B20]" />
-            <span className="text-slate-400 font-black uppercase text-sm tracking-widest">गतिविधि केन्द्र</span>
+            <span className="text-slate-400 font-black uppercase text-sm tracking-widest">
+              गतिविधि केन्द्र
+            </span>
           </div>
           <h1 className="text-5xl md:text-7xl font-black text-white tracking-tighter leading-none mb-4 uppercase">
             ताजा गतिविधि
@@ -125,7 +127,7 @@ export default async function ActivitiesList() {
           <SectionHeading title="विशेष गतिविधि" className="mb-10" />
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
             {featured.map((act) => (
-              <Link key={act.id} href={`/news/${act.slug}`} className="group">
+              <Link key={act.id} href={`/activities/${act.slug}`} className="group">
                 <Card className="overflow-hidden border-none shadow-2xl hover:shadow-red-900/10 transition-all duration-500 hover:-translate-y-2 rounded-[32px] md:rounded-[48px] h-full bg-slate-100 dark:bg-slate-800">
                   <div className="relative overflow-hidden aspect-video">
                     <AspectRatio ratio={16 / 9}>
@@ -183,7 +185,7 @@ export default async function ActivitiesList() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {rest.map((act) => (
-              <Link key={act.id} href={`/news/${act.slug}`} className="group">
+              <Link key={act.id} href={`/activities/${act.slug}`} className="group">
                 <Card className="overflow-hidden border-none shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 rounded-3xl h-full flex flex-col bg-white dark:bg-slate-900 premium-border">
                   <div className="relative overflow-hidden bg-slate-100 dark:bg-slate-800">
                     <AspectRatio ratio={16 / 10}>
@@ -249,13 +251,16 @@ export default async function ActivitiesList() {
               <div className="w-24 h-24 bg-slate-100 dark:bg-slate-900 rounded-full flex items-center justify-center mx-auto mb-8">
                 <Activity className="w-12 h-12 text-slate-300 dark:text-slate-700" />
               </div>
-              <h3 className="text-3xl font-black text-slate-400 dark:text-slate-700">कुनै गतिविधि भेटिएन</h3>
-              <p className="text-slate-400 dark:text-slate-600 mt-2 font-bold uppercase tracking-widest text-xs">कृपया पछि फेरि आउनुहोस्</p>
+              <h3 className="text-3xl font-black text-slate-400 dark:text-slate-700">
+                कुनै गतिविधि भेटिएन
+              </h3>
+              <p className="text-slate-400 dark:text-slate-600 mt-2 font-bold uppercase tracking-widest text-xs">
+                कृपया पछि फेरि आउनुहोस्
+              </p>
             </div>
           )}
         </div>
       </section>
     </main>
-
   )
 }

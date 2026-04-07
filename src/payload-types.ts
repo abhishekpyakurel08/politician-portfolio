@@ -77,6 +77,7 @@ export interface Config {
     videos: Video;
     timeline: Timeline;
     sliders: Slider;
+    activities: Activity;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -104,6 +105,7 @@ export interface Config {
     videos: VideosSelect<false> | VideosSelect<true>;
     timeline: TimelineSelect<false> | TimelineSelect<true>;
     sliders: SlidersSelect<false> | SlidersSelect<true>;
+    activities: ActivitiesSelect<false> | ActivitiesSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -995,6 +997,49 @@ export interface Slider {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "activities".
+ */
+export interface Activity {
+  id: string;
+  title: string;
+  slug: string;
+  publishDate?: string | null;
+  category?: (string | null) | Category;
+  featuredImage: string | Media;
+  /**
+   * Check this if the news has a video attached.
+   */
+  hasVideo?: boolean | null;
+  excerpt?: string | null;
+  content?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  meta?: {
+    title?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (string | null) | Media;
+    description?: string | null;
+  };
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
@@ -1222,6 +1267,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'sliders';
         value: string | Slider;
+      } | null)
+    | ({
+        relationTo: 'activities';
+        value: string | Activity;
       } | null)
     | ({
         relationTo: 'redirects';
@@ -1715,6 +1764,30 @@ export interface SlidersSelect<T extends boolean = true> {
         subTitle?: T;
         description?: T;
         id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "activities_select".
+ */
+export interface ActivitiesSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  publishDate?: T;
+  category?: T;
+  featuredImage?: T;
+  hasVideo?: T;
+  excerpt?: T;
+  content?: T;
+  meta?:
+    | T
+    | {
+        title?: T;
+        image?: T;
+        description?: T;
       };
   updatedAt?: T;
   createdAt?: T;

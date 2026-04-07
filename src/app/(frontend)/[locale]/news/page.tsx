@@ -20,7 +20,8 @@ export const revalidate = 60
 const mockNews = Array.from({ length: 12 }, (_, i) => ({
   id: `mock-${i}`,
   title: `समाचार शीर्षक — पार्टी सम्मेलन र विकासका नयाँ पाइला ${i + 1}`,
-  excerpt: 'नेकपा (एमाले)का नेताहरू एकत्रित भई राष्ट्रिय विकास र जनताको सेवाका विषयमा गहन छलफल गरे।',
+  excerpt:
+    'नेकपा (एमाले)का नेताहरू एकत्रित भई राष्ट्रिय विकास र जनताको सेवाका विषयमा गहन छलफल गरे।',
   imageUrl: '/website-template-OG.webp',
   date: new Date(Date.now() - i * 86400000 * 2).toLocaleDateString('ne-NP'),
   slug: '#',
@@ -62,13 +63,15 @@ export default async function NewsList() {
           <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#B31B20] opacity-[0.05] blur-[120px] -mr-20 -mt-20 rounded-full" />
           <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10 mix-blend-overlay" />
         </div>
-        
+
         <div className="container relative z-10">
           <div className="flex items-center gap-3 mb-6">
             <Newspaper className="w-6 h-6 text-[#B31B20]" />
-            <span className="text-slate-400 font-black uppercase text-sm tracking-widest leading-none">समाचार केन्द्र</span>
+            <span className="text-slate-400 font-black uppercase text-sm tracking-widest leading-none">
+              समाचार केन्द्र
+            </span>
           </div>
-          <h1 className="text-5xl md:text-8xl font-black text-white tracking-tighter mb-0 leading-[0.9] uppercase">
+          <h1 className="text-5xl md:text-7xl font-black text-white tracking-tighter leading-none mb-4 uppercase">
             ताजा समाचार
           </h1>
           <p className="text-slate-400 font-bold mt-6 mb-12 text-lg md:text-xl max-w-2xl leading-relaxed">
@@ -96,7 +99,10 @@ export default async function NewsList() {
                       मुख्य समाचार
                     </Badge>
                     {featured.category && (
-                      <Badge variant="outline" className="text-white border-white/30 bg-white/10 backdrop-blur-sm text-xs font-bold rounded-full">
+                      <Badge
+                        variant="outline"
+                        className="text-white border-white/30 bg-white/10 backdrop-blur-sm text-xs font-bold rounded-full"
+                      >
                         {featured.category}
                       </Badge>
                     )}
@@ -128,7 +134,11 @@ export default async function NewsList() {
       {/* News Grid */}
       <section className="w-full py-16 md:py-20 bg-slate-50">
         <div className="container">
-          <SectionHeading title="सम्पूर्ण समाचार" className="mb-10" />
+          <SectionHeading
+            title="सम्पूर्ण समाचार"
+            className="mb-10"
+            textColor="text-slate-950 dark:text-white"
+          />
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             {grid.map((doc) => (

@@ -15,7 +15,7 @@ export async function Footer({ locale }: { locale: Locale }) {
   const currentYear = new Date().getFullYear()
 
   return (
-    <footer className="w-full bg-slate-950 text-slate-400 relative overflow-hidden border-t border-white/5">
+    <footer className="w-full bg-[#020617] dark:bg-slate-950 text-slate-400 relative overflow-hidden border-t border-white/5">
       {/* Background Decorative Gradient */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-px bg-linear-to-r from-transparent via-[#B31B20]/50 to-transparent" />
       <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-[#B31B20]/5 blur-[120px] rounded-full -mr-48 -mt-48" />
@@ -78,44 +78,44 @@ export async function Footer({ locale }: { locale: Locale }) {
 
           {/* Quick Links Column */}
           <div className="space-y-8 h-full">
-            <h4 className="text-white font-black uppercase tracking-[0.2em] text-xs flex items-center gap-3 mukta-bold">
+            <h4 className="text-slate-400 font-black uppercase tracking-[0.2em] text-xs flex items-center gap-3 mukta-bold">
               <span className="w-6 h-1 bg-gradient-brand rounded-full"></span>
               {locale === 'en' ? 'Quick Links' : 'छिटो लिंकहरू'}
             </h4>
-            <ul className="space-y-4 text-[15px] font-semibold">
+            <ul className="space-y-4 text-[15px] font-semibold text-slate-400">
               <li>
                 <Link
                   href={`/${locale}/about`}
-                  className="hover:text-[#B31B20] transition-colors flex items-center gap-2 group"
+                  className="text-slate-400 hover:text-[#B31B20] transition-colors flex items-center gap-2 group"
                 >
-                  <span className="w-1.5 h-1.5 rounded-full bg-slate-800 group-hover:bg-[#B31B20] transition-colors"></span>{' '}
+                  <span className="w-1.5 h-1.5 rounded-full bg-slate-600 group-hover:bg-[#B31B20] transition-colors"></span>{' '}
                   {locale === 'en' ? 'About' : 'परिचय'}
                 </Link>
               </li>
               <li>
                 <Link
                   href={`/${locale}/news`}
-                  className="hover:text-[#B31B20] transition-colors flex items-center gap-2 group"
+                  className="text-slate-400 hover:text-[#B31B20] transition-colors flex items-center gap-2 group"
                 >
-                  <span className="w-1.5 h-1.5 rounded-full bg-slate-800 group-hover:bg-[#B31B20] transition-colors"></span>{' '}
+                  <span className="w-1.5 h-1.5 rounded-full bg-slate-600 group-hover:bg-[#B31B20] transition-colors"></span>{' '}
                   {locale === 'en' ? 'News & Views' : 'समाचार र विचार'}
                 </Link>
               </li>
               <li>
                 <Link
                   href={`/${locale}/activities`}
-                  className="hover:text-[#B31B20] transition-colors flex items-center gap-2 group"
+                  className="text-slate-400 hover:text-[#B31B20] transition-colors flex items-center gap-2 group"
                 >
-                  <span className="w-1.5 h-1.5 rounded-full bg-slate-800 group-hover:bg-[#B31B20] transition-colors"></span>{' '}
+                  <span className="w-1.5 h-1.5 rounded-full bg-slate-600 group-hover:bg-[#B31B20] transition-colors"></span>{' '}
                   {locale === 'en' ? 'Activities' : 'अभियान र गतिविधि'}
                 </Link>
               </li>
               <li>
                 <Link
                   href={`/${locale}/gallery`}
-                  className="hover:text-[#B31B20] transition-colors flex items-center gap-2 group"
+                  className="text-slate-400 hover:text-[#B31B20] transition-colors flex items-center gap-2 group"
                 >
-                  <span className="w-1.5 h-1.5 rounded-full bg-slate-800 group-hover:bg-[#B31B20] transition-colors"></span>{' '}
+                  <span className="w-1.5 h-1.5 rounded-full bg-slate-600 group-hover:bg-[#B31B20] transition-colors"></span>{' '}
                   {locale === 'en' ? 'Gallery' : 'फोटो ग्यालरी'}
                 </Link>
               </li>
@@ -124,7 +124,7 @@ export async function Footer({ locale }: { locale: Locale }) {
 
           {/* Resources Column */}
           <div className="space-y-8 h-full">
-            <h4 className="text-white font-black uppercase tracking-[0.2em] text-xs flex items-center gap-3 mukta-bold">
+            <h4 className="text-slate-400 font-black uppercase tracking-[0.2em] text-xs flex items-center gap-3 mukta-bold">
               <span className="w-6 h-1 bg-gradient-brand rounded-full"></span>
               {locale === 'en' ? 'Contact Information' : 'सम्पर्क जानकारी'}
             </h4>
@@ -134,10 +134,10 @@ export async function Footer({ locale }: { locale: Locale }) {
                   <MapPin className="w-5 h-5 text-[#B31B20]" />
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-[10px] uppercase text-slate-500 font-bold mb-0.5">
+                  <span className="text-[10px] uppercase text-slate-400 font-bold mb-0.5">
                     {locale === 'en' ? 'Address' : 'ठेगाना'}
                   </span>
-                  <span className="text-slate-300">
+                  <span className="text-slate-400">
                     {locale === 'en' ? 'Palanta, Kalikot, Nepal' : 'पलाँता, कालिकोट, नेपाल'}
                   </span>
                 </div>
@@ -147,10 +147,10 @@ export async function Footer({ locale }: { locale: Locale }) {
                   <Mail className="w-5 h-5 text-[#B31B20]" />
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-[10px] uppercase text-slate-500 font-bold mb-0.5">
+                  <span className="text-[10px] uppercase text-slate-400 font-bold mb-0.5">
                     {locale === 'en' ? 'UML' : 'इमेल'}
                   </span>
-                  <span className="text-slate-300">hello@jalsaxettri.com</span>
+                  <span className="text-slate-400">hello@jalsaxettri.com</span>
                 </div>
               </li>
               <li className="flex gap-4">
@@ -158,10 +158,10 @@ export async function Footer({ locale }: { locale: Locale }) {
                   <Phone className="w-5 h-5 text-[#B31B20]" />
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-[10px] uppercase text-slate-500 font-bold mb-0.5">
+                  <span className="text-[10px] uppercase text-slate-400 font-bold mb-0.5">
                     {locale === 'en' ? 'Phone' : 'फोन'}
                   </span>
-                  <span className="font-bold text-white mukta-bold">
+                  <span className="font-bold text-slate-400 mukta-bold">
                     {locale === 'en' ? '+977 9743223799' : '+९७७ ९७४३२२३७९९'}
                   </span>
                 </div>
@@ -172,7 +172,7 @@ export async function Footer({ locale }: { locale: Locale }) {
           {/* Connect Column / CTA */}
           <div className="space-y-8 h-full">
             <div className="p-6 rounded-3xl bg-linear-to-br from-white/5 to-transparent border border-white/10 shadow-inner h-full flex flex-col justify-between">
-              <h4 className="text-white font-black mb-4">
+              <h4 className="text-slate-400 font-black mb-4">
                 {locale === 'en' ? 'Join our campaign' : 'हाम्रो अभियानमा जोडिनुहोस्'}
               </h4>
               <p className="text-sm text-slate-400 mb-6 font-medium">
@@ -188,7 +188,7 @@ export async function Footer({ locale }: { locale: Locale }) {
         <Separator className="bg-white/5 mb-10" />
 
         <div className="flex flex-col md:flex-row justify-between items-center gap-8">
-          <div className="flex flex-col md:flex-row items-center gap-4 md:gap-8 text-xs font-bold uppercase tracking-widest text-slate-500">
+          <div className="flex flex-col md:flex-row items-center gap-4 md:gap-8 text-xs font-bold uppercase tracking-widest text-slate-400">
             <p>
               © {currentYear}{' '}
               {locale === 'en'
@@ -210,7 +210,7 @@ export async function Footer({ locale }: { locale: Locale }) {
                 <span className="inline-flex items-center gap-1">
                   Crafted with <Heart className="w-3.5 h-3.5 fill-[#B31B20]" />
                 </span>
-                <span className="text-white">for Kalikot, Nepal</span>
+                <span className="text-slate-400">for Kalikot, Nepal</span>
               </>
             ) : (
               <>

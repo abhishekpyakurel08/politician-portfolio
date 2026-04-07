@@ -12,6 +12,7 @@ import { News } from './collections/News'
 import { Gallery } from './collections/Gallery'
 import { Videos } from './collections/Videos'
 import { Users } from './collections/Users'
+import { Activities } from './collections/Activities'
 import { Footer } from './Footer/config'
 import { Header } from './Header/config'
 import { plugins } from './plugins'
@@ -80,7 +81,7 @@ export default buildConfig({
   db: mongooseAdapter({
     url: process.env.DATABASE_URL || '',
   }),
-  collections: [Pages, Posts, Media, Categories, Users, News, Gallery, Videos, Timeline,Sliders],
+  collections: [Pages, Posts, Media, Categories, Users, News, Gallery, Videos, Timeline, Sliders, Activities],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [Header, Footer],
   plugins,

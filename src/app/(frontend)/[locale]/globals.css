@@ -11,21 +11,149 @@
 @custom-variant 2xl (@media (width >= theme(--breakpoint-2xl)));
 
 @layer base {
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    font-weight: unset;
-    font-size: unset;
+  *, *::before, *::after {
+    box-sizing: border-box;
   }
 
-  /* Nepali text: Noto Sans Devanagari with system fallbacks */
-  :lang(ne),
-  .noto {
-    font-family: 'Mukta', 'Noto Sans Devanagari', 'Mangal', 'Shruti', sans-serif;
-    line-height: 1.6; /* Better vertical space for Mukta glyphs */
+  html {
+    scroll-behavior: smooth;
+    min-height: 100%;
+    background: var(--background);
+    color-scheme: light dark;
+    color: var(--foreground);
+    font-family: var(--font-sans);
+  }
+
+  body {
+    margin: 0;
+    min-height: 100%;
+    min-height: 100vh;
+    @apply bg-background text-foreground antialiased;
+    background: var(--background);
+    color: var(--foreground);
+  }
+
+  button,
+  input,
+  textarea,
+  select,
+  optgroup {
+    font: inherit;
+  }
+
+  img,
+  picture,
+  video,
+  svg {
+    display: block;
+    max-width: 100%;
+  }
+
+  a {
+    color: var(--primary);
+    transition: color 0.2s ease;
+  }
+
+  a:hover,
+  a:focus-visible {
+    color: var(--accent);
+  }
+
+  hr {
+    border-color: var(--border);
+  }
+
+  button,
+  input,
+  textarea,
+  select,
+  optgroup {
+    background: var(--card);
+    color: var(--card-foreground);
+    border-color: var(--border);
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    color: var(--muted-foreground);
+    opacity: 1;
+  }
+
+  ::selection {
+    background: rgba(179, 27, 32, 0.25);
+    color: var(--foreground);
+  }
+
+  .prose,
+  .prose * {
+    color: var(--foreground) !important;
+  }
+
+  .prose a {
+    color: var(--primary) !important;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+  }
+
+  .prose a:hover,
+  .prose a:focus-visible {
+    color: var(--accent) !important;
+  }
+
+  .prose blockquote {
+    border-left-color: var(--border) !important;
+    color: var(--foreground) !important;
+  }
+
+  .prose code,
+  .prose kbd,
+  .prose pre {
+    color: var(--foreground) !important;
+  }
+
+  [data-theme='dark'] .bg-white {
+    background: oklch(17% 0 0deg) !important;
+  }
+
+  [data-theme='dark'] .bg-slate-50 {
+    background: oklch(16% 0 0deg) !important;
+  }
+
+  [data-theme='dark'] .bg-slate-100,
+  [data-theme='dark'] .bg-gray-100 {
+    background: oklch(18% 0 0deg) !important;
+  }
+
+  [data-theme='dark'] .bg-slate-200,
+  [data-theme='dark'] .bg-gray-200 {
+    background: oklch(24% 0 0deg) !important;
+  }
+
+  [data-theme='dark'] .border-slate-100,
+  [data-theme='dark'] .border-gray-100 {
+    border-color: oklch(30% 0 0deg) !important;
+  }
+
+  [data-theme='dark'] .border-slate-200,
+  [data-theme='dark'] .border-gray-200 {
+    border-color: oklch(40% 0 0deg) !important;
+  }
+
+  [data-theme='dark'] .text-slate-900,
+  [data-theme='dark'] .text-slate-800,
+  [data-theme='dark'] .text-slate-700,
+  [data-theme='dark'] .text-gray-900,
+  [data-theme='dark'] .text-gray-800,
+  [data-theme='dark'] .text-gray-700 {
+    color: var(--foreground) !important;
+  }
+
+  [data-theme='dark'] .section-heading {
+    border-color: oklch(27% 0 0deg) !important;
+  }
+
+  [data-theme='dark'] .section-heading-title {
+    color: oklch(94% 0 0deg) !important;
   }
 }
 
@@ -52,45 +180,6 @@
   --breakpoint-2xl: 86rem;
   --font-mono: var(--font-geist-mono);
   --font-sans: var(--font-geist-sans);
-}
-
-@layer utilities {
-  .container {
-    width: 100%;
-    margin-inline: auto;
-    padding-inline: 1rem;
-  }
-
-  @variant sm {
-    .container {
-      max-width: var(--breakpoint-sm);
-    }
-  }
-
-  @variant md {
-    .container {
-      max-width: var(--breakpoint-md);
-      padding-inline: 2rem;
-    }
-  }
-
-  @variant lg {
-    .container {
-      max-width: var(--breakpoint-lg);
-    }
-  }
-
-  @variant xl {
-    .container {
-      max-width: var(--breakpoint-xl);
-    }
-  }
-
-  @variant 2xl {
-    .container {
-      max-width: var(--breakpoint-2xl);
-    }
-  }
 }
 
 :root {
@@ -214,25 +303,6 @@
   --color-error: var(--error);
 }
 
-@layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
-  body {
-    @apply bg-background text-foreground min-h-screen flex flex-col;
-  }
-  
-  /* Selection styling */
-  ::selection {
-    @apply bg-[#B31B20]/20 text-[#B31B20];
-  }
-
-  /* Smooth scrolling */
-  html {
-    scroll-behavior: smooth;
-  }
-}
-
 @layer utilities {
   .glass {
     @apply bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl border border-white/20 dark:border-slate-800/20 shadow-[0_8px_32px_0_rgba(31,38,135,0.07)];
@@ -240,6 +310,43 @@
 
   .glass-dark {
     @apply bg-slate-950/80 backdrop-blur-2xl border border-white/5 shadow-[0_20px_50px_rgba(0,0,0,0.3)];
+  }
+
+  .container {
+    width: 100%;
+    margin-inline: auto;
+    padding-inline: 1rem;
+  }
+
+  @media (min-width: 40rem) {
+    .container {
+      max-width: var(--breakpoint-sm);
+    }
+  }
+
+  @media (min-width: 48rem) {
+    .container {
+      max-width: var(--breakpoint-md);
+      padding-inline: 2rem;
+    }
+  }
+
+  @media (min-width: 64rem) {
+    .container {
+      max-width: var(--breakpoint-lg);
+    }
+  }
+
+  @media (min-width: 80rem) {
+    .container {
+      max-width: var(--breakpoint-xl);
+    }
+  }
+
+  @media (min-width: 86rem) {
+    .container {
+      max-width: var(--breakpoint-2xl);
+    }
   }
 
   .text-gradient {
@@ -312,38 +419,27 @@ html {
 html[data-theme='dark'],
 html[data-theme='light'] {
   opacity: initial;
+  transition: opacity 0.15s ease-in;
 }
 
-/* ── Homepage custom utilities ──────────────────────────────────── */
 @keyframes marquee {
-  0%   { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
 }
 
 .scrollbar-hide {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
 
-/* Section heading style */
-.section-heading {
-  border-bottom: 2px solid #e5e7eb;
-  padding-bottom: 0.5rem;
-  margin-bottom: 1rem;
+[data-theme='dark'] .section-heading-title {
+  color: #d1d5db;
 }
-.section-heading-title {
-  font-family: inherit;
-  font-size: 0.85rem;
-  font-weight: 700;
-  color: #1f2937;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-/* RichText styling is handled by Tailwind Typography (prose) */
