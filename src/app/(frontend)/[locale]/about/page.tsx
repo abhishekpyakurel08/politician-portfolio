@@ -10,13 +10,7 @@ import { Separator } from '@/components/ui/separator'
 import { SectionHeading } from '@/components/SectionHeading'
 import RichText from '@/components/RichText'
 import LucideIcon from '@/components/LucideIcon'
-import {
-  Calendar,
-  Globe,
-  Heart,
-  MapPin,
-  Star,
-} from 'lucide-react'
+import { Calendar, Globe, Heart, MapPin, Star } from 'lucide-react'
 
 export const metadata: Metadata = {
   title: 'परिचय | Jalsa Xettri',
@@ -25,33 +19,17 @@ export const metadata: Metadata = {
 
 export const revalidate = 60
 
-const careerMilestones = [
+const item = [
   {
-    year: '२०७९',
-    title: 'स्थानीय तह निर्वाचन उम्मेदवार',
-    detail:
-      'कालिकोटको पलाँता गाउँपालिकाबाट उपाध्यक्ष पदमा नेकपा एमालेको तर्फबाट उम्मेदवारी र १५९८ मत (७२ मतको अन्तर) सहित बलियो उपस्थिति।',
     color: 'from-orange-600 to-orange-800',
   },
   {
-    year: '२०७९',
-    title: 'जिल्ला कमिटी सदस्य',
-    detail:
-      'पार्टीप्रति निरन्तर सक्रियता र योगदानको कदर गर्दै नेकपा एमालेद्वारा जिल्ला कमिटी सदस्यमा मनोनित।',
     color: 'from-blue-600 to-blue-800',
   },
   {
-    year: '२०७९ फागुन',
-    title: 'अनेरास्ववियु केन्द्रीय सदस्य',
-    detail:
-      'केन्द्रीय महाधिवेशनबाट केन्द्रीय सदस्यमा निर्वाचित हुनुका साथै कालिकोट जिल्लाको इन्चार्जको सफलतापूर्वक जिम्मेवारी बहन।',
     color: 'from-slate-600 to-slate-800',
   },
   {
-    year: 'पछिल्लो समय',
-    title: 'लेखा आयोग अध्यक्ष',
-    detail:
-      'नेकपा एमाले कालिकोट जिल्ला अधिवेशनबाट लेखा आयोगको अध्यक्षमा निर्वाचित। साथै, पार्टीको एघारौँ महाधिवेशन प्रतिनिधि।',
     color: 'from-emerald-600 to-emerald-800',
   },
 ]
@@ -65,7 +43,6 @@ const educationItems = [
     year: '२०७४/७५',
   },
 ]
-
 
 type Args = {
   params: Promise<{
@@ -107,8 +84,7 @@ export default async function AboutPage({ params: paramsPromise }: Args) {
     depth: 1,
   })
 
-
-    const morals = await payload.find({
+  const morals = await payload.find({
     collection: 'sliders',
     locale,
     fallbackLocale: 'ne',
@@ -118,12 +94,20 @@ export default async function AboutPage({ params: paramsPromise }: Args) {
     depth: 1,
   })
 
+  const journey = await payload.find({
+    collection: 'sliders',
+    locale,
+    fallbackLocale: 'ne',
+    where: {
+      slug: { equals: 'journey' },
+    },
+    depth: 1,
+  })
+
   const sliderImage = slider.docs?.[0]?.slides?.[0]?.image
   const ImageURL =
     typeof sliderImage === 'object' && sliderImage?.url && (sliderImage.url as string)
 
-
-    
   const personalsGallery = galleryDoc.docs?.[0]?.photos?.[0]?.image
 
   const personalsImageUrl =
@@ -238,7 +222,13 @@ export default async function AboutPage({ params: paramsPromise }: Args) {
 
               {/* Values Grid */}
               <div>
-                <SectionHeading title={morals.docs?.[0]?.title || (locale === 'en' ? 'Morals and Values' : 'मूल्य र सिद्धान्त')} className="mb-6" />
+                <SectionHeading
+                  title={
+                    morals.docs?.[0]?.title ||
+                    (locale === 'en' ? 'Morals and Values' : 'मूल्य र सिद्धान्त')
+                  }
+                  className="mb-6"
+                />
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   {morals.docs?.[0]?.slides?.map((slide, index) => (
                     <Card
@@ -248,9 +238,9 @@ export default async function AboutPage({ params: paramsPromise }: Args) {
                       <CardContent className="p-6 flex gap-4 items-start">
                         <div className="w-12 h-12 bg-[#B31B20]/10 rounded-2xl flex items-center justify-center shrink-0 group-hover:bg-[#B31B20] transition-colors duration-300">
                           {slide.icon ? (
-                            <LucideIcon 
-                              name={slide.icon as string} 
-                              className="w-6 h-6 text-[#B31B20] group-hover:text-white transition-colors duration-300" 
+                            <LucideIcon
+                              name={slide.icon as string}
+                              className="w-6 h-6 text-[#B31B20] group-hover:text-white transition-colors duration-300"
                             />
                           ) : (
                             <Heart className="w-6 h-6 text-[#B31B20] group-hover:text-white transition-colors duration-300" />
@@ -284,29 +274,37 @@ export default async function AboutPage({ params: paramsPromise }: Args) {
       <section className="w-full py-16 md:py-24 bg-white dark:bg-slate-900 relative overflow-hidden">
         <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-red-600/5 blur-[120px] -ml-20 -mt-20" />
         <div className="container relative z-10">
-          <SectionHeading title="राजनीतिक यात्रा" viewAllHref="/activities" className="mb-12" />
+          <SectionHeading
+            title={
+              journey.docs?.[0].title || (locale === 'en' ? 'Political Journey' : 'राजनीतिक यात्रा')
+            }
+            viewAllHref="/activities"
+            className="mb-12"
+          />
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {careerMilestones.map((item, i) => (
+            {journey.docs?.[0]?.slides?.map((slide, index) => (
               <Card
-                key={i}
+                key={index}
                 className="border-none bg-white dark:bg-slate-800 shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden rounded-2xl group"
               >
                 <CardContent className="p-0">
-                  <div className={`h-2 w-full bg-linear-to-r ${item.color}`} />
+                  <div className={`h-2 w-full bg-linear-to-r ${item[index % item.length].color}`} />
                   <div className="p-7">
-                    <div className="flex items-start gap-4">
+                    <div className="flex items-center gap-4">
                       <div
-                        className={`w-16 h-16 rounded-2xl bg-linear-to-br ${item.color} flex items-center justify-center text-white font-black text-sm shrink-0 shadow-lg`}
+                        className={`w-16 h-16 rounded-2xl bg-linear-to-br ${item[index % item.length].color} flex items-center justify-center text-white font-black text-xs shrink-0 shadow-lg text-center px-2`}
                       >
-                        {item.year}
+                        {slide.subTitle}
                       </div>
-                      <div className="flex-1">
-                        <h3 className="font-black text-slate-900 dark:text-white text-xl mb-2 group-hover:text-[#B31B20] dark:group-hover:text-[#ff4d4d] transition-colors">
-                          {item.title}
+                      <div className="flex-1 min-w-0">
+                        <h3 className="font-black text-slate-900 dark:text-white text-lg mb-2 group-hover:text-[#B31B20] dark:group-hover:text-[#ff4d4d] transition-colors break-words">
+                          {slide.title}
                         </h3>
-                        <p className="text-slate-500 dark:text-slate-300 font-medium leading-relaxed text-sm">
-                          {item.detail}
-                        </p>
+                        <div className="text-slate-500 dark:text-slate-300 font-medium leading-relaxed text-sm break-words">
+                          {slide.description && (
+                            <RichText data={slide.description} enableGutter={false} />
+                          )}
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -357,10 +355,12 @@ export default async function AboutPage({ params: paramsPromise }: Args) {
         <div className="container relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
           <div>
             <h2 className="text-3xl md:text-4xl font-black text-white leading-tight">
-             {locale==='en'?'Stay Connected':'सम्पर्कमा रहनुहोस्'}
+              {locale === 'en' ? 'Stay Connected' : 'सम्पर्कमा रहनुहोस्'}
             </h2>
             <p className="text-red-100 font-bold mt-3 text-lg max-w-xl">
-              {locale==='en'?"Stay updated with Jalsa Xettri's activities, ideas, and social campaigns.":'जल्सा क्षेत्रीका गतिविधि, विचार र सामाजिक अभियानहरूको अपडेट पाउन जोडिनुहोस्।'}
+              {locale === 'en'
+                ? "Stay updated with Jalsa Xettri's activities, ideas, and social campaigns."
+                : 'जल्सा क्षेत्रीका गतिविधि, विचार र सामाजिक अभियानहरूको अपडेट पाउन जोडिनुहोस्।'}
             </p>
           </div>
           <div className="flex gap-4 shrink-0">
@@ -368,13 +368,13 @@ export default async function AboutPage({ params: paramsPromise }: Args) {
               href="/news"
               className="bg-white text-[#B31B20] font-black px-8 py-4 rounded-2xl hover:bg-red-50 transition-all shadow-xl hover:-translate-y-1 text-base"
             >
-              {locale==='en'?'News':'समाचार हेर्नुहोस्'}
+              {locale === 'en' ? 'News' : 'समाचार हेर्नुहोस्'}
             </Link>
             <Link
               href="/activities"
               className="bg-white/10 border border-white/30 text-white font-black px-8 py-4 rounded-2xl hover:bg-white/20 transition-all shadow-xl hover:-translate-y-1 text-base backdrop-blur-sm"
             >
-              {locale==='en'?'Activities':'गतिविधि'}
+              {locale === 'en' ? 'Activities' : 'गतिविधि'}
             </Link>
           </div>
         </div>

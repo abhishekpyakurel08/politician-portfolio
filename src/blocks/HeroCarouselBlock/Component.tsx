@@ -27,6 +27,7 @@ export function BlueHeroSlider({
   slides?: HeroSlide[]
 }) {
   const { t } = useLocale()
+  const locale = useLocale().locale
 
   const defaultSlides = [
     {
@@ -220,7 +221,7 @@ export function BlueHeroSlider({
                     size="lg"
                     className="bg-[#B31B20] hover:bg-red-700 text-white font-black h-14 px-8 rounded-2xl shadow-2xl shadow-red-900/40 gap-3 group/btn text-base"
                   >
-                    थप जानकारी{' '}
+                    {locale === 'ne' ? 'थप जानकारी' : 'More Information'}
                     <ChevronRight className="w-5 h-5 group-hover/btn:translate-x-2 transition-transform" />
                   </Button>
 
