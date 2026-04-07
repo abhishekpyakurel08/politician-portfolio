@@ -23,7 +23,7 @@ export async function Footer({ locale }: { locale: Locale }) {
       <div className="container mx-auto max-w-[1240px] px-6 pt-20 pb-10 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 md:gap-16 mb-16">
           {/* Brand Column - High Impact */}
-          <div className="space-y-8 col-span-1 md:col-span-2 lg:col-span-1">
+          <div className="space-y-8 col-span-1 md:col-span-2 lg:col-span-1 h-full flex flex-col justify-between">
             <Link href={`/${locale}`} className="flex items-center gap-4 group w-fit">
               <div className="w-14 h-14 md:w-16 md:h-16 bg-white rounded-[18px] md:rounded-[22px] flex items-center justify-center font-black text-[#B31B20] text-3xl md:text-4xl shadow-[0_10px_30px_rgba(255,255,255,0.1)] group-hover:rotate-6 transition-all duration-500 mukta-extrabold">
                 ज
@@ -77,7 +77,7 @@ export async function Footer({ locale }: { locale: Locale }) {
           </div>
 
           {/* Quick Links Column */}
-          <div className="space-y-8">
+          <div className="space-y-8 h-full">
             <h4 className="text-white font-black uppercase tracking-[0.2em] text-xs flex items-center gap-3 mukta-bold">
               <span className="w-6 h-1 bg-gradient-brand rounded-full"></span>
               {locale === 'en' ? 'Quick Links' : 'छिटो लिंकहरू'}
@@ -123,7 +123,7 @@ export async function Footer({ locale }: { locale: Locale }) {
           </div>
 
           {/* Resources Column */}
-          <div className="space-y-8">
+          <div className="space-y-8 h-full">
             <h4 className="text-white font-black uppercase tracking-[0.2em] text-xs flex items-center gap-3 mukta-bold">
               <span className="w-6 h-1 bg-gradient-brand rounded-full"></span>
               {locale === 'en' ? 'Contact Information' : 'सम्पर्क जानकारी'}
@@ -170,8 +170,8 @@ export async function Footer({ locale }: { locale: Locale }) {
           </div>
 
           {/* Connect Column / CTA */}
-          <div className="space-y-8">
-            <div className="p-6 rounded-3xl bg-linear-to-br from-white/5 to-transparent border border-white/10 shadow-inner">
+          <div className="space-y-8 h-full">
+            <div className="p-6 rounded-3xl bg-linear-to-br from-white/5 to-transparent border border-white/10 shadow-inner h-full flex flex-col justify-between">
               <h4 className="text-white font-black mb-4">
                 {locale === 'en' ? 'Join our campaign' : 'हाम्रो अभियानमा जोडिनुहोस्'}
               </h4>
