@@ -41,17 +41,13 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 type Args = {
   params: Promise<{
-    locale: TypedLocale  
+    locale: TypedLocale
   }>
 }
-export default async function HomePage({params: paramsPromise}:Args) {
-
+export default async function HomePage({ params: paramsPromise }: Args) {
+  const { locale = 'ne' } = await paramsPromise
 
   const payload = await getPayload({ config: configPromise })
-    
-
-
-
 
   // Sequential fetch to avoid MongoDB session expiration when parallelizing across the same Payload instance
   const newsResult = await payload.find({
@@ -73,7 +69,6 @@ export default async function HomePage({params: paramsPromise}:Args) {
     sort: '-date',
   })
 
-
   const homePageResult = await payload.find({
     collection: 'pages',
     where: {
@@ -84,13 +79,15 @@ export default async function HomePage({params: paramsPromise}:Args) {
     limit: 1,
   })
 
-  const silderImageResult=await payload.find({
-    collection:'sliders',
-    where:{
-      slug:{equals:'homepage'}
+  const silderImageResult = await payload.find({
+    collection: 'sliders',
+    where: {
+      slug: { equals: 'homepage' },
     },
-    limit:1,
-    depth:1
+    limit: 1,
+    depth: 1,
+    locale,
+    fallbackLocale: 'ne',
   })
 
   const newsDocs = newsResult.docs
@@ -99,16 +96,22 @@ export default async function HomePage({params: paramsPromise}:Args) {
   const homePageDocs = homePageResult.docs
   const homePage = homePageDocs[0]
   const heroData = homePage?.hero
-  const sliderImage=silderImageResult.docs
+  const sliderImage = silderImageResult.docs
 
-  const sliderImageArray = sliderImage.flatMap((doc: any) => {
-    const photosArray = doc.slides || []
-    return photosArray.map((slides: any) => ({
-      title: doc.title,
-      description: doc.meta?.description || '',
-      mediaUrl: typeof slides.image === 'object' && slides.image?.url ? slides.image.url as string : undefined,
-    }))
-  }).slice(0, 3)
+  const sliderImageArray = sliderImage
+    .flatMap((doc: any) => {
+      const photosArray = doc.slides || []
+      return photosArray.map((slides: any) => ({
+        title: slides.title,
+        subTitle: slides.subTitle,
+        description: slides.description || '',
+        mediaUrl:
+          typeof slides.image === 'object' && slides.image?.url
+            ? (slides.image.url as string)
+            : undefined,
+      }))
+    })
+    .slice(0, 3)
 
   // Format fetched news docs to match our block props if available
   const mapDocToCard = (doc: any) => ({
@@ -195,14 +198,14 @@ export default async function HomePage({params: paramsPromise}:Args) {
               <Card className="overflow-hidden border-none glass hover:shadow-red-900/20 transition-all duration-700 h-full flex flex-col rounded-3xl md:rounded-[40px] premium-border hover:-translate-y-2">
                 <div className="relative aspect-video overflow-hidden">
                   <AspectRatio ratio={16 / 9}>
-                    { firstNews?.imageUrl ? (
-                    <Image
-                        src={(firstNews?.imageUrl) as string}
+                    {firstNews?.imageUrl ? (
+                      <Image
+                        src={firstNews?.imageUrl as string}
                         alt={firstNews?.title || 'News article image'}
-                      fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-700"
-                      sizes="(max-width: 768px) 100vw, 50vw"
-                    />
+                        fill
+                        className="object-cover group-hover:scale-105 transition-transform duration-700"
+                        sizes="(max-width: 768px) 100vw, 50vw"
+                      />
                     ) : (
                       <div className="w-full h-full bg-slate-200 flex items-center justify-center">
                         <span className="text-slate-500 text-sm">No image available</span>

@@ -8,7 +8,6 @@ import { Footer } from '@/Footer/Component'
 import { Header } from '@/Header/Component'
 import { Providers } from '@/providers'
 import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
-import Script from 'next/script'
 import { draftMode } from 'next/headers'
 
 import './globals.css'
@@ -16,17 +15,18 @@ import { getServerSideURL } from '@/utilities/getURL'
 
 import { MobileNav } from '@/components/MobileNav'
 
-import { Locale } from '@/locales'
+import { TypedLocale } from 'payload'
 
 export default async function RootLayout({
   children,
   params,
 }: {
   children: React.ReactNode
-  params: Promise<{ locale: Locale }>
+  params: Promise<{ locale: string }>
 }) {
   const { isEnabled } = await draftMode()
-  const { locale } = await params
+  const { locale: localeString } = await params
+  const locale = localeString as TypedLocale
 
   return (
     <html
@@ -44,9 +44,8 @@ export default async function RootLayout({
           href="https://fonts.googleapis.com/css2?family=Mukta:wght@200;300;400;500;600;700;800&display=swap"
           rel="stylesheet"
         />
-        <Script
+        <script
           id="theme-initializer"
-          strategy="beforeInteractive"
           dangerouslySetInnerHTML={{
             __html: `
               (function() {

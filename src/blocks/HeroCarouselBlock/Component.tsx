@@ -6,12 +6,13 @@ import { Button } from '@/components/ui/button'
 import { ChevronRight, Play, ChevronLeft, Pause } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { cn } from '@/utilities/ui'
+import RichText from '@/components/RichText'
 
 import { useLocale } from '@/providers/LocaleProvider'
 
 export type HeroSlide = {
   title?: string
-  description?: string
+  description?: any
   media?: any
   mediaUrl?: string
   badge?: string
@@ -143,7 +144,7 @@ export function BlueHeroSlider({
                 sizes="100vw"
               />
             ) : (
-              <div className="w-full h-full bg-gradient-to-br from-slate-800 to-slate-900 flex items-center justify-center">
+              <div className="w-full h-full bg-linear-to-br from-slate-800 to-slate-900 flex items-center justify-center">
                 <div className="text-center text-white/50">
                   <div className="text-6xl mb-4">🖼️</div>
                   <p className="text-lg">No image available</p>
@@ -192,14 +193,22 @@ export function BlueHeroSlider({
                   {slides[index].title}
                 </motion.h1>
 
-                <motion.p
+                <motion.div
                   initial={{ y: 40, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
                   transition={{ delay: 1, duration: 1 }}
                   className="text-lg md:text-xl text-slate-100 font-bold max-w-2xl leading-relaxed drop-shadow-lg"
                 >
-                  {slides[index].description}
-                </motion.p>
+                  {typeof slides[index].description === 'object' ? (
+                    <RichText
+                      data={slides[index].description}
+                      enableProse={false}
+                      className="m-0 p-0"
+                    />
+                  ) : (
+                    slides[index].description
+                  )}
+                </motion.div>
 
                 <motion.div
                   initial={{ scale: 0.8, opacity: 0 }}
