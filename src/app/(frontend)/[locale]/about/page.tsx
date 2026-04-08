@@ -136,12 +136,12 @@ export default async function AboutPage({ params: paramsPromise }: Args) {
           <Badge className="bg-[#B31B20] text-white border-none mb-4 px-4 py-1.5 text-xs uppercase tracking-widest font-black rounded-full">
             {locale === 'en' ? 'About Jalsa Xettri' : 'जलसा क्षेत्री को परिचय'}
           </Badge>
-          <h1 className="text-4xl md:text-6xl lg:text-7xl leading-none tracking-tighter mb-4">
+          <h1 className="text-4xl md:text-6xl lg:text-7xl leading-none tracking-tighter mb-4 text-white drop-shadow-xl">
             {slider?.docs?.[0]?.slides?.[0]?.title}
           </h1>
-          <div className="text-lg md:text-xl font-bold max-w-2xl leading-relaxed">
+          <div className="text-lg md:text-xl font-bold max-w-2xl leading-relaxed text-slate-200 drop-shadow-lg">
             {slider?.docs?.[0]?.slides?.[0]?.description && (
-              <RichText data={slider.docs[0].slides[0].description} enableGutter={false} />
+              <RichText data={slider.docs[0].slides[0].description} enableGutter={false} enableProse={false} className="m-0 p-0" />
             )}
           </div>
         </div>
@@ -257,7 +257,7 @@ export default async function AboutPage({ params: paramsPromise }: Args) {
                           )}
                           <div className="text-slate-500 dark:text-slate-400 text-sm font-medium leading-relaxed">
                             {slide.description && (
-                              <RichText data={slide.description} enableGutter={false} />
+                              <RichText data={slide.description} enableGutter={false} enableProse={false} className="m-0 p-0" />
                             )}
                           </div>
                         </div>
@@ -302,7 +302,7 @@ export default async function AboutPage({ params: paramsPromise }: Args) {
                         </h3>
                         <div className="text-slate-500 dark:text-slate-300 font-medium leading-relaxed text-sm break-words">
                           {slide.description && (
-                            <RichText data={slide.description} enableGutter={false} />
+                            <RichText data={slide.description} enableGutter={false} enableProse={false} className="m-0 p-0" />
                           )}
                         </div>
                       </div>

@@ -225,14 +225,30 @@ export function BlueHeroSlider({
                     <ChevronRight className="w-5 h-5 group-hover/btn:translate-x-2 transition-transform" />
                   </Button>
 
-                  <button className="flex items-center gap-5 group/play outline-hidden">
-                    <div className="w-14 h-14 rounded-2xl bg-white/10 backdrop-blur-2xl border border-white/20 flex items-center justify-center group-hover/play:bg-[#B31B20] group-hover/play:scale-110 group-hover/play:rotate-12 transition-all duration-500">
-                      <Play className="w-6 h-6 text-white fill-white" />
+                  <Button
+                    className="flex items-center gap-3
+                      h-14 px-6
+                      bg-[#B31B20] hover:bg-red-700
+                      text-white font-black text-base
+                      rounded-2xl shadow-2xl shadow-red-900/40
+                      transition-all duration-300
+                      hover:scale-[1.02] active:scale-[0.98]"
+                  >
+                    {/* Icon */}
+                    <div
+                      className="w-12 h-12 rounded-lg bg-white 
+                        flex items-center justify-center 
+                        group-hover:scale-110 group-hover:rotate-12 
+                        transition-all duration-500"
+                    >
+                      <Play className="w-5 h-5 text-red-700 fill-red-700" />
                     </div>
-                    <span className="text-white text-base font-black tracking-wider group-hover/play:text-red-400 transition-colors uppercase">
+
+                    {/* Text */}
+                    <span className="uppercase tracking-wide">
                       {t.videoMessage}
                     </span>
-                  </button>
+                  </Button>
                 </motion.div>
               </div>
             </div>

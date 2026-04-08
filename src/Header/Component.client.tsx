@@ -48,11 +48,14 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
   const { theme: appTheme, setTheme: setAppTheme } = useTheme()
   const { headerTheme, setHeaderTheme } = useHeaderTheme()
   const pathname = usePathname()
+  const [mounted, setMounted] = useState(false)
+
   const currentTheme =
     appTheme ??
-    (typeof window !== 'undefined'
+    (mounted
       ? ((document.documentElement.getAttribute('data-theme') as string) ?? 'light')
       : 'light')
+  const activeTheme = theme || currentTheme
   const toggleTheme = () => setAppTheme(currentTheme === 'dark' ? 'light' : 'dark')
   const [isScrolled, setIsScrolled] = useState(false)
   const { scrollYProgress } = useScroll()
@@ -63,6 +66,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
   })
 
   useEffect(() => {
+    setMounted(true)
     setHeaderTheme(null)
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20)
@@ -81,12 +85,14 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
       className={cn(
         'w-full fixed top-0 z-50 transition-all duration-500',
         isScrolled
-          ? 'py-2 glass dark:bg-slate-950/80 shadow-2xl h-16 md:h-20'
-          : currentTheme === 'light'
+          ? activeTheme === 'light'
+            ? 'py-2 bg-white/95 backdrop-blur-xl border-b border-slate-200/70 shadow-md h-16 md:h-20 text-slate-900'
+            : 'py-2 bg-slate-950/95 backdrop-blur-xl border-b border-slate-800/70 shadow-md h-16 md:h-20 text-white'
+          : activeTheme === 'light'
             ? 'py-4 md:py-8 bg-white/85 text-slate-950 border-b border-slate-200/70 backdrop-blur-xl h-24 md:h-32 shadow-sm'
-            : 'py-4 md:py-8 bg-transparent text-white h-24 md:h-32 shadow-none border-b border-transparent',
+            : 'py-4 md:py-8 bg-gradient-to-b from-slate-950/70 via-slate-950/30 to-transparent text-white h-24 md:h-32 shadow-none border-b border-transparent',
       )}
-      {...(theme ? { 'data-theme': theme } : {})}
+      {...(theme && !isScrolled ? { 'data-theme': theme } : {})}
     >
       {/* Page Progress Indicator */}
       <motion.div
@@ -100,11 +106,13 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
           <div className="flex flex-col">
             <span
               className={cn(
-                'font-black tracking-tighter leading-none transition-all duration-300 mukta-extrabold',
+                'font-black tracking-tighter leading-none transition-all duration-300 mukta-extrabold drop-shadow-md',
                 isScrolled
-                  ? 'text-xl md:text-3xl text-slate-900 dark:text-white'
-                  : currentTheme === 'light'
-                    ? 'text-slate-950'
+                  ? activeTheme === 'light'
+                    ? 'text-xl md:text-3xl text-slate-900'
+                    : 'text-xl md:text-3xl text-white'
+                  : activeTheme === 'light'
+                    ? 'text-2xl md:text-5xl text-slate-950'
                     : 'text-2xl md:text-5xl text-white',
               )}
             >
@@ -114,8 +122,10 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
               className={cn(
                 'text-[10px] md:text-sm font-black uppercase tracking-[0.4em] mt-1.5 transition-all duration-300 mukta-bold',
                 isScrolled
-                  ? 'text-[#B31B20]'
-                  : currentTheme === 'light'
+                  ? activeTheme === 'light'
+                    ? 'text-[#B31B20]'
+                    : 'text-red-400'
+                  : activeTheme === 'light'
                     ? 'text-slate-600'
                     : 'text-white',
               )}
@@ -135,12 +145,12 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
                   key={link.path}
                   href={link.path}
                   className={cn(
-                    'px-6 py-2.5 text-sm font-bold transition-all relative group rounded-full mukta-bold tracking-widest uppercase',
+                    'px-6 py-2.5 text-sm font-bold transition-all relative group rounded-full mukta-bold tracking-widest uppercase drop-shadow-sm',
                     isScrolled
                       ? isActive
-                        ? 'text-[#B31B20] dark:text-[#ff4d4d]'
-                        : 'text-slate-600 dark:text-slate-300 hover:text-[#B31B20] dark:hover:text-[#ff4d4d]'
-                      : currentTheme === 'light'
+                        ? activeTheme === 'light' ? 'text-[#B31B20]' : 'text-[#ff4d4d]'
+                        : activeTheme === 'light' ? 'text-slate-700 hover:text-[#B31B20]' : 'text-slate-300 hover:text-[#ff4d4d]'
+                      : activeTheme === 'light'
                         ? isActive
                           ? 'text-[#B31B20]'
                           : 'text-slate-900 hover:text-[#B31B20]'
@@ -156,8 +166,8 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
                       className={cn(
                         'absolute inset-0 rounded-full',
                         isScrolled
-                          ? 'bg-[#B31B20]/5 dark:bg-[#ff4d4d]/10'
-                          : currentTheme === 'light'
+                          ? activeTheme === 'light' ? 'bg-[#B31B20]/10' : 'bg-[#ff4d4d]/10'
+                          : activeTheme === 'light'
                             ? 'bg-[#B31B20]/10'
                             : 'bg-white/10',
                       )}
@@ -173,8 +183,8 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
             className={cn(
               'h-8 w-px mx-4 transition-colors',
               isScrolled
-                ? 'bg-slate-200 dark:bg-slate-700'
-                : currentTheme === 'light'
+                ? activeTheme === 'light' ? 'bg-slate-300' : 'bg-slate-700'
+                : activeTheme === 'light'
                   ? 'bg-slate-300/80'
                   : 'bg-white/20',
             )}
@@ -189,8 +199,8 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
               className={cn(
                 'h-11 w-11 rounded-xl transition-all',
                 isScrolled
-                  ? 'text-slate-700 dark:text-slate-200 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700'
-                  : currentTheme === 'light'
+                  ? activeTheme === 'light' ? 'text-slate-900 bg-slate-200/50 hover:bg-slate-200' : 'text-slate-200 bg-slate-800 hover:bg-slate-700'
+                  : activeTheme === 'light'
                     ? 'text-slate-900 bg-slate-100/90 hover:bg-slate-200'
                     : 'text-white hover:bg-white/20 bg-white/10 shadow-lg',
               )}
@@ -205,8 +215,8 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
                   className={cn(
                     'h-11 px-4 rounded-xl font-bold gap-2 transition-all',
                     isScrolled
-                      ? 'text-slate-700 dark:text-slate-200 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700'
-                      : currentTheme === 'light'
+                      ? activeTheme === 'light' ? 'text-slate-900 bg-slate-200/50 hover:bg-slate-200' : 'text-slate-200 bg-slate-800 hover:bg-slate-700'
+                      : activeTheme === 'light'
                         ? 'text-slate-900 bg-slate-100/90 hover:bg-slate-200 border-slate-200/70'
                         : 'text-white hover:bg-white/20 border-white/20 bg-white/10',
                   )}
@@ -250,8 +260,8 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
               className={cn(
                 'h-11 w-11 rounded-xl transition-all',
                 isScrolled
-                  ? 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-[#B31B20] dark:hover:bg-[#ff4d4d] hover:text-white shadow-sm'
-                  : currentTheme === 'light'
+                  ? activeTheme === 'light' ? 'bg-slate-200/50 text-slate-900 hover:bg-[#B31B20] hover:text-white shadow-sm' : 'bg-slate-800 text-slate-200 hover:bg-[#ff4d4d] hover:text-white shadow-sm'
+                  : activeTheme === 'light'
                     ? 'text-slate-900 bg-slate-100/90'
                     : 'text-white hover:bg-white/20 bg-white/10 shadow-lg',
               )}
@@ -273,8 +283,8 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
             className={cn(
               'h-10 w-10 rounded-xl transition-all',
               isScrolled
-                ? 'text-slate-700 dark:text-slate-200 bg-slate-100 dark:bg-slate-800'
-                : currentTheme === 'light'
+                ? activeTheme === 'light' ? 'text-slate-900 bg-slate-200/50' : 'text-slate-200 bg-slate-800'
+                : activeTheme === 'light'
                   ? 'text-slate-900 bg-slate-100/90'
                   : 'text-white bg-white/10',
             )}
@@ -291,8 +301,8 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
                 size="icon"
                 className={cn(
                   isScrolled
-                    ? 'text-slate-700 dark:text-slate-200'
-                    : currentTheme === 'light'
+                    ? activeTheme === 'light' ? 'text-slate-900' : 'text-slate-200'
+                    : activeTheme === 'light'
                       ? 'text-slate-900'
                       : 'text-white',
                 )}

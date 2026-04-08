@@ -22,7 +22,6 @@ import { TimelineBlock } from '@/blocks/TimelineBlock/Component'
 
 import { Metadata } from 'next'
 import { generateMeta } from '@/utilities/generateMeta'
-import { Locale } from 'node_modules/next/dist/compiled/@vercel/og/satori'
 
 export const revalidate = 60
 
@@ -55,18 +54,24 @@ export default async function HomePage({ params: paramsPromise }: Args) {
     limit: 20,
     sort: '-publishDate',
     draft: false,
+    locale,
+    fallbackLocale: 'ne',
   })
 
   const videosResult = await payload.find({
     collection: 'videos',
     limit: 4,
     sort: '-date',
+    locale,
+    fallbackLocale: 'ne',
   })
 
   const galleryResult = await payload.find({
     collection: 'gallery',
     limit: 2,
     sort: '-date',
+    locale,
+    fallbackLocale: 'ne',
   })
 
   const homePageResult = await payload.find({
@@ -77,6 +82,8 @@ export default async function HomePage({ params: paramsPromise }: Args) {
       },
     },
     limit: 1,
+    locale,
+    fallbackLocale: 'ne',
   })
 
   const silderImageResult = await payload.find({
@@ -187,7 +194,7 @@ export default async function HomePage({ params: paramsPromise }: Args) {
 
       <section className="w-full py-16 md:py-32 bg-transparent relative z-10">
         <div className="container">
-          <SectionHeading title="ताजा गतिविधि" viewAllHref="/activities" />
+          <SectionHeading title={locale==='en'?'Latest Activities':'ताजा गतिविधि'} viewAllHref="/activities" />
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-16">
             {/* Left - Hero Card */}
@@ -214,7 +221,7 @@ export default async function HomePage({ params: paramsPromise }: Args) {
                   </AspectRatio>
                   <div className="absolute inset-0 bg-linear-to-t from-slate-950/80 via-transparent to-transparent" />
                   <Badge className="absolute top-3 left-3 md:top-4 md:left-4 bg-[#B31B20] hover:bg-red-700 text-white border-none px-2 py-0.5 md:px-3 md:py-1 text-[10px] md:text-xs">
-                    आजको मुख्य समाचार
+                    {locale==='en'?"Today's latest News":'आजको मुख्य समाचार'}
                   </Badge>
                 </div>
                 <CardHeader className="p-5 md:p-8 flex-1">
@@ -234,7 +241,7 @@ export default async function HomePage({ params: paramsPromise }: Args) {
                     variant="ghost"
                     className="p-0 h-auto text-[#B31B20] font-black hover:bg-transparent hover:text-red-700 gap-3 text-base md:text-lg group/more"
                   >
-                    थप पढ्नुहोस्{' '}
+                    {locale==='en'?'Read More':'थप पढ्नुहोस्'}
                     <ChevronRight className="w-5 h-5 md:w-6 md:h-6 group-hover/more:translate-x-2 transition-transform duration-300" />
                   </Button>
                 </CardFooter>
@@ -300,7 +307,7 @@ export default async function HomePage({ params: paramsPromise }: Args) {
 
         <div className="container relative z-10">
           <SectionHeading
-            title="दृश्यमा परिवर्तन"
+            title={locale==='en'?'In the picture':'दृश्यमा परिवर्तन'}
             viewAllHref="/videos"
             textColor="text-white"
             className="border-slate-800"
@@ -324,7 +331,7 @@ export default async function HomePage({ params: paramsPromise }: Args) {
                 </div>
                 <div className="absolute bottom-0 inset-x-0 p-6 md:p-12 bg-linear-to-t from-black text-white">
                   <Badge className="bg-[#B31B20] mb-3 text-[10px] md:text-sm border-none px-3 py-1 font-black mukta-bold">
-                    विशेष सामाग्री
+                    {locale==='en'?'Special Content':'विशेष सामाग्री'}
                   </Badge>
                   <h3 className="text-2xl md:text-5xl font-black leading-tight drop-shadow-md group-hover:text-red-400 transition-colors mukta-bold tracking-tighter uppercase">
                     {mainVideo?.title}
@@ -337,10 +344,10 @@ export default async function HomePage({ params: paramsPromise }: Args) {
             <div className="lg:col-span-4 flex flex-col gap-4 md:gap-5">
               <div className="glass-dark border-white/10 p-6 md:p-8 rounded-3xl hidden md:block premium-border">
                 <h3 className="font-black text-xl md:text-2xl text-white leading-tight mukta-bold text-gradient-hero">
-                  तपाईंलाई थाहा छ?
+                  {locale==='en'?'Did you know?':'तपाईंलाई थाहा छ?'}
                 </h3>
                 <p className="text-slate-400 mt-3 text-sm md:text-lg leading-relaxed font-medium">
-                  विकास र समृद्धिका यी पाइलाहरू कसरी अगाडि बढिरहेका छन्? विस्तृतमा हेर्नुहोस्।
+                  {locale==='en'?'How are these steps of development and prosperity moving forward? Watch in detail.':'विकास र समृद्धिका यी पाइलाहरू कसरी अगाडि बढिरहेका छन्? विस्तृतमा हेर्नुहोस्।'}
                 </p>
               </div>
 
@@ -395,7 +402,7 @@ export default async function HomePage({ params: paramsPromise }: Args) {
       {/* 4. पलहरू र भावनाहरू (Photo Gallery) */}
       <section className="w-full bg-slate-50 py-16 md:py-24">
         <div className="container">
-          <SectionHeading title="पलहरू र भावनाहरू" viewAllHref="/gallery" />
+          <SectionHeading title={locale==='en'?'Moments':'पलहरू र भावनाहरू'} viewAllHref="/gallery" />
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 mt-8 md:mt-16">
             {galleryItems.map((album, i) => (
               <Link
@@ -475,7 +482,7 @@ export default async function HomePage({ params: paramsPromise }: Args) {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 md:gap-12">
             {/* Decisions Side */}
             <div className="lg:col-span-2">
-              <SectionHeading title="महत्वपूर्ण निर्णय" viewAllHref="/decisions" />
+              <SectionHeading title={locale==='en'?'Important Decisions':'महत्वपूर्ण निर्णय'} viewAllHref="/decisions" />
               <div className="flex flex-col md:flex-row gap-6 md:gap-8">
                 {/* Highlight */}
                 <div className="md:w-1/2 group">
@@ -496,7 +503,7 @@ export default async function HomePage({ params: paramsPromise }: Args) {
                       <div className="absolute inset-0 bg-linear-to-t from-black via-transparent to-transparent" />
                       <div className="absolute inset-x-0 bottom-0 p-5 md:p-8">
                         <Badge className="bg-red-600 mb-3 md:mb-4 px-2 md:px-3 py-0.5 md:py-1 text-[10px] md:text-xs border-none">
-                          विशेष निर्णय
+                          {locale==='en'?'Special Decisions':'विशेष निर्णय'}
                         </Badge>
                         <h3 className="text-white font-black text-xl md:text-3xl leading-tight group-hover:text-red-400 transition-colors">
                           {getDoc(14)?.title}
@@ -547,7 +554,7 @@ export default async function HomePage({ params: paramsPromise }: Args) {
                 <CardHeader className="bg-slate-900 py-6 px-8 md:py-8 md:px-10">
                   <div className="flex justify-between items-center">
                     <SectionHeading
-                      title="प्रेस विज्ञप्ति"
+                      title={locale==='en'?'Press Releases':'प्रेस विज्ञप्ति'}
                       textColor="text-white"
                       className="border-none py-0 mb-0 scale-90 -ml-4"
                     />
@@ -588,7 +595,7 @@ export default async function HomePage({ params: paramsPromise }: Args) {
                 <div className="p-3 md:p-4 bg-slate-900 flex justify-between items-center rounded-t-xl">
                   <h3 className="text-white font-black text-sm md:text-base flex items-center gap-2">
                     <Facebook className="w-4 h-4 md:w-5 md:h-5 fill-white text-[#1877F2]" />
-                    फेसबुक पेज
+                    {locale==='en'?'Facebook Page':'फेसबुक पेज'}
                   </h3>
                   <Link
                     href="#"
@@ -616,7 +623,7 @@ export default async function HomePage({ params: paramsPromise }: Args) {
       </section>
 
       {/* 5. इतिहासको पदचाप (Timeline) */}
-      <TimelineBlock />
+      <TimelineBlock locale={locale as string} />
 
       {/* 6. Quote Full Width Banner */}
       <section className="w-full bg-[#1A365D] text-white py-24 md:py-32 relative overflow-hidden flex items-center justify-center border-t-4 md:border-t-8 border-[#B31B20]">

@@ -6,6 +6,7 @@ import { GeistSans } from 'geist/font/sans'
 import React from 'react'
 import { Footer } from '@/Footer/Component'
 import { Header } from '@/Header/Component'
+import { InitTheme } from '@/providers/Theme/InitTheme'
 import { Providers } from '@/providers'
 import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
 import { draftMode } from 'next/headers'
@@ -44,27 +45,7 @@ export default async function RootLayout({
           href="https://fonts.googleapis.com/css2?family=Mukta:wght@200;300;400;500;600;700;800&display=swap"
           rel="stylesheet"
         />
-        <script
-          id="theme-initializer"
-          dangerouslySetInnerHTML={{
-            __html: `
-              (function() {
-                var theme = 'light';
-                try {
-                  var storedTheme = localStorage.getItem('payload-theme');
-                  if (storedTheme) {
-                    theme = storedTheme;
-                  } else {
-                    var mql = window.matchMedia('(prefers-color-scheme: dark)');
-                    if (mql.matches) theme = 'dark';
-                  }
-                } catch (e) {}
-                document.documentElement.setAttribute('data-theme', theme);
-                document.documentElement.style.colorScheme = theme;
-              })();
-            `,
-          }}
-        />
+        <InitTheme />
       </head>
       <body className="antialiased min-h-screen flex flex-col">
         <Providers locale={locale}>
