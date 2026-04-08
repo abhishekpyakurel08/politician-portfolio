@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 
 import { PayloadRedirects } from '@/components/PayloadRedirects'
 import configPromise from '@payload-config'
-import { getPayload } from 'payload'
+import { getPayload, TypedLocale } from 'payload'
 import { draftMode } from 'next/headers'
 import React, { cache } from 'react'
 import RichText from '@/components/RichText'
@@ -29,14 +29,15 @@ export async function generateStaticParams() {
 
   return activities.docs.map(({ slug }) => ({ slug }))
 }
-
 type Args = {
   params: Promise<{
+    locale: TypedLocale
     slug?: string
   }>
 }
 
 export default async function ActivityPost({ params: paramsPromise }: Args) {
+  const { locale = 'ne' } = await paramsPromise
   const { isEnabled: draft } = await draftMode()
   const { slug = '' } = await paramsPromise
   const decodedSlug = decodeURIComponent(slug)
@@ -81,7 +82,7 @@ export default async function ActivityPost({ params: paramsPromise }: Args) {
             className="inline-flex items-center gap-2 text-slate-300 hover:text-white transition-all mb-8 font-black text-xs uppercase tracking-widest group/back"
           >
             <ChevronLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />{' '}
-            गतिविधिमा फर्कनुहोस्
+            {locale === 'en' ? 'Back to Activities' : 'गतिविधिमा फर्कनुहोस्'}
           </Link>
 
           <div className="flex flex-wrap gap-4 mb-6">

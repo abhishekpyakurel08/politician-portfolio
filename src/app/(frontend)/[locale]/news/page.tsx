@@ -1,5 +1,5 @@
 import React from 'react'
-import { getPayload } from 'payload'
+import { getPayload, TypedLocale } from 'payload'
 import configPromise from '@payload-config'
 import Link from 'next/link'
 import Image from 'next/image'
@@ -28,7 +28,14 @@ const mockNews = Array.from({ length: 12 }, (_, i) => ({
   category: ['राजनीति', 'विकास', 'स्वास्थ्य', 'शिक्षा'][i % 4],
 }))
 
-export default async function NewsList() {
+type Args = {
+  params: Promise<{
+    locale: TypedLocale
+  }>
+}
+
+export default async function NewsList({ params: paramsPromise }: Args) {
+  const { locale = 'ne' } = await paramsPromise
   const payload = await getPayload({ config: configPromise })
 
   const { docs: newsDocs } = await payload.find({
@@ -68,14 +75,14 @@ export default async function NewsList() {
           <div className="flex items-center gap-3 mb-6">
             <Newspaper className="w-6 h-6 text-[#B31B20]" />
             <span className="text-slate-400 font-black uppercase text-sm tracking-widest leading-none">
-              समाचार केन्द्र
+             {locale==='en'?'News Center':'समाचार केन्द्र'}
             </span>
           </div>
           <h1 className="text-5xl md:text-7xl font-black text-white tracking-tighter leading-none mb-4 uppercase">
-            ताजा समाचार
+            {locale==='en'?'Latest News':'ताजा समाचार'}
           </h1>
           <p className="text-slate-400 font-bold mt-6 mb-12 text-lg md:text-xl max-w-2xl leading-relaxed">
-            Jalsa Xettri को आधिकारिक भाषण, घोषणा र ताजा अपडेट।
+          {locale==='en'?'Jalsa Xettri’s official speeches, announcements and latest updates.':'जलसा क्षेत्री को आधिकारिक भाषण, घोषणा र ताजा अपडेट।'}
           </p>
         </div>
 
@@ -96,7 +103,7 @@ export default async function NewsList() {
                 <div className="absolute inset-x-0 bottom-0 p-8 md:p-12">
                   <div className="flex items-center gap-3 mb-4">
                     <Badge className="bg-[#B31B20] text-white border-none px-4 py-1.5 rounded-full font-black text-xs uppercase tracking-widest">
-                      मुख्य समाचार
+                     {locale==='en'?'Featured News':'मुख्य समाचार'}
                     </Badge>
                     {featured.category && (
                       <Badge
@@ -121,7 +128,7 @@ export default async function NewsList() {
                       </div>
                     )}
                     <div className="flex items-center gap-2 text-[#B31B20] font-black text-sm group-hover:gap-3 transition-all">
-                      थप पढ्नुहोस् <ChevronRight className="w-4 h-4" />
+                      {locale==='en'?'Read More':'थप पढ्नुहोस्'}<ChevronRight className="w-4 h-4" />
                     </div>
                   </div>
                 </div>
@@ -135,7 +142,7 @@ export default async function NewsList() {
       <section className="w-full py-16 md:py-20 bg-slate-50">
         <div className="container">
           <SectionHeading
-            title="सम्पूर्ण समाचार"
+            title={locale==='en'?'All News':'सम्पूर्ण समाचार'}
             className="mb-10"
             textColor="text-slate-950 dark:text-white"
           />

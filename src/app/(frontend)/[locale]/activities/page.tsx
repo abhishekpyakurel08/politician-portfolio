@@ -1,5 +1,5 @@
 import React from 'react'
-import { getPayload } from 'payload'
+import { getPayload, TypedLocale } from 'payload'
 import configPromise from '@payload-config'
 import Link from 'next/link'
 import Image from 'next/image'
@@ -48,7 +48,13 @@ const categoryColors: Record<string, string> = {
   युवा: 'bg-orange-100 text-orange-700',
 }
 
-export default async function ActivitiesList() {
+type Args = {
+  params: Promise<{
+    locale: TypedLocale
+  }>
+}
+export default async function ActivitiesList({ params: paramsPromise }: Args) {
+  const { locale = 'ne' } = await paramsPromise
   const payload = await getPayload({ config: configPromise })
 
   const { docs: activityDocs } = await payload.find({
@@ -93,23 +99,23 @@ export default async function ActivitiesList() {
           <div className="flex items-center gap-3 mb-6">
             <Activity className="w-6 h-6 text-[#B31B20]" />
             <span className="text-slate-400 font-black uppercase text-sm tracking-widest">
-              गतिविधि केन्द्र
+             {locale==='en'?'Activity Center':'गतिविधि केन्द्र'}
             </span>
           </div>
           <h1 className="text-5xl md:text-7xl font-black text-white tracking-tighter leading-none mb-4 uppercase">
-            ताजा गतिविधि
+            {locale==='en'?'Latest Activities':'ताजा गतिविधि'}
           </h1>
           <p className="text-slate-300 font-bold text-lg max-w-2xl leading-relaxed">
-            Jalsa Xettri का कार्यक्रम, जनसभा र सामाजिक संलग्नताका ताजा अपडेट।
+            {locale==='en'?'Jalsa Xettri’s programs, public meetings and social engagement updates.':'जलसा क्षेत्री का कार्यक्रम, जनसभा र सामाजिक संलग्नताका ताजा अपडेट।'}
           </p>
 
           {/* Quick filters */}
           <div className="flex flex-wrap gap-3 mt-10">
-            {['सबै', 'जनसभा', 'विकास', 'स्वास्थ्य', 'शिक्षा', 'युवा'].map((cat) => (
+            {[(locale==='en'?'All':'सबै'), (locale==='en'?'Public Meeting':'जनसभा'), (locale==='en'?'Development':'विकास'), (locale==='en'?'Health':'स्वास्थ्य'), (locale==='en'?'Education':'शिक्षा'), (locale==='en'?'Youth':'युवा')].map((cat) => (
               <span
                 key={cat}
                 className={`px-5 py-2 rounded-full font-black text-sm cursor-pointer transition-all ${
-                  cat === 'सबै'
+                  cat === (locale==='en'?'All':'सबै')
                     ? 'bg-[#B31B20] text-white shadow-lg shadow-red-900/40'
                     : 'bg-white/5 dark:bg-slate-800/50 text-white/70 hover:bg-white/10 hover:text-white border border-white/10'
                 }`}
@@ -124,7 +130,7 @@ export default async function ActivitiesList() {
       {/* Featured Activities - 2 column */}
       <section className="w-full py-16 md:py-20 bg-white dark:bg-slate-900 border-b border-slate-100 dark:border-slate-800 transition-colors duration-300">
         <div className="container">
-          <SectionHeading title="विशेष गतिविधि" className="mb-10" />
+          <SectionHeading title={locale==='en'?'Special Activities':'विशेष गतिविधि'} className="mb-10" />
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
             {featured.map((act) => (
               <Link key={act.id} href={`/activities/${act.slug}`} className="group">
@@ -165,7 +171,7 @@ export default async function ActivitiesList() {
                         {act.participants && (
                           <div className="flex items-center gap-2 text-slate-300 text-xs md:text-sm font-bold">
                             <Users className="w-4 h-4 text-blue-400" />
-                            {act.participants} सहभागी
+                            {act.participants} {locale==='en'?'Participants':'सहभागी'}
                           </div>
                         )}
                       </div>
@@ -181,7 +187,7 @@ export default async function ActivitiesList() {
       {/* All Activities Grid */}
       <section className="w-full py-16 md:py-24 bg-slate-50 dark:bg-slate-950 transition-colors duration-300">
         <div className="container">
-          <SectionHeading title="सम्पूर्ण गतिविधिहरू" className="mb-12" />
+          <SectionHeading title={locale==='en'?'All Activities':'सम्पूर्ण गतिविधिहरू'} className="mb-12" />
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {rest.map((act) => (

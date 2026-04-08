@@ -43,6 +43,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
     { name: t.news, path: `/${locale}/news` },
     { name: t.activities, path: `/${locale}/activities` },
     { name: t.gallery, path: `/${locale}/gallery` },
+    { name: t.contact, path: `/${locale}/contact` },
   ]
   const [theme, setTheme] = useState<string | null>(null)
   const { theme: appTheme, setTheme: setAppTheme } = useTheme()
@@ -137,7 +138,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
 
         {/* Desktop Navigation */}
         <nav className="hidden lg:flex items-center gap-2">
-          <div className="flex items-center gap-1 mr-4">
+          <div className="flex items-center gap-0.5 mr-2">
             {navLinks.map((link) => {
               const isActive = pathname === link.path
               return (
@@ -145,7 +146,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
                   key={link.path}
                   href={link.path}
                   className={cn(
-                    'px-6 py-2.5 text-sm font-bold transition-all relative group rounded-full mukta-bold tracking-widest uppercase drop-shadow-sm',
+                    'px-3 py-2 text-sm font-bold transition-all relative group rounded-full mukta-bold tracking-wide uppercase drop-shadow-sm',
                     isScrolled
                       ? isActive
                         ? activeTheme === 'light' ? 'text-[#B31B20]' : 'text-[#ff4d4d]'

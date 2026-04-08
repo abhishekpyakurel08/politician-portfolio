@@ -5,13 +5,20 @@ import { Card, CardContent } from '@/components/ui/card'
 import { SectionHeading } from '@/components/SectionHeading'
 import { MapPin, Phone, Mail, Clock, Send, MessageSquare } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { TypedLocale } from 'payload'
 
 export const metadata: Metadata = {
   title: 'सम्पर्क | Jalsa Xettri',
   description: 'Jalsa Xettri को सचिवालयसँग सम्पर्क गर्नुहोस्।',
 }
 
-export default function ContactPage() {
+type Args = {
+  params: Promise<{
+    locale: TypedLocale
+  }>
+}
+export default async function ContactPage({params:paramsPromise}:Args) {
+  const { locale = 'ne' } = await paramsPromise
   return (
     <main className="min-h-screen bg-slate-50 dark:bg-slate-950 transition-colors duration-300">
       {/* Hero Section */}
@@ -25,13 +32,13 @@ export default function ContactPage() {
         
         <div className="container relative z-10 pb-12 md:pb-20 text-center max-w-3xl mx-auto">
           <Badge className="bg-[#B31B20] text-white border-none px-4 py-1.5 font-black text-xs uppercase tracking-widest rounded-full mb-6 shadow-xl">
-            सम्पर्क र जानकारी
+            {locale==='en'?'Contact and Information':'सम्पर्क र जानकारी'}
           </Badge>
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-black text-white leading-none tracking-tighter mb-6 uppercase">
-            सम्पर्कमा रहनुहोस्
+            {locale==='en'?'Get in Touch':'सम्पर्कमा रहनुहोस्'}
           </h1>
           <p className="text-slate-300 text-lg md:text-xl font-bold leading-relaxed mb-4">
-            तपाईंका सुझाव, सल्लाह र गुनासाहरू हाम्रो लागि अमूल्य छन्। हामी सधैं यहाँहरूको सेवामा तत्पर छौं।
+            {locale==='en'?'Your suggestions, advice and complaints are invaluable to us. We are always ready to serve you.':'तपाईंका सुझाव, सल्लाह र गुनासाहरू हाम्रो लागि अमूल्य छन्। हामी सधैं यहाँहरूको सेवामा तत्पर छौं।'}
           </p>
         </div>
       </section>
@@ -45,7 +52,7 @@ export default function ContactPage() {
             <Card className="border-none shadow-2xl rounded-3xl overflow-hidden bg-white dark:bg-slate-900 transition-colors duration-300">
               <CardContent className="p-8 md:p-10 flex flex-col h-full gap-8">
                 <div>
-                  <SectionHeading title="सम्पर्क ठेगाना" className="border-b border-slate-100 dark:border-slate-800 mb-6 pb-4" />
+                  <SectionHeading title={locale==='en'?'Contact Address':'सम्पर्क ठेगाना'} className="border-b border-slate-100 dark:border-slate-800 mb-6 pb-4" />
                   
                   <div className="space-y-6">
                     <div className="flex items-start gap-4">
@@ -53,10 +60,10 @@ export default function ContactPage() {
                         <MapPin className="w-6 h-6 text-[#B31B20]" />
                       </div>
                       <div>
-                        <h3 className="font-black text-slate-900 dark:text-white text-lg mb-1">प्रधान कार्यालय</h3>
+                        <h3 className="font-black text-slate-900 dark:text-white text-lg mb-1">{locale==='en'?'Federal Secretariat':'संघीय सचिवालय'}</h3>
                         <p className="text-slate-500 dark:text-slate-400 font-medium leading-relaxed max-w-xs">
-                          संघीय सचिवालय, सिंहदरबार<br />
-                          काठमाडौं, नेपाल
+                          {locale==='en'?'Federal Secretariat, Singha Durbar':'संघीय सचिवालय, सिंहदरबार'}<br />
+                          {locale==='en'?'Kathmandu, Nepal':'काठमाडौं, नेपाल'}
                         </p>
                       </div>
                     </div>
@@ -66,10 +73,10 @@ export default function ContactPage() {
                         <Phone className="w-6 h-6 text-blue-600 dark:text-blue-400" />
                       </div>
                       <div>
-                        <h3 className="font-black text-slate-900 dark:text-white text-lg mb-1">टेलिफोन/ह्याट्सएप</h3>
+                        <h3 className="font-black text-slate-900 dark:text-white text-lg mb-1">{locale==='en'?'Telephone/Whatsapp':'टेलिफोन/ह्याट्सएप'}</h3>
                         <p className="text-slate-500 dark:text-slate-400 font-medium leading-relaxed max-w-xs">
-                          +९७७ ९७४३२२३७९९<br />
-                          +९७७ १-४२००XXX
+                          {locale==='en'?'+977 9743223799':'+९७७ ९७४३२२३७९९'}<br />
+                          {locale==='en'?'+977 1-4200XXX':'+९७७ १-४२००XXX'}
                         </p>
                       </div>
                     </div>
@@ -79,7 +86,7 @@ export default function ContactPage() {
                         <Mail className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
                       </div>
                       <div>
-                        <h3 className="font-black text-slate-900 dark:text-white text-lg mb-1">इमेल</h3>
+                        <h3 className="font-black text-slate-900 dark:text-white text-lg mb-1">{locale==='en'?'Email':'इमेल'}</h3>
                         <p className="text-slate-500 dark:text-slate-400 font-medium leading-relaxed max-w-xs">
                           info@politician.gov.np<br />
                           contact@leader.com.np
@@ -95,9 +102,9 @@ export default function ContactPage() {
                       <Clock className="w-5 h-5 text-slate-500 dark:text-slate-400" />
                     </div>
                     <div>
-                      <h3 className="font-bold text-slate-900 dark:text-white text-sm mb-1 uppercase tracking-widest">खुल्ने समय</h3>
+                      <h3 className="font-bold text-slate-900 dark:text-white text-sm mb-1 uppercase tracking-widest">{locale==='en'?'Opening Hours':'खुल्ने समय'}</h3>
                       <p className="text-slate-500 dark:text-slate-400 font-medium text-sm">
-                        आइतबार - शुक्रबार: बिहान १०:०० - बेलुकी ५:००
+                       {locale==='en'?'Sunday - Friday: 10:00 AM - 5:00 PM':'आइतबार - शुक्रबार: बिहान १०:०० - बेलुकी ५:००'}
                       </p>
                     </div>
                   </div>
@@ -113,8 +120,8 @@ export default function ContactPage() {
                     <MessageSquare className="w-8 h-8 text-green-600 fill-green-600" />
                   </div>
                   <div>
-                    <h3 className="font-black text-white text-2xl mb-1">हामीलाई व्हाट्सएप गर्नुहोस्</h3>
-                    <p className="text-green-50 text-sm font-bold">तुरुन्तै जवाफ र समस्या समाधानका लागि</p>
+                    <h3 className="font-black text-white text-2xl mb-1">{locale==='en'?'Whatsapp Us':'हामीलाई व्हाट्सएप गर्नुहोस्'}</h3>
+                    <p className="text-green-50 text-sm font-bold">{locale==='en'?'For quick response and problem solving':'तुरुन्तै जवाफ र समस्या समाधानका लागि'}</p>
                   </div>
                 </CardContent>
               </Card>
@@ -126,41 +133,41 @@ export default function ContactPage() {
             <Card className="border-none shadow-2xl rounded-3xl overflow-hidden bg-white dark:bg-slate-900 h-full relative transition-colors duration-300">
               <div className="absolute top-0 right-0 w-32 h-32 bg-[#B31B20]/5 dark:bg-[#B31B20]/10 rounded-bl-[100px]" />
               <CardContent className="p-8 md:p-12 relative z-10">
-                <SectionHeading title="सन्देश पठाउनुहोस्" className="border-none mb-8" />
+                <SectionHeading title={locale==='en'?'Send a Message':'सन्देश पठाउनुहोस्'} className="border-none mb-8" />
                 
                 <form className="space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-2">
-                      <label className="text-sm font-black text-slate-900 dark:text-white uppercase tracking-widest">पूरा नाम</label>
+                      <label className="text-sm font-black text-slate-900 dark:text-white uppercase tracking-widest">{locale==='en'?'Full Name':'पूरा नाम'}</label>
                       <input 
                         type="text" 
-                        placeholder="तपाईंको नाम"
+                        placeholder={locale==='en'?'Your Name':'तपाईंको नाम'}
                         className="w-full h-14 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-800 rounded-xl px-4 font-medium text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#B31B20]/20 focus:border-[#B31B20] transition-all"
                       />
                     </div>
                     <div className="space-y-2">
-                      <label className="text-sm font-black text-slate-900 dark:text-white uppercase tracking-widest">फोन नम्बर</label>
+                      <label className="text-sm font-black text-slate-900 dark:text-white uppercase tracking-widest">{locale==='en'?'Phone Number':'फोन नम्बर'}</label>
                       <input 
                         type="tel" 
-                        placeholder="तपाईंको सम्पर्क नम्बर"
+                        placeholder={locale==='en'?'Your Phone Number':'तपाईंको सम्पर्क नम्बर'}
                         className="w-full h-14 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-800 rounded-xl px-4 font-medium text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#B31B20]/20 focus:border-[#B31B20] transition-all"
                       />
                     </div>
                   </div>
 
                   <div className="space-y-2">
-                    <label className="text-sm font-black text-slate-900 dark:text-white uppercase tracking-widest">इमेल ठेगाना</label>
+                    <label className="text-sm font-black text-slate-900 dark:text-white uppercase tracking-widest">{locale==='en'?'Email Address':' इमेल ठेगाना'}</label>
                     <input 
                       type="email" 
-                      placeholder="तपाईंको इमेल (वैकल्पिक)"
+                      placeholder={locale==='en'?'Your Email (Optional)':'तपाईंको इमेल (वैकल्पिक)'}
                       className="w-full h-14 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-800 rounded-xl px-4 font-medium text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#B31B20]/20 focus:border-[#B31B20] transition-all"
                     />
                   </div>
 
                   <div className="space-y-2">
-                    <label className="text-sm font-black text-slate-900 dark:text-white uppercase tracking-widest">सन्देश</label>
+                    <label className="text-sm font-black text-slate-900 dark:text-white uppercase tracking-widest">{locale==='en'?'Message':'सन्देश'}</label>
                     <textarea 
-                      placeholder="तपाईंको जिज्ञासा, सुझाव वा समस्या यहाँ लेख्नुहोस्..."
+                      placeholder={locale==='en'?'Your Message':'तपाईंको सन्देश'}
                       rows={6}
                       className="w-full p-4 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-800 rounded-xl font-medium text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#B31B20]/20 focus:border-[#B31B20] transition-all resize-none"
                     ></textarea>
@@ -168,10 +175,10 @@ export default function ContactPage() {
 
                   <div className="pt-4">
                     <Button type="button" className="w-full md:w-auto bg-[#B31B20] hover:bg-red-700 text-white font-black h-16 px-10 rounded-2xl shadow-xl shadow-red-900/20 gap-3 text-lg transition-all hover:-translate-y-1 group">
-                      सन्देश पठाउनुहोस् <Send className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                     {locale==='en'?'Send Message':'सन्देश पठाउनुहोस्'} <Send className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
                     </Button>
                     <p className="mt-4 text-xs font-bold text-slate-400 dark:text-slate-500 max-w-sm leading-relaxed">
-                      तपाईंको जानकारी पूर्ण रूपमा गोप्य राखिनेछ। हाम्रो टोलीले जति सक्दो चाँडो तपाईंलाई सम्पर्क गर्नेछ।
+                      {locale==='en'?'Your information will be kept completely confidential. Our team will contact you as soon as possible.':'तपाईंको जानकारी पूर्ण रूपमा गोप्य राखिनेछ। हाम्रो टोलीले जति सक्दो चाँडो तपाईंलाई सम्पर्क गर्नेछ।'}
                     </p>
                   </div>
                 </form>
