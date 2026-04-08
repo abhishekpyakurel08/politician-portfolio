@@ -1,8 +1,10 @@
+import Script from 'next/script'
+
 export function InitTheme() {
   return (
-    <script
-      suppressHydrationWarning
+    <Script
       id="theme-initializer"
+      strategy="beforeInteractive"
       dangerouslySetInnerHTML={{
         __html: `
           (function() {

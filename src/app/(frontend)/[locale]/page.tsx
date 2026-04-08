@@ -49,9 +49,27 @@ export default async function HomePage({ params: paramsPromise }: Args) {
   const payload = await getPayload({ config: configPromise })
 
   // Sequential fetch to avoid MongoDB session expiration when parallelizing across the same Payload instance
-  const newsResult = await payload.find({
+  const activitiesResult = await payload.find({
+    collection: 'activities',
+    limit: 4,
+    sort: '-publishDate',
+    draft: false,
+    locale,
+    fallbackLocale: 'ne',
+  })
+
+  const decisionsNewsResult = await payload.find({
     collection: 'news',
-    limit: 20,
+    limit: 4,
+    sort: '-publishDate',
+    draft: false,
+    locale,
+    fallbackLocale: 'ne',
+  })
+
+  const pressNewsResult = await payload.find({
+    collection: 'news',
+    limit: 5,
     sort: '-publishDate',
     draft: false,
     locale,
@@ -97,7 +115,7 @@ export default async function HomePage({ params: paramsPromise }: Args) {
     fallbackLocale: 'ne',
   })
 
-  const newsDocs = newsResult.docs
+  const activitiesDocs = activitiesResult.docs
   const videosDocs = videosResult.docs
   const galleryDocs = galleryResult.docs
   const homePageDocs = homePageResult.docs
@@ -136,12 +154,14 @@ export default async function HomePage({ params: paramsPromise }: Args) {
     category: typeof doc.category === 'object' ? doc.category?.title : 'अपडेट',
   })
 
-  const dynamicNews = newsDocs.map(mapDocToCard)
+  const dynamicActivity = activitiesDocs.map(mapDocToCard)
+  const decisionsNews = decisionsNewsResult.docs.map(mapDocToCard)
+  const pressNews = pressNewsResult.docs.map(mapDocToCard)
 
-  const getDoc = (index: number) => dynamicNews?.[index]
+  const getDoc = (index: number) => dynamicActivity?.[index]
 
-  const firstNews = getDoc(0)
-  const sideNews = [getDoc(1), getDoc(2), getDoc(3)]
+  const firstActivity = getDoc(0)
+  const sideActivity = [getDoc(1), getDoc(2), getDoc(3)]
 
   // Gallery mapping
   const galleryItems = galleryDocs.map((doc) => {
@@ -194,21 +214,24 @@ export default async function HomePage({ params: paramsPromise }: Args) {
 
       <section className="w-full py-16 md:py-32 bg-transparent relative z-10">
         <div className="container">
-          <SectionHeading title={locale==='en'?'Latest Activities':'ताजा गतिविधि'} viewAllHref="/activities" />
+          <SectionHeading
+            title={locale === 'en' ? 'Latest Activities' : 'ताजा गतिविधि'}
+            viewAllHref="/activities"
+          />
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-16">
             {/* Left - Hero Card */}
             <Link
-              href={firstNews?.slug ? `/news/${firstNews.slug}` : '/not-found'}
+              href={firstActivity?.slug ? `/activities/${firstActivity.slug}` : '/not-found'}
               className="group block h-full"
             >
               <Card className="overflow-hidden border-none glass hover:shadow-red-900/20 transition-all duration-700 h-full flex flex-col rounded-3xl md:rounded-[40px] premium-border hover:-translate-y-2">
                 <div className="relative aspect-video overflow-hidden">
                   <AspectRatio ratio={16 / 9}>
-                    {firstNews?.imageUrl ? (
+                    {firstActivity?.imageUrl ? (
                       <Image
-                        src={firstNews?.imageUrl as string}
-                        alt={firstNews?.title || 'News article image'}
+                        src={firstActivity?.imageUrl as string}
+                        alt={firstActivity?.title || 'News article image'}
                         fill
                         className="object-cover group-hover:scale-105 transition-transform duration-700"
                         sizes="(max-width: 768px) 100vw, 50vw"
@@ -221,19 +244,19 @@ export default async function HomePage({ params: paramsPromise }: Args) {
                   </AspectRatio>
                   <div className="absolute inset-0 bg-linear-to-t from-slate-950/80 via-transparent to-transparent" />
                   <Badge className="absolute top-3 left-3 md:top-4 md:left-4 bg-[#B31B20] hover:bg-red-700 text-white border-none px-2 py-0.5 md:px-3 md:py-1 text-[10px] md:text-xs">
-                    {locale==='en'?"Today's latest News":'आजको मुख्य समाचार'}
+                    {locale === 'en' ? "Today's latest News" : 'आजको मुख्य समाचार'}
                   </Badge>
                 </div>
                 <CardHeader className="p-5 md:p-8 flex-1">
                   <div className="flex items-center gap-2 text-slate-500 text-xs md:text-sm font-medium mb-2 md:mb-3">
                     <Calendar className="w-4 h-4 text-[#B31B20]" />
-                    <span className="mukta-semibold">{firstNews?.date}</span>
+                    <span className="mukta-semibold">{firstActivity?.date}</span>
                   </div>
                   <CardTitle className="text-2xl md:text-5xl font-black text-slate-900 leading-[1.1] group-hover:text-red-600 transition-colors mukta-bold tracking-tighter">
-                    {firstNews?.title}
+                    {firstActivity?.title}
                   </CardTitle>
                   <p className="mt-3 md:mt-4 text-slate-600 line-clamp-2 md:line-clamp-3 text-sm md:text-base leading-relaxed">
-                    {firstNews?.excerpt}
+                    {firstActivity?.excerpt}
                   </p>
                 </CardHeader>
                 <CardFooter className="px-5 pb-8 md:px-10 md:pb-12 pt-0">
@@ -241,7 +264,7 @@ export default async function HomePage({ params: paramsPromise }: Args) {
                     variant="ghost"
                     className="p-0 h-auto text-[#B31B20] font-black hover:bg-transparent hover:text-red-700 gap-3 text-base md:text-lg group/more"
                   >
-                    {locale==='en'?'Read More':'थप पढ्नुहोस्'}
+                    {locale === 'en' ? 'Read More' : 'थप पढ्नुहोस्'}
                     <ChevronRight className="w-5 h-5 md:w-6 md:h-6 group-hover/more:translate-x-2 transition-transform duration-300" />
                   </Button>
                 </CardFooter>
@@ -250,10 +273,10 @@ export default async function HomePage({ params: paramsPromise }: Args) {
 
             {/* Right - List of Cards */}
             <div className="flex flex-col gap-4 md:gap-6">
-              {sideNews.map((item, idx) => (
+              {sideActivity.map((item, idx) => (
                 <Link
                   key={idx}
-                  href={item?.slug ? `/news/${item.slug}` : '/not-found'}
+                  href={item?.slug ? `/activities/${item.slug}` : '/not-found'}
                   className="group"
                 >
                   <Card className="overflow-hidden border-slate-100 shadow-sm hover:shadow-md transition-all duration-300 transform hover:-translate-y-1 rounded-xl md:rounded-2xl">
@@ -263,7 +286,7 @@ export default async function HomePage({ params: paramsPromise }: Args) {
                           {item?.imageUrl ? (
                             <Image
                               src={item.imageUrl}
-                              alt={item?.title || 'News article image'}
+                              alt={item?.title || 'Activity image'}
                               fill
                               className="object-cover group-hover:scale-110 transition-transform duration-700"
                               sizes="(max-width: 768px) 100px, 200px"
@@ -307,7 +330,7 @@ export default async function HomePage({ params: paramsPromise }: Args) {
 
         <div className="container relative z-10">
           <SectionHeading
-            title={locale==='en'?'In the picture':'दृश्यमा परिवर्तन'}
+            title={locale === 'en' ? 'In the picture' : 'दृश्यमा परिवर्तन'}
             viewAllHref="/videos"
             textColor="text-white"
             className="border-slate-800"
@@ -331,7 +354,7 @@ export default async function HomePage({ params: paramsPromise }: Args) {
                 </div>
                 <div className="absolute bottom-0 inset-x-0 p-6 md:p-12 bg-linear-to-t from-black text-white">
                   <Badge className="bg-[#B31B20] mb-3 text-[10px] md:text-sm border-none px-3 py-1 font-black mukta-bold">
-                    {locale==='en'?'Special Content':'विशेष सामाग्री'}
+                    {locale === 'en' ? 'Special Content' : 'विशेष सामाग्री'}
                   </Badge>
                   <h3 className="text-2xl md:text-5xl font-black leading-tight drop-shadow-md group-hover:text-red-400 transition-colors mukta-bold tracking-tighter uppercase">
                     {mainVideo?.title}
@@ -344,10 +367,12 @@ export default async function HomePage({ params: paramsPromise }: Args) {
             <div className="lg:col-span-4 flex flex-col gap-4 md:gap-5">
               <div className="glass-dark border-white/10 p-6 md:p-8 rounded-3xl hidden md:block premium-border">
                 <h3 className="font-black text-xl md:text-2xl text-white leading-tight mukta-bold text-gradient-hero">
-                  {locale==='en'?'Did you know?':'तपाईंलाई थाहा छ?'}
+                  {locale === 'en' ? 'Did you know?' : 'तपाईंलाई थाहा छ?'}
                 </h3>
                 <p className="text-slate-400 mt-3 text-sm md:text-lg leading-relaxed font-medium">
-                  {locale==='en'?'How are these steps of development and prosperity moving forward? Watch in detail.':'विकास र समृद्धिका यी पाइलाहरू कसरी अगाडि बढिरहेका छन्? विस्तृतमा हेर्नुहोस्।'}
+                  {locale === 'en'
+                    ? 'How are these steps of development and prosperity moving forward? Watch in detail.'
+                    : 'विकास र समृद्धिका यी पाइलाहरू कसरी अगाडि बढिरहेका छन्? विस्तृतमा हेर्नुहोस्।'}
                 </p>
               </div>
 
@@ -402,7 +427,10 @@ export default async function HomePage({ params: paramsPromise }: Args) {
       {/* 4. पलहरू र भावनाहरू (Photo Gallery) */}
       <section className="w-full bg-slate-50 py-16 md:py-24">
         <div className="container">
-          <SectionHeading title={locale==='en'?'Moments':'पलहरू र भावनाहरू'} viewAllHref="/gallery" />
+          <SectionHeading
+            title={locale === 'en' ? 'Moments' : 'पलहरू र भावनाहरू'}
+            viewAllHref="/gallery"
+          />
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 mt-8 md:mt-16">
             {galleryItems.map((album, i) => (
               <Link
@@ -482,16 +510,19 @@ export default async function HomePage({ params: paramsPromise }: Args) {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 md:gap-12">
             {/* Decisions Side */}
             <div className="lg:col-span-2">
-              <SectionHeading title={locale==='en'?'Important Decisions':'महत्वपूर्ण निर्णय'} viewAllHref="/decisions" />
+              <SectionHeading
+                title={locale === 'en' ? 'Important Decisions' : 'महत्वपूर्ण निर्णय'}
+                viewAllHref="/decisions"
+              />
               <div className="flex flex-col md:flex-row gap-6 md:gap-8">
                 {/* Highlight */}
                 <div className="md:w-1/2 group">
                   <Card className="overflow-hidden border-none shadow-xl h-full rounded-2xl md:rounded-3xl">
                     <div className="relative aspect-4/5 overflow-hidden">
-                      {getDoc(14)?.imageUrl ? (
+                      {decisionsNews[0]?.imageUrl ? (
                         <Image
-                          src={getDoc(14)!.imageUrl as string}
-                          alt={getDoc(14)?.title || 'Decision document image'}
+                          src={decisionsNews[0]!.imageUrl as string}
+                          alt={decisionsNews[0]?.title || 'Decision document image'}
                           fill
                           className="object-cover group-hover:scale-110 transition-transform duration-1000"
                         />
@@ -503,10 +534,10 @@ export default async function HomePage({ params: paramsPromise }: Args) {
                       <div className="absolute inset-0 bg-linear-to-t from-black via-transparent to-transparent" />
                       <div className="absolute inset-x-0 bottom-0 p-5 md:p-8">
                         <Badge className="bg-red-600 mb-3 md:mb-4 px-2 md:px-3 py-0.5 md:py-1 text-[10px] md:text-xs border-none">
-                          {locale==='en'?'Special Decisions':'विशेष निर्णय'}
+                          {locale === 'en' ? 'Special Decisions' : 'विशेष निर्णय'}
                         </Badge>
                         <h3 className="text-white font-black text-xl md:text-3xl leading-tight group-hover:text-red-400 transition-colors">
-                          {getDoc(14)?.title}
+                          {decisionsNews[0]?.title}
                         </h3>
                       </div>
                     </div>
@@ -515,14 +546,14 @@ export default async function HomePage({ params: paramsPromise }: Args) {
 
                 {/* List */}
                 <div className="md:w-1/2 flex flex-col gap-4 md:gap-6">
-                  {[16, 17, 15].map((idx) => (
-                    <Link key={idx} href={`/news/${getDoc(idx)?.slug}`} className="group">
+                  {decisionsNews.slice(1, 4).map((item, idx) => (
+                    <Link key={idx} href={`/news/${item?.slug}`} className="group">
                       <Card className="p-1 border-slate-100 hover:border-red-100 bg-slate-50/30 hover:bg-white shadow-sm hover:shadow-lg transition-all duration-300 rounded-xl md:rounded-2xl">
                         <div className="relative aspect-video overflow-hidden rounded-lg mb-3 md:mb-4">
-                          {getDoc(idx)?.imageUrl ? (
+                          {item?.imageUrl ? (
                             <Image
-                              src={getDoc(idx)!.imageUrl as string}
-                              alt={getDoc(idx)?.title || 'Decision document image'}
+                              src={item!.imageUrl as string}
+                              alt={item?.title || 'Decision document image'}
                               fill
                               className="object-cover group-hover:scale-105 transition-transform duration-700"
                             />
@@ -534,10 +565,10 @@ export default async function HomePage({ params: paramsPromise }: Args) {
                         </div>
                         <div className="px-3 pb-3 md:px-4 md:pb-4">
                           <h3 className="font-bold text-slate-800 group-hover:text-[#B31B20] leading-snug line-clamp-2 text-sm md:text-xl">
-                            "{getDoc(idx)?.title}"
+                            "{item?.title}"
                           </h3>
                           <p className="text-slate-500 text-[10px] md:text-xs font-bold mt-1.5 md:mt-2 flex items-center gap-1.5 uppercase tracking-tighter">
-                            <Calendar className="w-3.5 h-3.5" /> {getDoc(idx)?.date}
+                            <Calendar className="w-3.5 h-3.5" /> {item?.date}
                           </p>
                         </div>
                       </Card>
@@ -554,7 +585,7 @@ export default async function HomePage({ params: paramsPromise }: Args) {
                 <CardHeader className="bg-slate-900 py-6 px-8 md:py-8 md:px-10">
                   <div className="flex justify-between items-center">
                     <SectionHeading
-                      title={locale==='en'?'Press Releases':'प्रेस विज्ञप्ति'}
+                      title={locale === 'en' ? 'Press Releases' : 'प्रेस विज्ञप्ति'}
                       textColor="text-white"
                       className="border-none py-0 mb-0 scale-90 -ml-4"
                     />
@@ -562,10 +593,10 @@ export default async function HomePage({ params: paramsPromise }: Args) {
                 </CardHeader>
                 <CardContent className="p-0">
                   <div className="flex flex-col">
-                    {[18, 19, 11, 12, 13].map((idx, i) => (
+                    {pressNews.map((item, i) => (
                       <Link
-                        key={idx}
-                        href="#"
+                        key={i}
+                        href={`/news/${item?.slug}`}
                         className="flex items-center gap-4 md:gap-6 p-4 md:p-6 border-b border-slate-200/50 bg-white hover:bg-slate-50 group transition-all"
                       >
                         <span className="text-slate-200 font-black text-4xl md:text-6xl shrink-0 tabular-nums group-hover:text-red-100 transition-colors mukta-bold">
@@ -573,7 +604,7 @@ export default async function HomePage({ params: paramsPromise }: Args) {
                         </span>
                         <div className="flex-1 min-w-0">
                           <h4 className="font-black text-base md:text-xl text-slate-800 line-clamp-2 leading-tight group-hover:text-[#B31B20] transition-colors mukta-bold tracking-tight">
-                            {getDoc(idx)?.title}
+                            {item?.title}
                           </h4>
                           <div className="flex items-center gap-2 mt-2">
                             <Badge
@@ -595,7 +626,7 @@ export default async function HomePage({ params: paramsPromise }: Args) {
                 <div className="p-3 md:p-4 bg-slate-900 flex justify-between items-center rounded-t-xl">
                   <h3 className="text-white font-black text-sm md:text-base flex items-center gap-2">
                     <Facebook className="w-4 h-4 md:w-5 md:h-5 fill-white text-[#1877F2]" />
-                    {locale==='en'?'Facebook Page':'फेसबुक पेज'}
+                    {locale === 'en' ? 'Facebook Page' : 'फेसबुक पेज'}
                   </h3>
                   <Link
                     href="#"
@@ -634,13 +665,12 @@ export default async function HomePage({ params: paramsPromise }: Args) {
             <div className="w-20 h-20 md:w-32 md:h-32 rounded-full overflow-hidden ring-2 md:ring-4 ring-white shadow-2xl relative z-10"></div>
           </div>
           <p className="text-xl md:text-4xl lg:text-5xl font-black leading-tight drop-shadow-2xl tracking-tight max-w-4xl italic">
-            "हाम्रो यात्रा सुखद हुँदैन, तर परिणाम अवश्य पनि सुखद र शान्तिपूर्ण हुनेछ। जनताको न्याय र
-            अधिकारको लागि निरन्तर सङ्घर्ष जारी छ।"
+            {locale === 'en' ? "Our journey will not be pleasant, but the outcome will certainly be happy and peaceful. The struggle for justice and rights of the people continues." : "हाम्रो यात्रा सुखद हुँदैन, तर परिणाम अवश्य पनि सुखद र शान्तिपूर्ण हुनेछ। जनताको न्याय र अधिकारको लागि निरन्तर सङ्घर्ष जारी छ।"}
           </p>
           <div className="mt-6 md:mt-8 flex flex-col items-center">
             <div className="h-1 w-16 md:w-20 bg-red-600 rounded-full mb-3 md:mb-4" />
             <h4 className="text-lg md:text-xl font-bold tracking-[0.2em] text-red-500 uppercase">
-              पार्टी अध्यक्ष
+              {locale === 'en' ? 'Party President' : 'पार्टी अध्यक्ष'}
             </h4>
           </div>
         </div>
