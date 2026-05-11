@@ -11,8 +11,8 @@ import { SectionHeading } from '@/components/SectionHeading'
 import { Calendar, ChevronRight, Clock, Newspaper } from 'lucide-react'
 
 export const metadata: Metadata = {
-  title: 'समाचार | Jalsa Xettri',
-  description: 'Jalsa Xettri को ताजा समाचार, भाषण र आधिकारिक घोषणाहरू।',
+  title: 'समाचार | Jalsa Chhetri',
+  description: 'Jalsa Chhetri को ताजा समाचार, भाषण र आधिकारिक घोषणाहरू।',
 }
 
 export const revalidate = 60
@@ -75,14 +75,16 @@ export default async function NewsList({ params: paramsPromise }: Args) {
           <div className="flex items-center gap-3 mb-6">
             <Newspaper className="w-6 h-6 text-[#B31B20]" />
             <span className="text-slate-400 font-black uppercase text-sm tracking-widest leading-none">
-             {locale==='en'?'News Center':'समाचार केन्द्र'}
+              {locale === 'en' ? 'News Center' : 'समाचार केन्द्र'}
             </span>
           </div>
           <h1 className="text-5xl md:text-7xl font-black text-white tracking-tighter leading-none mb-4 uppercase">
-            {locale==='en'?'Latest News':'ताजा समाचार'}
+            {locale === 'en' ? 'Latest News' : 'ताजा समाचार'}
           </h1>
           <p className="text-slate-400 font-bold mt-6 mb-12 text-lg md:text-xl max-w-2xl leading-relaxed">
-          {locale==='en'?'Jalsa Xettri’s official speeches, announcements and latest updates.':'जलसा क्षेत्री को आधिकारिक भाषण, घोषणा र ताजा अपडेट।'}
+            {locale === 'en'
+              ? 'Jalsa Chhetri’s official speeches, announcements and latest updates.'
+              : 'जलसा क्षेत्री को आधिकारिक भाषण, घोषणा र ताजा अपडेट।'}
           </p>
         </div>
 
@@ -103,7 +105,7 @@ export default async function NewsList({ params: paramsPromise }: Args) {
                 <div className="absolute inset-x-0 bottom-0 p-8 md:p-12">
                   <div className="flex items-center gap-3 mb-4">
                     <Badge className="bg-[#B31B20] text-white border-none px-4 py-1.5 rounded-full font-black text-xs uppercase tracking-widest">
-                     {locale==='en'?'Featured News':'मुख्य समाचार'}
+                      {locale === 'en' ? 'Featured News' : 'मुख्य समाचार'}
                     </Badge>
                     {featured.category && (
                       <Badge
@@ -128,7 +130,8 @@ export default async function NewsList({ params: paramsPromise }: Args) {
                       </div>
                     )}
                     <div className="flex items-center gap-2 text-[#B31B20] font-black text-sm group-hover:gap-3 transition-all">
-                      {locale==='en'?'Read More':'थप पढ्नुहोस्'}<ChevronRight className="w-4 h-4" />
+                      {locale === 'en' ? 'Read More' : 'थप पढ्नुहोस्'}
+                      <ChevronRight className="w-4 h-4" />
                     </div>
                   </div>
                 </div>
@@ -142,7 +145,7 @@ export default async function NewsList({ params: paramsPromise }: Args) {
       <section className="w-full py-16 md:py-20 bg-slate-50">
         <div className="container">
           <SectionHeading
-            title={locale==='en'?'All News':'सम्पूर्ण समाचार'}
+            title={locale === 'en' ? 'All News' : 'सम्पूर्ण समाचार'}
             className="mb-10"
             textColor="text-slate-950 dark:text-white"
           />

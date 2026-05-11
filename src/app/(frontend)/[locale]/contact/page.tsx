@@ -13,8 +13,8 @@ import { FormBlock } from '@/blocks/Form/Component'
 import { contactForm as contactFormSeed } from '@/endpoints/seed/contact-form'
 
 export const metadata: Metadata = {
-  title: 'सम्पर्क | Jalsa Xettri',
-  description: 'Jalsa Xettri को सचिवालयसँग सम्पर्क गर्नुहोस्।',
+  title: 'सम्पर्क | Jalsa Chhetri',
+  description: 'Jalsa Chhetri को सचिवालयसँग सम्पर्क गर्नुहोस्।',
 }
 
 type Args = {
@@ -119,9 +119,9 @@ export default async function ContactPage({ params: paramsPromise }: Args) {
                           {locale === 'en' ? 'Telephone/Whatsapp' : 'टेलिफोन/ह्याट्सएप'}
                         </h3>
                         <p className="text-slate-500 dark:text-slate-400 font-medium leading-relaxed max-w-xs">
-                          {locale === 'en' ? '+977 9743223799' : '+९७७ ९७४३२२३७९९'}
+                          {locale === 'en' ? '+977 9847949547' : '+९७७ ९८४७९४९५४७'}
                           <br />
-                          {locale === 'en' ? '+977 1-4200XXX' : '+९७७ १-४२००XXX'}
+                          {locale === 'en' ? '+977 985158049547' : '+९७७ ९८५१५८०४९५४७'}
                         </p>
                       </div>
                     </div>
@@ -135,9 +135,7 @@ export default async function ContactPage({ params: paramsPromise }: Args) {
                           {locale === 'en' ? 'Email' : 'इमेल'}
                         </h3>
                         <p className="text-slate-500 dark:text-slate-400 font-medium leading-relaxed max-w-xs">
-                          info@politician.gov.np
-                          <br />
-                          contact@leader.com.np
+                          jalasabudha225@gmail.com
                         </p>
                       </div>
                     </div>

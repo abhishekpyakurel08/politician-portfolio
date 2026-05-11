@@ -159,7 +159,7 @@ export async function Footer({ locale }: { locale: Locale }) {
                   <span className="text-[10px] uppercase text-slate-400 font-bold mb-0.5">
                     {locale === 'en' ? 'UML' : 'इमेल'}
                   </span>
-                  <span className="text-slate-400">hello@jalsaxettri.com</span>
+                  <span className="text-slate-400">jalasabudha225@gmail.com</span>
                 </div>
               </li>
               <li className="flex gap-4">
@@ -171,7 +171,7 @@ export async function Footer({ locale }: { locale: Locale }) {
                     {locale === 'en' ? 'Phone' : 'फोन'}
                   </span>
                   <span className="font-bold text-slate-400 mukta-bold">
-                    {locale === 'en' ? '+977 9743223799' : '+९७७ ९७४३२२३७९९'}
+                    {locale === 'en' ? '+977 9847949547' : '+९७७ ९८४७९४९५४७'}
                   </span>
                 </div>
               </li>

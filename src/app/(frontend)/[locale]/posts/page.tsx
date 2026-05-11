@@ -32,7 +32,7 @@ export default async function Page() {
   return (
     <main className="min-h-screen bg-slate-50 dark:bg-slate-950 transition-colors duration-300">
       <PageClient />
-      
+
       {/* Hero Section */}
       <section className="relative w-full bg-slate-950 pt-32 md:pt-48 pb-16 md:pb-24 overflow-hidden h-[40vh] md:h-[50vh] flex items-end">
         {/* BG gradients */}
@@ -40,7 +40,7 @@ export default async function Page() {
           <div className="absolute inset-0 bg-[#B31B20] opacity-[0.05] blur-[100px] rounded-full" />
           <div className="absolute inset-x-0 bottom-0 h-32 bg-linear-to-t from-slate-950 to-transparent" />
         </div>
-        
+
         <div className="container relative z-10 pb-12 md:pb-20">
           <Badge className="bg-[#B31B20] text-white border-none mb-4 px-4 py-1.5 text-xs uppercase tracking-widest font-black rounded-full">
             लेख र विचार
@@ -49,7 +49,7 @@ export default async function Page() {
             सबै लेखहरू
           </h1>
           <p className="text-slate-400 text-lg md:text-xl font-bold max-w-2xl">
-            Jalsa Xettri का आधिकारिक विचार, लेख र महत्त्वपूर्ण टिपोटहरू।
+            Jalsa Chhetri का आधिकारिक विचार, लेख र महत्त्वपूर्ण टिपोटहरू।
           </p>
         </div>
       </section>

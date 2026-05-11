@@ -13,8 +13,8 @@ import LucideIcon from '@/components/LucideIcon'
 import { Calendar, Globe, Heart, MapPin, Star } from 'lucide-react'
 
 export const metadata: Metadata = {
-  title: 'परिचय | Jalsa Xettri',
-  description: 'Jalsa Xettri को व्यक्तिगत, राजनीतिक तथा सामाजिक जीवनको विस्तृत विवरण।',
+  title: 'परिचय | Jalsa Chhetri',
+  description: 'Jalsa Chhetri को व्यक्तिगत, राजनीतिक तथा सामाजिक जीवनको विस्तृत विवरण।',
 }
 
 export const revalidate = 60
@@ -149,7 +149,7 @@ export default async function AboutPage({ params: paramsPromise }: Args) {
         {/* Content */}
         <div className="container relative z-10 pb-16 md:pb-24">
           <Badge className="bg-[#B31B20] text-white border-none mb-4 px-4 py-1.5 text-xs uppercase tracking-widest font-black rounded-full">
-            {isEnglish ? 'About Jalsa Xettri' : 'जलसा क्षेत्री को परिचय'}
+            {isEnglish ? 'About Jalsa Chhetri' : 'जलसा क्षेत्री को परिचय'}
           </Badge>
           <h1 className="text-4xl md:text-6xl lg:text-7xl leading-none tracking-tighter mb-4 text-white drop-shadow-xl">
             {slider?.docs?.[0]?.slides?.[0]?.title}
@@ -186,7 +186,7 @@ export default async function AboutPage({ params: paramsPromise }: Args) {
                     <div className="absolute inset-0 bg-linear-to-t from-slate-950 via-transparent to-transparent" />
                     <div className="absolute bottom-0 inset-x-0 p-6 text-white">
                       <h2 className="text-2xl font-black leading-tight">
-                        {isEnglish ? 'Jalsa Xettri' : 'जलसा क्षेत्री'}
+                        {isEnglish ? 'Jalsa Chhetri' : 'जलसा क्षेत्री'}
                       </h2>
                       <p className="text-slate-300 text-sm font-bold mt-1">
                         {isEnglish
@@ -393,7 +393,7 @@ export default async function AboutPage({ params: paramsPromise }: Args) {
             </h2>
             <p className="text-red-100 font-bold mt-3 text-lg max-w-xl">
               {isEnglish
-                ? "Stay updated with Jalsa Xettri's activities, ideas, and social campaigns."
+                ? "Stay updated with Jalsa Chhetri's activities, ideas, and social campaigns."
                 : 'जल्सा क्षेत्रीका गतिविधि, विचार र सामाजिक अभियानहरूको अपडेट पाउन जोडिनुहोस्।'}
             </p>
           </div>

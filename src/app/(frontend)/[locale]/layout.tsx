@@ -62,11 +62,11 @@ export default async function RootLayout({
 export const metadata: Metadata = {
   metadataBase: new URL(getServerSideURL()),
   title: {
-    default: 'Jalsa Xettri | युवा नेता तथा सामाजिक अभियान्ता',
-    template: '%s | Jalsa Xettri',
+    default: 'Jalsa Chhetri | युवा नेता तथा सामाजिक अभियान्ता',
+    template: '%s | Jalsa Chhetri',
   },
-  description: 'Jalsa Xettri को आधिकारिक पोर्टल — ताजा समाचार, गतिविधि र युवा नेतृत्वका अपडेट।',
-  keywords: ['Jalsa Xettri', 'कालिकोट', 'युवा नेता', 'नेकपा एमाले', 'पलाँता', 'सामाजिक अभियान्ता'],
+  description: 'Jalsa Chhetri को आधिकारिक पोर्टल — ताजा समाचार, गतिविधि र युवा नेतृत्वका अपडेट।',
+  keywords: ['Jalsa Chhetri', 'कालिकोट', 'युवा नेता', 'नेकपा एमाले', 'पलाँता', 'सामाजिक अभियान्ता'],
   openGraph: mergeOpenGraph(),
   twitter: {
     card: 'summary_large_image',

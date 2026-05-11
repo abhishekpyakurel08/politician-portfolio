@@ -117,7 +117,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
                     : 'text-2xl md:text-5xl text-white',
               )}
             >
-              {locale === 'en' ? 'Jalsa Xettri' : 'जलसा क्षेत्री'}
+              {locale === 'en' ? 'Jalsa Chhetri' : 'जलसा क्षेत्री'}
             </span>
             <span
               className={cn(
@@ -149,8 +149,12 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
                     'px-3 py-2 text-sm font-bold transition-all relative group rounded-full mukta-bold tracking-wide uppercase drop-shadow-sm',
                     isScrolled
                       ? isActive
-                        ? activeTheme === 'light' ? 'text-[#B31B20]' : 'text-[#ff4d4d]'
-                        : activeTheme === 'light' ? 'text-slate-700 hover:text-[#B31B20]' : 'text-slate-300 hover:text-[#ff4d4d]'
+                        ? activeTheme === 'light'
+                          ? 'text-[#B31B20]'
+                          : 'text-[#ff4d4d]'
+                        : activeTheme === 'light'
+                          ? 'text-slate-700 hover:text-[#B31B20]'
+                          : 'text-slate-300 hover:text-[#ff4d4d]'
                       : activeTheme === 'light'
                         ? isActive
                           ? 'text-[#B31B20]'
@@ -167,7 +171,9 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
                       className={cn(
                         'absolute inset-0 rounded-full',
                         isScrolled
-                          ? activeTheme === 'light' ? 'bg-[#B31B20]/10' : 'bg-[#ff4d4d]/10'
+                          ? activeTheme === 'light'
+                            ? 'bg-[#B31B20]/10'
+                            : 'bg-[#ff4d4d]/10'
                           : activeTheme === 'light'
                             ? 'bg-[#B31B20]/10'
                             : 'bg-white/10',
@@ -184,7 +190,9 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
             className={cn(
               'h-8 w-px mx-4 transition-colors',
               isScrolled
-                ? activeTheme === 'light' ? 'bg-slate-300' : 'bg-slate-700'
+                ? activeTheme === 'light'
+                  ? 'bg-slate-300'
+                  : 'bg-slate-700'
                 : activeTheme === 'light'
                   ? 'bg-slate-300/80'
                   : 'bg-white/20',
@@ -200,7 +208,9 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
               className={cn(
                 'h-11 w-11 rounded-xl transition-all',
                 isScrolled
-                  ? activeTheme === 'light' ? 'text-slate-900 bg-slate-200/50 hover:bg-slate-200' : 'text-slate-200 bg-slate-800 hover:bg-slate-700'
+                  ? activeTheme === 'light'
+                    ? 'text-slate-900 bg-slate-200/50 hover:bg-slate-200'
+                    : 'text-slate-200 bg-slate-800 hover:bg-slate-700'
                   : activeTheme === 'light'
                     ? 'text-slate-900 bg-slate-100/90 hover:bg-slate-200'
                     : 'text-white hover:bg-white/20 bg-white/10 shadow-lg',
@@ -216,7 +226,9 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
                   className={cn(
                     'h-11 px-4 rounded-xl font-bold gap-2 transition-all',
                     isScrolled
-                      ? activeTheme === 'light' ? 'text-slate-900 bg-slate-200/50 hover:bg-slate-200' : 'text-slate-200 bg-slate-800 hover:bg-slate-700'
+                      ? activeTheme === 'light'
+                        ? 'text-slate-900 bg-slate-200/50 hover:bg-slate-200'
+                        : 'text-slate-200 bg-slate-800 hover:bg-slate-700'
                       : activeTheme === 'light'
                         ? 'text-slate-900 bg-slate-100/90 hover:bg-slate-200 border-slate-200/70'
                         : 'text-white hover:bg-white/20 border-white/20 bg-white/10',
@@ -261,7 +273,9 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
               className={cn(
                 'h-11 w-11 rounded-xl transition-all',
                 isScrolled
-                  ? activeTheme === 'light' ? 'bg-slate-200/50 text-slate-900 hover:bg-[#B31B20] hover:text-white shadow-sm' : 'bg-slate-800 text-slate-200 hover:bg-[#ff4d4d] hover:text-white shadow-sm'
+                  ? activeTheme === 'light'
+                    ? 'bg-slate-200/50 text-slate-900 hover:bg-[#B31B20] hover:text-white shadow-sm'
+                    : 'bg-slate-800 text-slate-200 hover:bg-[#ff4d4d] hover:text-white shadow-sm'
                   : activeTheme === 'light'
                     ? 'text-slate-900 bg-slate-100/90'
                     : 'text-white hover:bg-white/20 bg-white/10 shadow-lg',
@@ -284,7 +298,9 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
             className={cn(
               'h-10 w-10 rounded-xl transition-all',
               isScrolled
-                ? activeTheme === 'light' ? 'text-slate-900 bg-slate-200/50' : 'text-slate-200 bg-slate-800'
+                ? activeTheme === 'light'
+                  ? 'text-slate-900 bg-slate-200/50'
+                  : 'text-slate-200 bg-slate-800'
                 : activeTheme === 'light'
                   ? 'text-slate-900 bg-slate-100/90'
                   : 'text-white bg-white/10',
@@ -302,7 +318,9 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
                 size="icon"
                 className={cn(
                   isScrolled
-                    ? activeTheme === 'light' ? 'text-slate-900' : 'text-slate-200'
+                    ? activeTheme === 'light'
+                      ? 'text-slate-900'
+                      : 'text-slate-200'
                     : activeTheme === 'light'
                       ? 'text-slate-900'
                       : 'text-white',
