@@ -5,7 +5,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { SectionHeading } from '@/components/SectionHeading'
 import { BlueHeroSlider } from '@/blocks/HeroCarouselBlock/Component'
-import { Play, Facebook, Twitter, FileText, ChevronRight, Calendar, Video } from 'lucide-react'
+import { Play , FileText, ChevronRight, Calendar, Video } from 'lucide-react'
 import {
   Card,
   CardContent,
@@ -592,10 +592,7 @@ export default async function HomePage({ params: paramsPromise }: Args) {
               {/* Facebook Plugin */}
               <Card className="border-slate-100 shadow-xl overflow-hidden p-1 rounded-2xl">
                 <div className="p-3 md:p-4 bg-slate-900 flex justify-between items-center rounded-t-xl">
-                  <h3 className="text-white font-black text-sm md:text-base flex items-center gap-2">
-                    <Facebook className="w-4 h-4 md:w-5 md:h-5 fill-white text-[#1877F2]" />
-                    {locale === 'en' ? 'Facebook Page' : 'फेसबुक पेज'}
-                  </h3>
+               
                   <Link
                     href="#"
                     className="text-white/60 hover:text-white text-[10px] md:text-xs font-bold"
