@@ -35,11 +35,25 @@ const item = [
 ]
 
 const educationItems = [
-  { degree: 'SLC उत्तीर्ण', institution: 'नेपाल सरकार बोर्ड', year: '२०७०' },
-  { degree: 'कक्षा ११/१२ उत्तीर्ण', institution: 'उच्च माध्यमिक शिक्षा परिषद्', year: '२०७२/७३' },
   {
-    degree: 'CMA (Certified Medical Assistant)',
-    institution: 'सीटीईभीटी (CTEVT)',
+    degreeEn: 'SLC Completed',
+    degreeNe: 'SLC उत्तीर्ण',
+    institutionEn: 'Government of Nepal Board',
+    institutionNe: 'नेपाल सरकार बोर्ड',
+    year: '२०७०',
+  },
+  {
+    degreeEn: 'Grade 11/12 Completed',
+    degreeNe: 'कक्षा ११/१२ उत्तीर्ण',
+    institutionEn: 'Higher Secondary Education Board',
+    institutionNe: 'उच्च माध्यमिक शिक्षा परिषद्',
+    year: '२०७२/७३',
+  },
+  {
+    degreeEn: 'CMA (Certified Medical Assistant)',
+    degreeNe: 'CMA (प्रमाणित मेडिकल सहायक)',
+    institutionEn: 'CTEVT',
+    institutionNe: 'सीटीईभीटी (CTEVT)',
     year: '२०७४/७५',
   },
 ]
@@ -52,6 +66,7 @@ type Args = {
 
 export default async function AboutPage({ params: paramsPromise }: Args) {
   const { locale = 'ne' } = await paramsPromise
+  const isEnglish = locale === 'en'
 
   const payload = await getPayload({ config: configPromise })
   const galleryDoc = await payload.find({
@@ -122,7 +137,7 @@ export default async function AboutPage({ params: paramsPromise }: Args) {
         <div className="absolute inset-0">
           <Image
             src={ImageURL || '/placeholder-image.jpg'}
-            alt="Leader Background"
+            alt={isEnglish ? 'Leader Background' : 'नेताको पृष्ठभूमि'}
             fill
             className="object-cover brightness-40"
             priority
@@ -134,14 +149,19 @@ export default async function AboutPage({ params: paramsPromise }: Args) {
         {/* Content */}
         <div className="container relative z-10 pb-16 md:pb-24">
           <Badge className="bg-[#B31B20] text-white border-none mb-4 px-4 py-1.5 text-xs uppercase tracking-widest font-black rounded-full">
-            {locale === 'en' ? 'About Jalsa Xettri' : 'जलसा क्षेत्री को परिचय'}
+            {isEnglish ? 'About Jalsa Xettri' : 'जलसा क्षेत्री को परिचय'}
           </Badge>
           <h1 className="text-4xl md:text-6xl lg:text-7xl leading-none tracking-tighter mb-4 text-white drop-shadow-xl">
             {slider?.docs?.[0]?.slides?.[0]?.title}
           </h1>
           <div className="text-lg md:text-xl font-bold max-w-2xl leading-relaxed text-slate-200 drop-shadow-lg">
             {slider?.docs?.[0]?.slides?.[0]?.description && (
-              <RichText data={slider.docs[0].slides[0].description} enableGutter={false} enableProse={false} className="m-0 p-0" />
+              <RichText
+                data={slider.docs[0].slides[0].description}
+                enableGutter={false}
+                enableProse={false}
+                className="m-0 p-0"
+              />
             )}
           </div>
         </div>
@@ -166,12 +186,12 @@ export default async function AboutPage({ params: paramsPromise }: Args) {
                     <div className="absolute inset-0 bg-linear-to-t from-slate-950 via-transparent to-transparent" />
                     <div className="absolute bottom-0 inset-x-0 p-6 text-white">
                       <h2 className="text-2xl font-black leading-tight">
-                        {locale === 'en' ? ' Jalsa Xettri' : ' जलसा क्षेत्री '}
+                        {isEnglish ? 'Jalsa Xettri' : 'जलसा क्षेत्री'}
                       </h2>
                       <p className="text-slate-300 text-sm font-bold mt-1">
-                        {locale === 'en'
+                        {isEnglish
                           ? 'CPN (UML) Kalikot District Accounts Commission Chairman'
-                          : ' नेकपा (एमाले) कालिकोट जिल्ला लेखा आयोग अध्यक्ष '}
+                          : 'नेकपा (एमाले) कालिकोट जिल्ला लेखा आयोग अध्यक्ष'}
                       </p>
                     </div>
                   </div>
@@ -179,15 +199,15 @@ export default async function AboutPage({ params: paramsPromise }: Args) {
                     {[
                       {
                         icon: MapPin,
-                        text: `${locale === 'en' ? ' Kalikot, Nepal' : ' कालिकोट, नेपाल'}`,
+                        text: isEnglish ? 'Kalikot, Nepal' : 'कालिकोट, नेपाल',
                       },
                       {
                         icon: Calendar,
-                        text: `${locale === 'en' ? ' BOD: 1997 May 20' : ' जन्म: वि.सं. २०५४ जेठ ५'}`,
+                        text: isEnglish ? 'BOD: 1997 May 20' : 'जन्म: वि.सं. २०५४ जेठ ५',
                       },
                       {
                         icon: Star,
-                        text: `${locale === 'en' ? ' Youth Leader and Activist' : ' युवा नेता तथा अभियान्ता'}`,
+                        text: isEnglish ? 'Youth Leader and Activist' : 'युवा नेता तथा अभियान्ता',
                       },
                     ].map(({ icon: Icon, text }) => (
                       <div
@@ -225,7 +245,7 @@ export default async function AboutPage({ params: paramsPromise }: Args) {
                 <SectionHeading
                   title={
                     morals.docs?.[0]?.title ||
-                    (locale === 'en' ? 'Morals and Values' : 'मूल्य र सिद्धान्त')
+                    (isEnglish ? 'Morals and Values' : 'मूल्य र सिद्धान्त')
                   }
                   className="mb-6"
                 />
@@ -257,7 +277,12 @@ export default async function AboutPage({ params: paramsPromise }: Args) {
                           )}
                           <div className="text-slate-500 dark:text-slate-400 text-sm font-medium leading-relaxed">
                             {slide.description && (
-                              <RichText data={slide.description} enableGutter={false} enableProse={false} className="m-0 p-0" />
+                              <RichText
+                                data={slide.description}
+                                enableGutter={false}
+                                enableProse={false}
+                                className="m-0 p-0"
+                              />
                             )}
                           </div>
                         </div>
@@ -272,7 +297,7 @@ export default async function AboutPage({ params: paramsPromise }: Args) {
       </section>
 
       <section className="w-full py-16 md:py-24 bg-white dark:bg-slate-900 relative overflow-hidden">
-        <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-red-600/5 blur-[120px] -ml-20 -mt-20" />
+        <div className="absolute top-0 left-0 w-125 h-125 bg-red-600/5 blur-[120px] -ml-20 -mt-20" />
         <div className="container relative z-10">
           <SectionHeading
             title={
@@ -297,12 +322,17 @@ export default async function AboutPage({ params: paramsPromise }: Args) {
                         {slide.subTitle}
                       </div>
                       <div className="flex-1 min-w-0">
-                        <h3 className="font-black text-slate-900 dark:text-white text-lg mb-2 group-hover:text-[#B31B20] dark:group-hover:text-[#ff4d4d] transition-colors break-words">
+                        <h3 className="font-black text-slate-900 dark:text-white text-lg mb-2 group-hover:text-[#B31B20] dark:group-hover:text-[#ff4d4d] transition-colors wrap-break-word">
                           {slide.title}
                         </h3>
-                        <div className="text-slate-500 dark:text-slate-300 font-medium leading-relaxed text-sm break-words">
+                        <div className="text-slate-500 dark:text-slate-300 font-medium leading-relaxed text-sm wrap-break-word">
                           {slide.description && (
-                            <RichText data={slide.description} enableGutter={false} enableProse={false} className="m-0 p-0" />
+                            <RichText
+                              data={slide.description}
+                              enableGutter={false}
+                              enableProse={false}
+                              className="m-0 p-0"
+                            />
                           )}
                         </div>
                       </div>
@@ -318,7 +348,10 @@ export default async function AboutPage({ params: paramsPromise }: Args) {
       {/* Education */}
       <section className="w-full py-16 md:py-24 bg-white dark:bg-slate-900 border-t border-slate-100 dark:border-slate-800">
         <div className="container">
-          <SectionHeading title="शैक्षिक योग्यता" className="mb-10" />
+          <SectionHeading
+            title={isEnglish ? 'Educational Qualifications' : 'शैक्षिक योग्यता'}
+            className="mb-10"
+          />
           <div className="relative">
             <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-linear-to-b from-[#B31B20] to-slate-200" />
             <div className="space-y-8">
@@ -331,10 +364,11 @@ export default async function AboutPage({ params: paramsPromise }: Args) {
                     <CardContent className="p-6 flex flex-col sm:flex-row sm:items-center gap-4 justify-between">
                       <div>
                         <h3 className="font-black text-slate-900 dark:text-white text-lg">
-                          {edu.degree}
+                          {isEnglish ? edu.degreeEn : edu.degreeNe}
                         </h3>
                         <p className="text-slate-500 dark:text-slate-300 font-medium text-sm mt-1 flex items-center gap-2">
-                          <Globe className="w-4 h-4 text-[#B31B20]" /> {edu.institution}
+                          <Globe className="w-4 h-4 text-[#B31B20]" />
+                          {isEnglish ? edu.institutionEn : edu.institutionNe}
                         </p>
                       </div>
                       <Badge className="bg-[#B31B20]/10 text-[#B31B20] border-none px-4 py-2 rounded-full font-black text-sm self-start sm:self-center whitespace-nowrap">
@@ -355,10 +389,10 @@ export default async function AboutPage({ params: paramsPromise }: Args) {
         <div className="container relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
           <div>
             <h2 className="text-3xl md:text-4xl font-black text-white leading-tight">
-              {locale === 'en' ? 'Stay Connected' : 'सम्पर्कमा रहनुहोस्'}
+              {isEnglish ? 'Stay Connected' : 'सम्पर्कमा रहनुहोस्'}
             </h2>
             <p className="text-red-100 font-bold mt-3 text-lg max-w-xl">
-              {locale === 'en'
+              {isEnglish
                 ? "Stay updated with Jalsa Xettri's activities, ideas, and social campaigns."
                 : 'जल्सा क्षेत्रीका गतिविधि, विचार र सामाजिक अभियानहरूको अपडेट पाउन जोडिनुहोस्।'}
             </p>
@@ -368,13 +402,13 @@ export default async function AboutPage({ params: paramsPromise }: Args) {
               href="/news"
               className="bg-white text-[#B31B20] font-black px-8 py-4 rounded-2xl hover:bg-red-50 transition-all shadow-xl hover:-translate-y-1 text-base"
             >
-              {locale === 'en' ? 'News' : 'समाचार हेर्नुहोस्'}
+              {isEnglish ? 'News' : 'समाचार हेर्नुहोस्'}
             </Link>
             <Link
               href="/activities"
               className="bg-white/10 border border-white/30 text-white font-black px-8 py-4 rounded-2xl hover:bg-white/20 transition-all shadow-xl hover:-translate-y-1 text-base backdrop-blur-sm"
             >
-              {locale === 'en' ? 'Activities' : 'गतिविधि'}
+              {isEnglish ? 'Activities' : 'गतिविधि'}
             </Link>
           </div>
         </div>

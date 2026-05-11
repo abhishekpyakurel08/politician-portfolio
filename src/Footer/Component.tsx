@@ -119,6 +119,15 @@ export async function Footer({ locale }: { locale: Locale }) {
                   {locale === 'en' ? 'Gallery' : 'फोटो ग्यालरी'}
                 </Link>
               </li>
+              <li>
+                <Link
+                  href={`/${locale}/contact`}
+                  className="text-slate-400 hover:text-[#B31B20] transition-colors flex items-center gap-2 group"
+                >
+                  <span className="w-1.5 h-1.5 rounded-full bg-slate-600 group-hover:bg-[#B31B20] transition-colors"></span>{' '}
+                  {locale === 'en' ? 'Contact' : 'सम्पर्क'}
+                </Link>
+              </li>
             </ul>
           </div>
 
@@ -170,12 +179,12 @@ export async function Footer({ locale }: { locale: Locale }) {
           </div>
 
           {/* Connect Column / CTA */}
-          <div className="space-y-8 h-full">
-            <div className="p-6 rounded-3xl bg-linear-to-br from-white/5 to-transparent border border-white/10 shadow-inner h-full flex flex-col justify-between">
-              <h4 className="text-slate-400 font-black mb-4">
+          <div className="space-y-8">
+            <div className="p-6 rounded-3xl bg-linear-to-br from-white/5 to-transparent border border-white/10 shadow-inner flex flex-col gap-3">
+              <h4 className="text-slate-400 font-black">
                 {locale === 'en' ? 'Join our campaign' : 'हाम्रो अभियानमा जोडिनुहोस्'}
               </h4>
-              <p className="text-sm text-slate-400 mb-6 font-medium">
+              <p className="text-sm text-slate-400 font-medium leading-relaxed mb-1">
                 {locale === 'en'
                   ? 'Sign up for our newsletter for the latest updates and important information.'
                   : 'ताजा अपडेट र महत्वपूर्ण जानकारीका लागि हाम्रो न्यूजलेटरमा दर्ता गर्नुहोस्।'}

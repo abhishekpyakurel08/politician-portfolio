@@ -26,6 +26,7 @@ export const News: CollectionConfig = {
       name: 'title',
       type: 'text',
       required: true,
+      localized: true,
       admin: {
         position: 'sidebar',
       },
@@ -42,6 +43,7 @@ export const News: CollectionConfig = {
     {
       name: 'publishDate',
       type: 'date',
+      localized: true,
       admin: {
         position: 'sidebar',
       },
@@ -49,6 +51,7 @@ export const News: CollectionConfig = {
     {
       name: 'category',
       type: 'relationship',
+      localized: true,
       relationTo: 'categories',
       admin: {
         position: 'sidebar',
@@ -63,6 +66,7 @@ export const News: CollectionConfig = {
     {
       name: 'hasVideo',
       type: 'checkbox',
+      localized: true,
       defaultValue: false,
       admin: {
         position: 'sidebar',
@@ -72,6 +76,7 @@ export const News: CollectionConfig = {
     {
       name: 'excerpt',
       type: 'textarea',
+      localized: true,
       admin: {
         position: 'sidebar',
       },
@@ -79,6 +84,7 @@ export const News: CollectionConfig = {
     {
       name: 'content',
       type: 'richText',
+      localized: true,
     },
     {
       name: 'meta',
@@ -106,4 +112,3 @@ export const News: CollectionConfig = {
     },
   ],
 }
-

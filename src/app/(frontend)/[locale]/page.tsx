@@ -516,7 +516,7 @@ export default async function HomePage({ params: paramsPromise }: Args) {
               />
               <div className="flex flex-col md:flex-row gap-6 md:gap-8">
                 {/* Highlight */}
-                <div className="md:w-1/2 group">
+                <div className="w-full group">
                   <Card className="overflow-hidden border-none shadow-xl h-full rounded-2xl md:rounded-3xl">
                     <div className="relative aspect-4/5 overflow-hidden">
                       {decisionsNews[0]?.imageUrl ? (
@@ -543,38 +543,6 @@ export default async function HomePage({ params: paramsPromise }: Args) {
                     </div>
                   </Card>
                 </div>
-
-                {/* List */}
-                <div className="md:w-1/2 flex flex-col gap-4 md:gap-6">
-                  {decisionsNews.slice(1, 4).map((item, idx) => (
-                    <Link key={idx} href={`/news/${item?.slug}`} className="group">
-                      <Card className="p-1 border-slate-100 hover:border-red-100 bg-slate-50/30 hover:bg-white shadow-sm hover:shadow-lg transition-all duration-300 rounded-xl md:rounded-2xl">
-                        <div className="relative aspect-video overflow-hidden rounded-lg mb-3 md:mb-4">
-                          {item?.imageUrl ? (
-                            <Image
-                              src={item!.imageUrl as string}
-                              alt={item?.title || 'Decision document image'}
-                              fill
-                              className="object-cover group-hover:scale-105 transition-transform duration-700"
-                            />
-                          ) : (
-                            <div className="w-full h-full bg-slate-200 flex items-center justify-center">
-                              <span className="text-slate-500 text-xs">No image</span>
-                            </div>
-                          )}
-                        </div>
-                        <div className="px-3 pb-3 md:px-4 md:pb-4">
-                          <h3 className="font-bold text-slate-800 group-hover:text-[#B31B20] leading-snug line-clamp-2 text-sm md:text-xl">
-                            "{item?.title}"
-                          </h3>
-                          <p className="text-slate-500 text-[10px] md:text-xs font-bold mt-1.5 md:mt-2 flex items-center gap-1.5 uppercase tracking-tighter">
-                            <Calendar className="w-3.5 h-3.5" /> {item?.date}
-                          </p>
-                        </div>
-                      </Card>
-                    </Link>
-                  ))}
-                </div>
               </div>
             </div>
 
@@ -593,7 +561,7 @@ export default async function HomePage({ params: paramsPromise }: Args) {
                 </CardHeader>
                 <CardContent className="p-0">
                   <div className="flex flex-col">
-                    {pressNews.map((item, i) => (
+                    {pressNews.slice(0, 5).map((item, i) => (
                       <Link
                         key={i}
                         href={`/news/${item?.slug}`}
@@ -665,7 +633,9 @@ export default async function HomePage({ params: paramsPromise }: Args) {
             <div className="w-20 h-20 md:w-32 md:h-32 rounded-full overflow-hidden ring-2 md:ring-4 ring-white shadow-2xl relative z-10"></div>
           </div>
           <p className="text-xl md:text-4xl lg:text-5xl font-black leading-tight drop-shadow-2xl tracking-tight max-w-4xl italic">
-            {locale === 'en' ? "Our journey will not be pleasant, but the outcome will certainly be happy and peaceful. The struggle for justice and rights of the people continues." : "हाम्रो यात्रा सुखद हुँदैन, तर परिणाम अवश्य पनि सुखद र शान्तिपूर्ण हुनेछ। जनताको न्याय र अधिकारको लागि निरन्तर सङ्घर्ष जारी छ।"}
+            {locale === 'en'
+              ? 'Our journey will not be pleasant, but the outcome will certainly be happy and peaceful. The struggle for justice and rights of the people continues.'
+              : 'हाम्रो यात्रा सुखद हुँदैन, तर परिणाम अवश्य पनि सुखद र शान्तिपूर्ण हुनेछ। जनताको न्याय र अधिकारको लागि निरन्तर सङ्घर्ष जारी छ।'}
           </p>
           <div className="mt-6 md:mt-8 flex flex-col items-center">
             <div className="h-1 w-16 md:w-20 bg-red-600 rounded-full mb-3 md:mb-4" />

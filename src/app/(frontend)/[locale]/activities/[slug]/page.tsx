@@ -42,7 +42,7 @@ export default async function ActivityPost({ params: paramsPromise }: Args) {
   const { slug = '' } = await paramsPromise
   const decodedSlug = decodeURIComponent(slug)
   const url = '/activities/' + decodedSlug
-  const activity = await queryActivityBySlug({ slug: decodedSlug })
+  const activity = await queryActivityBySlug({ slug: decodedSlug, locale })
 
   if (!activity) {
     // If it's a mock slug for UI demo, show dummy content
@@ -94,7 +94,9 @@ export default async function ActivityPost({ params: paramsPromise }: Args) {
             {activity.publishDate && (
               <div className="flex items-center gap-2 text-slate-300 font-bold text-sm bg-white/5 backdrop-blur-md px-4 py-1.5 rounded-full border border-white/10">
                 <Calendar className="w-4 h-4 text-[#B31B20]" />
-                {new Date(activity.publishDate).toLocaleDateString('ne-NP')}
+                {new Date(activity.publishDate).toLocaleDateString(
+                  locale === 'en' ? 'en-US' : 'ne-NP',
+                )}
               </div>
             )}
           </div>
@@ -134,32 +136,36 @@ export default async function ActivityPost({ params: paramsPromise }: Args) {
 }
 
 export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
-  const { slug = '' } = await paramsPromise
+  const { slug = '', locale = 'ne' } = await paramsPromise
   const decodedSlug = decodeURIComponent(slug)
-  const activity = await queryActivityBySlug({ slug: decodedSlug })
+  const activity = await queryActivityBySlug({ slug: decodedSlug, locale })
 
   return generateMeta({ doc: activity })
 }
 
-const queryActivityBySlug = cache(async ({ slug }: { slug: string }) => {
-  const { isEnabled: draft } = await draftMode()
-  const payload = await getPayload({ config: configPromise })
+const queryActivityBySlug = cache(
+  async ({ slug, locale }: { slug: string; locale: TypedLocale }) => {
+    const { isEnabled: draft } = await draftMode()
+    const payload = await getPayload({ config: configPromise })
 
-  const result = await payload.find({
-    collection: 'activities',
-    draft,
-    limit: 1,
-    overrideAccess: draft,
-    pagination: false,
-    where: {
-      slug: {
-        equals: slug,
+    const result = await payload.find({
+      collection: 'activities',
+      draft,
+      limit: 1,
+      overrideAccess: draft,
+      pagination: false,
+      locale,
+      fallbackLocale: 'ne',
+      where: {
+        slug: {
+          equals: slug,
+        },
       },
-    },
-  })
+    })
 
-  return result.docs?.[0] || null
-})
+    return result.docs?.[0] || null
+  },
+)
 
 // Mock fallback for UI demo links
 function MockActivityPost({ slug }: { slug: string }) {
