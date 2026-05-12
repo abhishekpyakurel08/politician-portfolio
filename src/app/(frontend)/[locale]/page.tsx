@@ -5,7 +5,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { SectionHeading } from '@/components/SectionHeading'
 import { BlueHeroSlider } from '@/blocks/HeroCarouselBlock/Component'
-import { Play , FileText, ChevronRight, Calendar, Video } from 'lucide-react'
+import { Play, FileText, ChevronRight, Calendar, Video, Facebook, Twitter } from 'lucide-react'
 import {
   Card,
   CardContent,
