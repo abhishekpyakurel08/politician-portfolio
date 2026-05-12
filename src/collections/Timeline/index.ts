@@ -20,11 +20,13 @@ export const Timeline: CollectionConfig = {
       name: 'title',
       type: 'text',
       required: true,
+      localized: true,
     },
     {
       name: 'year',
       type: 'text',
       required: true,
+      localized: true,
       admin: {
         placeholder: 'e.g. 2006, Oct 2021, etc.',
       },
@@ -33,6 +35,7 @@ export const Timeline: CollectionConfig = {
       name: 'description',
       type: 'textarea',
       required: true,
+      localized: true,
     },
     {
       name: 'image',
@@ -51,12 +54,13 @@ export const Timeline: CollectionConfig = {
       defaultValue: 'party',
     },
     {
-        name: 'fullDetail',
-        type: 'richText',
-        admin: {
-            description: 'Optional long detail for a full history page.'
-        }
-    }
+      name: 'fullDetail',
+      type: 'richText',
+      localized: true,
+      admin: {
+        description: 'Optional long detail for a full history page.',
+      },
+    },
   ],
   timestamps: true,
 }

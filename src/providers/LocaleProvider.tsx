@@ -1,29 +1,40 @@
 'use client'
 import React, { createContext, useContext, useEffect, useState } from 'react'
-import { translations, Locale } from '@/utilities/translations'
+import { translations, type Locale, type TranslationKeys } from '@/locales'
 
 interface LocaleContextType {
   locale: Locale
   setLocale: (locale: Locale) => void
-  t: typeof translations['ne']
+  t: TranslationKeys
 }
 
 const LocaleContext = createContext<LocaleContextType | undefined>(undefined)
 
-export const LocaleProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [locale, setLocaleState] = useState<Locale>('ne')
+export const LocaleProvider: React.FC<{ children: React.ReactNode; initialLocale?: Locale }> = ({ children, initialLocale }) => {
+  const [locale, setLocaleState] = useState<Locale>(() => {
+    if (initialLocale && translations[initialLocale as Locale]) {
+      return initialLocale as Locale
+    }
+    return 'ne'
+  })
 
   useEffect(() => {
+    if (initialLocale && translations[initialLocale as Locale]) {
+      setLocaleState(initialLocale as Locale)
+      return
+    }
     const stored = localStorage.getItem('user_locale') as Locale
-    if (stored) setLocaleState(stored)
-  }, [])
+    if (stored && translations[stored]) {
+      setLocaleState(stored)
+    }
+  }, [initialLocale])
 
   const setLocale = (newLocale: Locale) => {
     setLocaleState(newLocale)
     localStorage.setItem('user_locale', newLocale)
   }
 
-  const t = translations[locale]
+  const t = translations[locale] || translations['ne']
 
   return (
     <LocaleContext.Provider value={{ locale, setLocale, t }}>
@@ -34,6 +45,9 @@ export const LocaleProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 
 export const useLocale = () => {
   const context = useContext(LocaleContext)
-  if (!context) throw new Error('useLocale must be used within a LocaleProvider')
+  if (!context) {
+    console.warn('useLocale used outside of LocaleProvider, defaulting to "ne"')
+    return { locale: 'ne' as Locale, setLocale: () => {}, t: translations['ne'] }
+  }
   return context
 }

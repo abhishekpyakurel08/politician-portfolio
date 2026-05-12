@@ -76,6 +76,8 @@ export interface Config {
     gallery: Gallery;
     videos: Video;
     timeline: Timeline;
+    sliders: Slider;
+    activities: Activity;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -102,6 +104,8 @@ export interface Config {
     gallery: GallerySelect<false> | GallerySelect<true>;
     videos: VideosSelect<false> | VideosSelect<true>;
     timeline: TimelineSelect<false> | TimelineSelect<true>;
+    sliders: SlidersSelect<false> | SlidersSelect<true>;
+    activities: ActivitiesSelect<false> | ActivitiesSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -939,6 +943,103 @@ export interface Timeline {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "sliders".
+ */
+export interface Slider {
+  id: string;
+  title: string;
+  slug: string;
+  slides: {
+    image?: (string | null) | Media;
+    /**
+     * Select an icon to display if no image is uploaded.
+     */
+    icon?:
+      | (
+          | 'User'
+          | 'Info'
+          | 'Calendar'
+          | 'Star'
+          | 'Heart'
+          | 'Globe'
+          | 'Search'
+          | 'MapPin'
+          | 'Activity'
+          | 'Award'
+          | 'BookOpen'
+          | 'Building2'
+          | 'CheckCircle'
+          | 'Users'
+        )
+      | null;
+    title?: string | null;
+    subTitle?: string | null;
+    description?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+    id?: string | null;
+  }[];
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "activities".
+ */
+export interface Activity {
+  id: string;
+  title: string;
+  slug: string;
+  publishDate?: string | null;
+  category?: (string | null) | Category;
+  featuredImage: string | Media;
+  /**
+   * Check this if the news has a video attached.
+   */
+  hasVideo?: boolean | null;
+  excerpt?: string | null;
+  content?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  meta?: {
+    title?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (string | null) | Media;
+    description?: string | null;
+  };
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
@@ -1162,6 +1263,14 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'timeline';
         value: string | Timeline;
+      } | null)
+    | ({
+        relationTo: 'sliders';
+        value: string | Slider;
+      } | null)
+    | ({
+        relationTo: 'activities';
+        value: string | Activity;
       } | null)
     | ({
         relationTo: 'redirects';
@@ -1638,6 +1747,51 @@ export interface TimelineSelect<T extends boolean = true> {
   fullDetail?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "sliders_select".
+ */
+export interface SlidersSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  slides?:
+    | T
+    | {
+        image?: T;
+        icon?: T;
+        title?: T;
+        subTitle?: T;
+        description?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "activities_select".
+ */
+export interface ActivitiesSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  publishDate?: T;
+  category?: T;
+  featuredImage?: T;
+  hasVideo?: T;
+  excerpt?: T;
+  content?: T;
+  meta?:
+    | T
+    | {
+        title?: T;
+        image?: T;
+        description?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

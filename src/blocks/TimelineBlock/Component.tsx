@@ -8,7 +8,6 @@ import { Badge } from '@/components/ui/badge'
 import { MoveRight, History, Calendar } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/utilities/ui'
-
 const defaultTimelineItems = [
   {
     year: '२०७१',
@@ -43,11 +42,19 @@ const defaultTimelineItems = [
 ]
 
 export const TimelineBlock = async ({ 
-  title = 'मेरो राजनीतिक तथा सामाजिक यात्रा',
-  subtitle = '२०७० सालदेखिको निरन्तर सङ्घर्ष र जनसेवाको गौरवमय इतिहास',
-  limit = 10 
+  title,
+  subtitle,
+  limit = 10,
+  locale = 'ne'
+}: {
+  title?: string
+  subtitle?: string
+  limit?: number
+  locale?: string
 }) => {
   const payload = await getPayload({ config: configPromise })
+  const finalTitle = title || (locale === 'en' ? 'My Political and Social Journey' : 'मेरो राजनीतिक तथा सामाजिक यात्रा')
+  const finalSubtitle = subtitle || (locale === 'en' ? 'A glorious history of continuous struggle and public service since 2070' : '२०७० सालदेखिको निरन्तर सङ्घर्ष र जनसेवाको गौरवमय इतिहास')
   
   const fetchedTimeline = await payload.find({
     collection: 'timeline',
@@ -73,8 +80,8 @@ export const TimelineBlock = async ({
 
       <div className="container relative z-10">
         <div className="text-center mb-12 md:mb-20 max-w-3xl mx-auto">
-          <SectionHeading title={title} className="border-none justify-center py-0 mb-4" />
-          <p className="text-slate-500 font-bold uppercase tracking-widest text-sm mb-6">{subtitle}</p>
+          <SectionHeading title={finalTitle} className="border-none justify-center py-0 mb-4" />
+          <p className="text-slate-500 font-bold uppercase tracking-widest text-sm mb-6">{finalSubtitle}</p>
           <div className="w-20 h-1.5 bg-[#B31B20] mx-auto rounded-full" />
         </div>
 
@@ -121,7 +128,7 @@ export const TimelineBlock = async ({
                           "mt-6 flex items-center gap-2 font-black text-[#B31B20] text-sm uppercase tracking-tighter cursor-pointer group/link mukta-bold",
                           isEven ? "md:justify-end" : "justify-start"
                         )}>
-                          पूर्ण विवरण <MoveRight className="w-4 h-4 group-hover/link:translate-x-2 transition-transform duration-300" />
+                          {locale==='en'?'Full Details':'पूर्ण विवरण'}<MoveRight className="w-4 h-4 group-hover/link:translate-x-2 transition-transform duration-300" />
                         </div>
                       </CardContent>
                     </Card>
@@ -132,7 +139,7 @@ export const TimelineBlock = async ({
                      <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-white shadow-2xl border-[6px] border-[#B31B20]/20 flex items-center justify-center group cursor-pointer hover:scale-110 transition-transform duration-500 relative">
                         <div className="absolute inset-0 rounded-full border-2 border-[#B31B20] scale-95" />
                         <span className="text-[#B31B20] font-black leading-none text-center relative z-10 mukta-bold">
-                           <div className="text-[10px] md:text-xs uppercase opacity-60">Year</div>
+                           <div className="text-[10px] md:text-xs uppercase opacity-60">{locale==='en'?'Year':'वर्ष'}</div>
                            <div className="text-sm md:text-lg">{item.year}</div>
                         </span>
                         
@@ -155,8 +162,8 @@ export const TimelineBlock = async ({
 
         {/* View All Button */}
         <div className="mt-16 md:mt-24 text-center">
-           <Button size="lg" className="bg-slate-900 border-none px-12 h-16 md:h-20 rounded-full font-black text-lg md:text-xl gap-4 hover:bg-[#B31B20] shadow-2xl shadow-blue-900/20 transition-all hover:-translate-y-2 mukta-bold uppercase tracking-widest leading-none">
-             पूरा इतिहास हेर्नुहोस् <MoveRight className="w-6 h-6" />
+           <Button size="lg" className="bg-[#B31B20] text-white border-none px-12 h-16 md:h-20 rounded-full font-black text-lg md:text-xl gap-4 hover:bg-slate-900 shadow-2xl shadow-red-900/40 transition-all hover:-translate-y-2 mukta-bold uppercase tracking-widest leading-none">
+             {locale==='en'?'View All History':'पूरा इतिहास हेर्नुहोस्'} <MoveRight className="w-6 h-6" />
            </Button>
         </div>
       </div>

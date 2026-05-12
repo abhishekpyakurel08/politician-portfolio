@@ -8,8 +8,8 @@ import {
   PreviewField,
 } from '@payloadcms/plugin-seo/fields'
 
-export const News: CollectionConfig = {
-  slug: 'news',
+export const Activities: CollectionConfig = {
+  slug: 'activities',
   admin: {
     useAsTitle: 'title',
     defaultColumns: ['title', 'category', 'publishDate', 'status'],

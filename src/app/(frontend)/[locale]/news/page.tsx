@@ -1,5 +1,5 @@
 import React from 'react'
-import { getPayload } from 'payload'
+import { getPayload, TypedLocale } from 'payload'
 import configPromise from '@payload-config'
 import Link from 'next/link'
 import Image from 'next/image'
@@ -11,8 +11,8 @@ import { SectionHeading } from '@/components/SectionHeading'
 import { Calendar, ChevronRight, Clock, Newspaper } from 'lucide-react'
 
 export const metadata: Metadata = {
-  title: 'समाचार | Jalsa Xettri',
-  description: 'Jalsa Xettri को ताजा समाचार, भाषण र आधिकारिक घोषणाहरू।',
+  title: 'समाचार | Jalsa Chhetri',
+  description: 'Jalsa Chhetri को ताजा समाचार, भाषण र आधिकारिक घोषणाहरू।',
 }
 
 export const revalidate = 60
@@ -20,14 +20,22 @@ export const revalidate = 60
 const mockNews = Array.from({ length: 12 }, (_, i) => ({
   id: `mock-${i}`,
   title: `समाचार शीर्षक — पार्टी सम्मेलन र विकासका नयाँ पाइला ${i + 1}`,
-  excerpt: 'नेकपा (एमाले)का नेताहरू एकत्रित भई राष्ट्रिय विकास र जनताको सेवाका विषयमा गहन छलफल गरे।',
+  excerpt:
+    'नेकपा (एमाले)का नेताहरू एकत्रित भई राष्ट्रिय विकास र जनताको सेवाका विषयमा गहन छलफल गरे।',
   imageUrl: '/website-template-OG.webp',
   date: new Date(Date.now() - i * 86400000 * 2).toLocaleDateString('ne-NP'),
   slug: '#',
   category: ['राजनीति', 'विकास', 'स्वास्थ्य', 'शिक्षा'][i % 4],
 }))
 
-export default async function NewsList() {
+type Args = {
+  params: Promise<{
+    locale: TypedLocale
+  }>
+}
+
+export default async function NewsList({ params: paramsPromise }: Args) {
+  const { locale = 'ne' } = await paramsPromise
   const payload = await getPayload({ config: configPromise })
 
   const { docs: newsDocs } = await payload.find({
@@ -55,20 +63,28 @@ export default async function NewsList() {
   const grid = news.slice(1)
 
   return (
-    <main className="min-h-screen bg-slate-50">
+    <main className="min-h-screen bg-slate-50 dark:bg-slate-950 transition-colors duration-300">
       {/* Page Hero */}
-      <section className="w-full bg-slate-900 pt-12 pb-0 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#B31B20] opacity-[0.05] blur-[120px] -mr-20 -mt-20 rounded-full" />
+      <section className="w-full bg-slate-950 pt-32 md:pt-40 pb-0 relative overflow-hidden">
+        <div className="absolute inset-0">
+          <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#B31B20] opacity-[0.05] blur-[120px] -mr-20 -mt-20 rounded-full" />
+          <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10 mix-blend-overlay" />
+        </div>
+
         <div className="container relative z-10">
           <div className="flex items-center gap-3 mb-6">
             <Newspaper className="w-6 h-6 text-[#B31B20]" />
-            <span className="text-slate-400 font-black uppercase text-sm tracking-widest">समाचार केन्द्र</span>
+            <span className="text-slate-400 font-black uppercase text-sm tracking-widest leading-none">
+              {locale === 'en' ? 'News Center' : 'समाचार केन्द्र'}
+            </span>
           </div>
-          <h1 className="text-5xl md:text-7xl font-black text-white tracking-tighter mb-0 leading-none">
-            ताजा समाचार
+          <h1 className="text-5xl md:text-7xl font-black text-white tracking-tighter leading-none mb-4 uppercase">
+            {locale === 'en' ? 'Latest News' : 'ताजा समाचार'}
           </h1>
-          <p className="text-slate-400 font-bold mt-4 mb-12 text-lg max-w-2xl">
-            Jalsa Xettri को आधिकारिक भाषण, घोषणा र ताजा अपडेट।
+          <p className="text-slate-400 font-bold mt-6 mb-12 text-lg md:text-xl max-w-2xl leading-relaxed">
+            {locale === 'en'
+              ? 'Jalsa Chhetri’s official speeches, announcements and latest updates.'
+              : 'जलसा क्षेत्री को आधिकारिक भाषण, घोषणा र ताजा अपडेट।'}
           </p>
         </div>
 
@@ -89,10 +105,13 @@ export default async function NewsList() {
                 <div className="absolute inset-x-0 bottom-0 p-8 md:p-12">
                   <div className="flex items-center gap-3 mb-4">
                     <Badge className="bg-[#B31B20] text-white border-none px-4 py-1.5 rounded-full font-black text-xs uppercase tracking-widest">
-                      मुख्य समाचार
+                      {locale === 'en' ? 'Featured News' : 'मुख्य समाचार'}
                     </Badge>
                     {featured.category && (
-                      <Badge variant="outline" className="text-white border-white/30 bg-white/10 backdrop-blur-sm text-xs font-bold rounded-full">
+                      <Badge
+                        variant="outline"
+                        className="text-white border-white/30 bg-white/10 backdrop-blur-sm text-xs font-bold rounded-full"
+                      >
                         {featured.category}
                       </Badge>
                     )}
@@ -111,7 +130,8 @@ export default async function NewsList() {
                       </div>
                     )}
                     <div className="flex items-center gap-2 text-[#B31B20] font-black text-sm group-hover:gap-3 transition-all">
-                      थप पढ्नुहोस् <ChevronRight className="w-4 h-4" />
+                      {locale === 'en' ? 'Read More' : 'थप पढ्नुहोस्'}
+                      <ChevronRight className="w-4 h-4" />
                     </div>
                   </div>
                 </div>
@@ -124,7 +144,11 @@ export default async function NewsList() {
       {/* News Grid */}
       <section className="w-full py-16 md:py-20 bg-slate-50">
         <div className="container">
-          <SectionHeading title="सम्पूर्ण समाचार" className="mb-10" />
+          <SectionHeading
+            title={locale === 'en' ? 'All News' : 'सम्पूर्ण समाचार'}
+            className="mb-10"
+            textColor="text-slate-950 dark:text-white"
+          />
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             {grid.map((doc) => (
@@ -154,7 +178,7 @@ export default async function NewsList() {
                         {doc.date}
                       </div>
                     )}
-                    <CardTitle className="text-lg font-black text-slate-900 group-hover:text-[#B31B20] transition-colors leading-snug line-clamp-2">
+                    <CardTitle className="text-lg font-black text-slate-900 dark:text-white group-hover:text-[#B31B20] transition-colors leading-snug line-clamp-2">
                       {doc.title}
                     </CardTitle>
                   </CardHeader>
