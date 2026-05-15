@@ -77,7 +77,7 @@ export const MobileNav = ({ locale: propLocale }: { locale?: Locale }) => {
 
         {/* WhatsApp */}
         <a
-          href="https://wa.me/9779743223799"
+          href="https://wa.me/9779847949547"
           target="_blank"
           rel="noopener noreferrer"
           className={cn(
