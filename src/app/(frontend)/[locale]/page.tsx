@@ -592,7 +592,6 @@ export default async function HomePage({ params: paramsPromise }: Args) {
               {/* Facebook Plugin */}
               <Card className="border-slate-100 shadow-xl overflow-hidden p-1 rounded-2xl">
                 <div className="p-3 md:p-4 bg-slate-900 flex justify-between items-center rounded-t-xl">
-               
                   <Link
                     href="#"
                     className="text-white/60 hover:text-white text-[10px] md:text-xs font-bold"
@@ -619,16 +618,12 @@ export default async function HomePage({ params: paramsPromise }: Args) {
       </section>
 
       {/* 5. इतिहासको पदचाप (Timeline) */}
-      <TimelineBlock locale={locale as string} />
+      <TimelineBlock locale={locale} />
 
       {/* 6. Quote Full Width Banner */}
       <section className="w-full bg-[#1A365D] text-white py-24 md:py-32 relative overflow-hidden flex items-center justify-center border-t-4 md:border-t-8 border-[#B31B20]">
         <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20" />
         <div className="relative z-10 container flex flex-col items-center justify-center text-center max-w-5xl">
-          <div className="relative group mb-6 md:mb-10">
-            <div className="absolute -inset-4 bg-linear-to-r from-red-600 to-blue-600 rounded-full blur-xl opacity-20 group-hover:opacity-40 transition-opacity duration-500" />
-            <div className="w-20 h-20 md:w-32 md:h-32 rounded-full overflow-hidden ring-2 md:ring-4 ring-white shadow-2xl relative z-10"></div>
-          </div>
           <p className="text-xl md:text-4xl lg:text-5xl font-black leading-tight drop-shadow-2xl tracking-tight max-w-4xl italic">
             {locale === 'en'
               ? 'Our journey will not be pleasant, but the outcome will certainly be happy and peaceful. The struggle for justice and rights of the people continues.'

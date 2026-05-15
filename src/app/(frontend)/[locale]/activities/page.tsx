@@ -11,8 +11,8 @@ import { SectionHeading } from '@/components/SectionHeading'
 import { Activity, Calendar, ChevronRight, MapPin, Users } from 'lucide-react'
 
 export const metadata: Metadata = {
-  title: 'ताजा गतिविधि | Jalsa Chhetri',
-  description: 'Jalsa Chhetri का ताजा गतिविधि, कार्यक्रम र सामाजिक संलग्नताहरू।',
+  title: 'ताजा गतिविधि | Jalsa Buda Chhetri',
+  description: 'Jalsa Buda Chhetri का ताजा गतिविधि, कार्यक्रम र सामाजिक संलग्नताहरू।',
 }
 
 export const revalidate = 60
@@ -111,8 +111,8 @@ export default async function ActivitiesList({ params: paramsPromise }: Args) {
           </h1>
           <p className="text-slate-300 font-bold text-lg max-w-2xl leading-relaxed">
             {locale === 'en'
-              ? 'Jalsa Chhetri’s programs, public meetings and social engagement updates.'
-              : 'जलसा क्षेत्री का कार्यक्रम, जनसभा र सामाजिक संलग्नताका ताजा अपडेट।'}
+              ? 'Jalsa Buda Chhetri’s programs, public meetings and social engagement updates.'
+              : 'जलसा बुढा क्षेत्री का कार्यक्रम, जनसभा र सामाजिक संलग्नताका ताजा अपडेट।'}
           </p>
 
           {/* Quick filters */}

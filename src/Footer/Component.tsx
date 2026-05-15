@@ -30,10 +30,7 @@ export async function Footer({ locale }: { locale: Locale }) {
               </div>
               <div className="flex flex-col">
                 <span className="text-white text-2xl md:text-4xl font-black tracking-tighter leading-none mukta-extrabold text-gradient">
-                  {locale === 'en' ? 'Jalsa Kshetri' : 'जलसा क्षेत्री'}
-                </span>
-                <span className="text-[10px] md:text-xs text-[#B31B20] font-black uppercase tracking-[0.4em] mt-1.5 mukta-bold">
-                  {locale === 'en' ? 'Personal Portal' : 'व्यक्तिगत पोर्टल'}
+                  {locale === 'en' ? 'Jalsa Kshetri' : 'जलसा बुढा क्षेत्री'}
                 </span>
               </div>
             </Link>
@@ -63,25 +60,11 @@ export async function Footer({ locale }: { locale: Locale }) {
                 className="bg-white/5 dark:bg-white/5 text-slate-400 hover:bg-[#E4405F] hover:text-white rounded-xl transition-all duration-300 w-11 h-11"
               >
                 <Link
-                  href="#"
+                  href="https://www.instagram.com/jalsaxettri?igsh"
                   target="_blank"
                   className="flex items-center justify-center text-slate-400"
                 >
                   <Instagram className="w-5 h-5" />
-                </Link>
-              </Button>
-
-              <Button
-                asChild
-                size="icon"
-                className="bg-white/5 dark:bg-white/5 text-slate-400 hover:bg-red-600 hover:text-white rounded-xl transition-all duration-300 w-11 h-11"
-              >
-                <Link
-                  href="#"
-                  target="_blank"
-                  className="flex items-center justify-center text-slate-400"
-                >
-                  <Youtube className="w-5 h-5" />
                 </Link>
               </Button>
             </div>
@@ -212,8 +195,8 @@ export async function Footer({ locale }: { locale: Locale }) {
             <p>
               © {currentYear}{' '}
               {locale === 'en'
-                ? 'Jalsa Chhetri Secretariat. All rights reserved.'
-                : 'जलसा क्षेत्रीको सचिवालय । सर्वाधिकार सुरक्षित ।'}
+                ? 'Jalsa Buda Chhetri Secretariat. All rights reserved.'
+                : 'जलसा बुढा क्षेत्रीको सचिवालय । सर्वाधिकार सुरक्षित ।'}
             </p>
             <div className="hidden md:block w-1.5 h-1.5 rounded-full bg-slate-800"></div>
             <Link href={`/${locale}/privacy`} className="hover:text-white transition-colors">

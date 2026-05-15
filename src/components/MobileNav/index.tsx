@@ -2,14 +2,16 @@
 import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Home, Newspaper, Info, MessageSquare, Phone } from 'lucide-react'
+import { Home, Newspaper, Info, MessageSquare, Phone, Sun, Moon, Globe } from 'lucide-react'
 import { cn } from '@/utilities/ui'
 import { useLocale } from '@/providers/LocaleProvider'
 import { Locale } from '@/locales'
+import { useTheme } from '@/providers/Theme'
+import { useRouter } from 'next/navigation'
 
 export const MobileNav = ({ locale: propLocale }: { locale?: Locale }) => {
   const pathname = usePathname()
-  const { locale: contextLocale, t } = useLocale()
+  const { locale: contextLocale, t, setLocale } = useLocale()
   const locale = propLocale || contextLocale
 
   const navItems = [
@@ -19,62 +21,112 @@ export const MobileNav = ({ locale: propLocale }: { locale?: Locale }) => {
     { name: t.contact, path: `/${locale}/contact`, icon: MessageSquare },
   ]
   const [isVisible, setIsVisible] = useState(true)
-  const [lastScrollY, setLastScrollY] = useState(0)
+  const { theme: appTheme, setTheme: setAppTheme } = useTheme()
+  const router = useRouter()
 
-  // Hide on scroll down, show on scroll up for a cleaner mobile experience
+  const [mounted, setMounted] = useState(false)
+
   useEffect(() => {
-    const controlNavbar = () => {
-      if (window.scrollY > lastScrollY && window.scrollY > 100) {
-        setIsVisible(false)
-      } else {
-        setIsVisible(true)
-      }
-      setLastScrollY(window.scrollY)
-    }
+    setMounted(true)
+  }, [])
 
-    window.addEventListener('scroll', controlNavbar)
-    return () => window.removeEventListener('scroll', controlNavbar)
-  }, [lastScrollY])
+  const currentTheme =
+    appTheme ??
+    (mounted
+      ? ((document.documentElement.getAttribute('data-theme') as string) ?? 'light')
+      : 'light')
+  const activeTheme = currentTheme || 'light'
 
   return (
-    <div className={cn(
-      "lg:hidden fixed bottom-6 inset-x-4 z-50 transition-all duration-500 transform",
-      isVisible ? "translate-y-0 opacity-100" : "translate-y-20 opacity-0"
-    )}>
-      <nav className="bg-slate-900/80 backdrop-blur-xl border border-white/10 rounded-3xl shadow-2xl p-2 flex items-center justify-between">
+    <div
+      className={cn(
+        'lg:hidden fixed bottom-4 inset-x-4 z-50',
+        isVisible ? 'opacity-100' : 'opacity-100',
+      )}
+    >
+      <nav
+        className={cn(
+          'backdrop-blur-xl border rounded-[28px] shadow-2xl p-2 flex items-center gap-3 justify-center',
+          activeTheme === 'light'
+            ? 'bg-white/95 border-slate-200/60 text-slate-900'
+            : 'bg-slate-950/95 border-white/10 text-white',
+        )}
+      >
         {navItems.map((item) => {
           const isActive = pathname === item.path
           return (
-            <Link 
-              key={item.path} 
-              href={item.path} 
+            <Link
+              key={item.path}
+              href={item.path}
               className={cn(
-                "flex flex-col items-center justify-center py-2 px-1 flex-1 transition-all rounded-2xl relative",
-                isActive ? "text-white" : "text-white/40 hover:text-white/60"
+                'flex items-center justify-center w-12 h-12 rounded-xl transition-all relative',
+                isActive
+                  ? activeTheme === 'light'
+                    ? 'bg-[#B31B20]/10 text-[#B31B20] shadow-lg ring-1 ring-[#B31B20]/15'
+                    : 'bg-white text-slate-950 shadow-lg ring-1 ring-white/25'
+                  : activeTheme === 'light'
+                    ? 'bg-white/0 text-slate-700/90 hover:bg-slate-100/90 hover:text-slate-900'
+                    : 'bg-white/6 text-white/80 hover:bg-white/10 hover:text-white',
               )}
             >
-              {isActive && (
-                <div className="absolute inset-0 bg-[#B31B20] rounded-2xl shadow-[0_0_15px_rgba(179,27,32,0.4)] animate-in fade-in zoom-in duration-300" />
-              )}
-              <item.icon className={cn("w-5 h-5 relative z-10", isActive ? "scale-110" : "")} />
-              <span className={cn("text-[10px] font-black mt-1 relative z-10", isActive ? "opacity-100" : "opacity-0")}>
-                {item.name}
-              </span>
+              <item.icon className={cn('w-5 h-5', isActive ? 'scale-110' : '')} />
+              <span className="sr-only">{item.name}</span>
             </Link>
           )
         })}
-        
-        {/* Special WhatsApp action button inside bottom nav? Or just a regular link? */}
-        <a 
-          href="https://wa.me/9779743223799" 
-          target="_blank" 
+
+        {/* WhatsApp */}
+        <a
+          href="https://wa.me/9779743223799"
+          target="_blank"
           rel="noopener noreferrer"
-          className="flex flex-col items-center justify-center py-2 px-1 flex-1 text-green-400 hover:text-green-300 transition-all rounded-2xl"
+          className={cn(
+            'flex items-center justify-center w-12 h-12 rounded-xl transition-all',
+            activeTheme === 'light'
+              ? 'bg-white/0 text-green-600 hover:bg-slate-100/90'
+              : 'bg-white/6 text-green-400 hover:bg-white/10',
+          )}
         >
-          <div className="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center text-white shadow-lg animate-pulse ring-4 ring-green-500/20">
-            <Phone className="w-5 h-5 fill-white" />
-          </div>
+          <Phone className="w-5 h-5" />
         </a>
+
+        {/* Theme toggle */}
+        <button
+          onClick={() => {
+            setAppTheme(currentTheme === 'dark' ? 'light' : 'dark')
+          }}
+          aria-label="Toggle theme"
+          className={cn(
+            'flex items-center justify-center w-12 h-12 rounded-xl transition-all',
+            activeTheme === 'light'
+              ? 'bg-white/0 text-slate-900 hover:bg-slate-100/90'
+              : 'bg-white/6 text-white/80 hover:bg-white/10',
+          )}
+        >
+          {currentTheme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+        </button>
+
+        {/* Locale toggle */}
+        <button
+          onClick={() => {
+            const newLocale = (locale === 'ne' ? 'en' : 'ne') as Locale
+            try {
+              setLocale(newLocale)
+              localStorage.setItem('user_locale', newLocale)
+            } catch (e) {}
+            const newPath = pathname.replace(`/${locale}`, `/${newLocale}`)
+            router.push(newPath)
+          }}
+          aria-label="Switch language"
+          className={cn(
+            'flex items-center justify-center w-12 h-12 rounded-xl transition-all',
+            activeTheme === 'light'
+              ? 'bg-white/0 text-slate-900 hover:bg-slate-100/90'
+              : 'bg-white/6 text-white/80 hover:bg-white/10',
+          )}
+        >
+          <Globe className="w-5 h-5" />
+        </button>
       </nav>
     </div>
   )

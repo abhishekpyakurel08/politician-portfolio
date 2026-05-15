@@ -13,8 +13,8 @@ import { FormBlock } from '@/blocks/Form/Component'
 import { contactForm as contactFormSeed } from '@/endpoints/seed/contact-form'
 
 export const metadata: Metadata = {
-  title: 'सम्पर्क | Jalsa Chhetri',
-  description: 'Jalsa Chhetri को सचिवालयसँग सम्पर्क गर्नुहोस्।',
+  title: 'सम्पर्क | Jalsa Buda Chhetri',
+  description: 'Jalsa Buda Chhetri को सचिवालयसँग सम्पर्क गर्नुहोस्।',
 }
 
 type Args = {
@@ -163,7 +163,7 @@ export default async function ContactPage({ params: paramsPromise }: Args) {
             </Card>
 
             <a
-              href="https://wa.me/9779743223799"
+              href="https://wa.me/985158049547"
               target="_blank"
               rel="noopener noreferrer"
               className="group"

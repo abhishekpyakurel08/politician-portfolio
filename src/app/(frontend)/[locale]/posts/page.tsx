@@ -49,7 +49,7 @@ export default async function Page() {
             सबै लेखहरू
           </h1>
           <p className="text-slate-400 text-lg md:text-xl font-bold max-w-2xl">
-            Jalsa Chhetri का आधिकारिक विचार, लेख र महत्त्वपूर्ण टिपोटहरू।
+            Jalsa Buda Chhetri का आधिकारिक विचार, लेख र महत्त्वपूर्ण टिपोटहरू।
           </p>
         </div>
       </section>
