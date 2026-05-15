@@ -26,6 +26,12 @@ const dirname = path.dirname(filename)
 import { Timeline } from './collections/Timeline'
 import { Sliders } from './collections/Sliders'
 
+const minioEndpoint = process.env.MINIO_S3_API_URL?.trim()
+const minioAccessKey = process.env.MINIO_ADMIN_USER?.trim()
+const minioSecretKey = process.env.MINIO_ADMIN_PASSWORD?.trim()
+const minioBucket = process.env.MINIO_BUCKET?.trim() || 'media'
+const minioRegion = process.env.MINIO_REGION?.trim() || 'us-east-1'
+
 export default buildConfig({
   admin: {
     components: {
@@ -98,23 +104,21 @@ export default buildConfig({
   cors: [getServerSideURL()].filter(Boolean),
   globals: [Header, Footer],
   plugins: [
-    ...(process.env.MINIO_S3_API_URL &&
-    process.env.MINIO_ADMIN_USER &&
-    process.env.MINIO_ADMIN_PASSWORD
+    ...(minioEndpoint && minioAccessKey && minioSecretKey
       ? [
           s3Storage({
             collections: {
               media: true,
             },
-            bucket: process.env.MINIO_BUCKET || 'media',
+            bucket: minioBucket,
             config: {
               credentials: {
-                accessKeyId: process.env.MINIO_ADMIN_USER,
-                secretAccessKey: process.env.MINIO_ADMIN_PASSWORD,
+                accessKeyId: minioAccessKey,
+                secretAccessKey: minioSecretKey,
               },
-              endpoint: process.env.MINIO_S3_API_URL,
+              endpoint: minioEndpoint,
               forcePathStyle: true,
-              region: process.env.MINIO_REGION || 'us-east-1',
+              region: minioRegion,
             },
           }),
         ]

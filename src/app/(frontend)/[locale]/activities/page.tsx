@@ -115,28 +115,7 @@ export default async function ActivitiesList({ params: paramsPromise }: Args) {
               : 'जलसा बुढा क्षेत्री का कार्यक्रम, जनसभा र सामाजिक संलग्नताका ताजा अपडेट।'}
           </p>
 
-          {/* Quick filters */}
-          <div className="flex flex-wrap gap-3 mt-10">
-            {[
-              locale === 'en' ? 'All' : 'सबै',
-              locale === 'en' ? 'Public Meeting' : 'जनसभा',
-              locale === 'en' ? 'Development' : 'विकास',
-              locale === 'en' ? 'Health' : 'स्वास्थ्य',
-              locale === 'en' ? 'Education' : 'शिक्षा',
-              locale === 'en' ? 'Youth' : 'युवा',
-            ].map((cat) => (
-              <span
-                key={cat}
-                className={`px-5 py-2 rounded-full font-black text-sm cursor-pointer transition-all ${
-                  cat === (locale === 'en' ? 'All' : 'सबै')
-                    ? 'bg-[#B31B20] text-white shadow-lg shadow-red-900/40'
-                    : 'bg-white/5 dark:bg-slate-800/50 text-white/70 hover:bg-white/10 hover:text-white border border-white/10'
-                }`}
-              >
-                {cat}
-              </span>
-            ))}
-          </div>
+          
         </div>
       </section>
 

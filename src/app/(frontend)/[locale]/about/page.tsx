@@ -189,7 +189,7 @@ export default async function AboutPage({ params: paramsPromise }: Args) {
                     <div className="absolute inset-0 bg-linear-to-t from-slate-950 via-transparent to-transparent" />
                     <div className="absolute bottom-0 inset-x-0 p-6 text-white">
                       <h2 className="text-2xl font-black leading-tight">
-                        {isEnglish ? 'Jalsa Buda Chhetri' : 'जलसा बुढा क्षेत्री'}जलसा बुढा क्षेत्री
+                        {isEnglish ? 'Jalsa Buda Chhetri' : 'जलसा बुढा क्षेत्री'}
                       </h2>
                       <p className="text-slate-300 text-sm font-bold mt-1">
                         {isEnglish
