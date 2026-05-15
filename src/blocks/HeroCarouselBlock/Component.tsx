@@ -12,6 +12,9 @@ import { useLocale } from '@/providers/LocaleProvider'
 
 export type HeroSlide = {
   title?: string
+  subtitle?: string | any
+  subTitle?: string | any
+  sub_title?: string | any
   description?: any
   media?: any
   mediaUrl?: string
@@ -23,7 +26,7 @@ export function BlueHeroSlider({
   initialSlide,
   slides: backendSlides,
 }: {
-  initialSlide?: { title?: string; description?: string; media?: any }
+  initialSlide?: { title?: string; subtitle?: string; description?: string; media?: any }
   slides?: HeroSlide[]
 }) {
   const { t } = useLocale()
@@ -32,6 +35,7 @@ export function BlueHeroSlider({
   const defaultSlides = [
     {
       title: t.visionTitle,
+      subtitle: undefined,
       description: t.visionDesc,
       mediaUrl: undefined,
       badge: t.specialAddress,
@@ -39,6 +43,7 @@ export function BlueHeroSlider({
     },
     {
       title: t.eduTitle,
+      subtitle: undefined,
       description: t.eduDesc,
       mediaUrl: undefined,
       badge: t.newVision,
@@ -46,6 +51,7 @@ export function BlueHeroSlider({
     },
     {
       title: t.infraTitle,
+      subtitle: undefined,
       description: t.infraDesc,
       mediaUrl: undefined,
       badge: t.progressReport,
@@ -63,6 +69,12 @@ export function BlueHeroSlider({
     Array.isArray(backendSlides) && backendSlides.length > 0
       ? backendSlides.map((slide, idx) => ({
           title: slide.title || defaultSlides[idx]?.title || '',
+          subtitle:
+            slide.subtitle ??
+            slide.subTitle ??
+            slide.sub_title ??
+            defaultSlides[idx]?.subtitle ??
+            undefined,
           description: slide.description || defaultSlides[idx]?.description || '',
           mediaUrl: resolveMediaUrl(slide.media, slide.mediaUrl),
           badge: slide.badge || (idx === 0 ? t.specialNotice : undefined),
@@ -78,6 +90,7 @@ export function BlueHeroSlider({
       ? [
           {
             title: initialSlide.title || defaultSlides[0].title,
+            subtitle: initialSlide.subtitle || defaultSlides[0].subtitle,
             description: initialSlide.description || defaultSlides[0].description,
             mediaUrl: resolveMediaUrl(initialSlide.media),
             badge: t.specialNotice,
@@ -130,8 +143,8 @@ export function BlueHeroSlider({
         >
           {/* Background Image with Cinematic Zoom */}
           <motion.div
-            initial={{ scale: 1.2, filter: 'blur(8px) brightness(0.5)' }}
-            animate={{ scale: 1, filter: 'blur(0px) brightness(0.7)' }}
+            initial={{ scale: 1.2, filter: 'blur(8px) brightness(0.8)' }}
+            animate={{ scale: 1, filter: 'blur(0px) brightness(1)' }}
             transition={{ duration: 2.5, ease: 'easeOut' }}
             className="absolute inset-0"
           >
@@ -155,20 +168,20 @@ export function BlueHeroSlider({
             {/* Slide Tints for variety */}
             <div
               className={cn(
-                'absolute inset-0 opacity-20',
+                'absolute inset-0 opacity-10',
                 index === 1 ? 'bg-blue-900' : index === 2 ? 'bg-slate-900' : 'bg-red-900',
               )}
             />
           </motion.div>
 
           {/* Creative Depth Overlays */}
-          <div className="absolute inset-0 bg-linear-to-b from-slate-950 via-transparent to-slate-950/90 pointer-events-none" />
-          <div className="absolute inset-0 bg-linear-to-r from-slate-950/80 via-transparent to-transparent pointer-events-none" />
-          <div className="absolute inset-0 opacity-30 mix-blend-soft-light bg-[url('/noise.png')] pointer-events-none" />
+          <div className="absolute inset-0 bg-linear-to-b from-slate-950/40 via-transparent to-slate-950/30 pointer-events-none" />
+          <div className="absolute inset-0 bg-linear-to-r from-slate-950/40 via-transparent to-transparent pointer-events-none" />
+          <div className="absolute inset-0 opacity-10 mix-blend-soft-light bg-[url('/noise.png')] pointer-events-none" />
 
           {/* Content Container */}
           <div className="absolute inset-0 flex items-center">
-            <div className="container mx-auto max-w-[1240px] px-4 xl:px-8">
+            <div className="container mx-auto max-w-310 px-4 xl:px-8">
               <div className="max-w-4xl space-y-8">
                 <motion.div
                   initial={{ x: -100, opacity: 0 }}
@@ -193,6 +206,45 @@ export function BlueHeroSlider({
                 >
                   {slides[index].title}
                 </motion.h1>
+
+                {slides[index].subtitle && (
+                  <motion.h2
+                    initial={{ y: 40, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ delay: 0.85, duration: 0.8 }}
+                    className="text-xl md:text-2xl text-slate-200 font-semibold leading-tight"
+                  >
+                    {typeof slides[index].subtitle === 'object' ? (
+                      <RichText
+                        data={slides[index].subtitle}
+                        enableProse={false}
+                        className="m-0 p-0"
+                      />
+                    ) : (
+                      slides[index].subtitle
+                    )}
+                  </motion.h2>
+                )}
+                {(() => {
+                  const slideItem = slides[index] as any
+                  const sub = slideItem.subtitle ?? slideItem.subTitle ?? slideItem.sub_title
+                  if (!sub) return null
+
+                  return (
+                    <motion.h2
+                      initial={{ y: 40, opacity: 0 }}
+                      animate={{ y: 0, opacity: 1 }}
+                      transition={{ delay: 0.85, duration: 0.8 }}
+                      className="text-xl md:text-2xl text-slate-200 font-semibold leading-tight"
+                    >
+                      {typeof sub === 'object' ? (
+                        <RichText data={sub} enableProse={false} className="m-0 p-0" />
+                      ) : (
+                        sub
+                      )}
+                    </motion.h2>
+                  )
+                })()}
 
                 <motion.div
                   initial={{ y: 40, opacity: 0 }}
@@ -225,7 +277,7 @@ export function BlueHeroSlider({
                     <ChevronRight className="w-5 h-5 group-hover/btn:translate-x-2 transition-transform" />
                   </Button> */}
 
-                { /* <Button
+                  {/* <Button
                     className="flex items-center gap-3
                       h-14 px-6
                       bg-[#B31B20] hover:bg-red-700

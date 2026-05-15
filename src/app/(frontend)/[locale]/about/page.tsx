@@ -154,7 +154,10 @@ export default async function AboutPage({ params: paramsPromise }: Args) {
           <h1 className="text-4xl md:text-6xl lg:text-7xl leading-none tracking-tighter mb-4 text-white drop-shadow-xl">
             {slider?.docs?.[0]?.slides?.[0]?.title}
           </h1>
-          <div className="text-lg md:text-xl font-bold max-w-2xl leading-relaxed text-slate-200 drop-shadow-lg">
+          <h3 className="text-2xl md:text-4xl lg:text-4xl leading-none tracking-tighter mb-4 text-white drop-shadow-xl">
+            {slider?.docs?.[0]?.slides?.[0]?.subTitle}
+          </h3>
+          <div className="`text-lg md:text-xl font-bold max-w-2xl` leading-relaxed text-slate-200 drop-shadow-lg">
             {slider?.docs?.[0]?.slides?.[0]?.description && (
               <RichText
                 data={slider.docs[0].slides[0].description}

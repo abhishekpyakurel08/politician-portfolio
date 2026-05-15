@@ -21,6 +21,7 @@ export const Media: CollectionConfig = {
   fields: [
     {
       name: 'alt',
+      type: 'text',
     },
     {
       name: 'caption',
