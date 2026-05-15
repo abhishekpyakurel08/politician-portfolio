@@ -124,7 +124,7 @@ interface PoliticianBioBarProps {
 }
 
 export function PoliticianBioBar({
-  name = 'जलसा क्षेत्री',
+  name = 'जलसा बुढा क्षेत्री',
   designation = 'प्रदेश सभा सदस्य',
   party,
   imageUrl,

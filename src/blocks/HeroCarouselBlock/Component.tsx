@@ -217,15 +217,15 @@ export function BlueHeroSlider({
                   transition={{ delay: 1.3, duration: 0.8 }}
                   className="flex flex-wrap items-center gap-6 pt-6"
                 >
-                  <Button
+                  {/* <Button
                     size="lg"
                     className="bg-[#B31B20] hover:bg-red-700 text-white font-black h-14 px-8 rounded-2xl shadow-2xl shadow-red-900/40 gap-3 group/btn text-base"
                   >
                     {locale === 'ne' ? 'थप जानकारी' : 'More Information'}
                     <ChevronRight className="w-5 h-5 group-hover/btn:translate-x-2 transition-transform" />
-                  </Button>
+                  </Button> */}
 
-                  <Button
+                { /* <Button
                     className="flex items-center gap-3
                       h-14 px-6
                       bg-[#B31B20] hover:bg-red-700
@@ -234,7 +234,7 @@ export function BlueHeroSlider({
                       transition-all duration-300
                       hover:scale-[1.02] active:scale-[0.98]"
                   >
-                    {/* Icon */}
+                    //Icon
                     <div
                       className="w-12 h-12 rounded-lg bg-white 
                         flex items-center justify-center 
@@ -244,11 +244,11 @@ export function BlueHeroSlider({
                       <Play className="w-5 h-5 text-red-700 fill-red-700" />
                     </div>
 
-                    {/* Text */}
+                    // Text 
                     <span className="uppercase tracking-wide">
                       {t.videoMessage}
                     </span>
-                  </Button>
+                  </Button>*/}
                 </motion.div>
               </div>
             </div>

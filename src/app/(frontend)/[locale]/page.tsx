@@ -619,7 +619,7 @@ export default async function HomePage({ params: paramsPromise }: Args) {
       </section>
 
       {/* 5. इतिहासको पदचाप (Timeline) */}
-      <TimelineBlock locale={locale as string} />
+      <TimelineBlock locale={locale} />
 
       {/* 6. Quote Full Width Banner */}
       <section className="w-full bg-[#1A365D] text-white py-24 md:py-32 relative overflow-hidden flex items-center justify-center border-t-4 md:border-t-8 border-[#B31B20]">

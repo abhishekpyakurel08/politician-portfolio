@@ -14,8 +14,6 @@ import { draftMode } from 'next/headers'
 import './globals.css'
 import { getServerSideURL } from '@/utilities/getURL'
 
-import { MobileNav } from '@/components/MobileNav'
-
 import { TypedLocale } from 'payload'
 
 export default async function RootLayout({
@@ -50,9 +48,8 @@ export default async function RootLayout({
       <body className="antialiased min-h-screen flex flex-col">
         <Providers locale={locale}>
           <Header locale={locale} />
-          <div className="grow">{children}</div>
+          <div className="grow pt-24 md:pt-32">{children}</div>
           <Footer locale={locale} />
-          <MobileNav locale={locale} />
         </Providers>
       </body>
     </html>
@@ -62,11 +59,19 @@ export default async function RootLayout({
 export const metadata: Metadata = {
   metadataBase: new URL(getServerSideURL()),
   title: {
-    default: 'Jalsa Chhetri | युवा नेता तथा सामाजिक अभियान्ता',
-    template: '%s | Jalsa Chhetri',
+    default: 'Jalsa Buda Chhetri | युवा नेता तथा सामाजिक अभियान्ता',
+    template: '%s | Jalsa Buda Chhetri',
   },
-  description: 'Jalsa Chhetri को आधिकारिक पोर्टल — ताजा समाचार, गतिविधि र युवा नेतृत्वका अपडेट।',
-  keywords: ['Jalsa Chhetri', 'कालिकोट', 'युवा नेता', 'नेकपा एमाले', 'पलाँता', 'सामाजिक अभियान्ता'],
+  description:
+    'Jalsa Buda Chhetri को आधिकारिक पोर्टल — ताजा समाचार, गतिविधि र युवा नेतृत्वका अपडेट।',
+  keywords: [
+    'Jalsa Buda Chhetri',
+    'कालिकोट',
+    'युवा नेता',
+    'नेकपा एमाले',
+    'पलाँता',
+    'सामाजिक अभियान्ता',
+  ],
   openGraph: mergeOpenGraph(),
   twitter: {
     card: 'summary_large_image',

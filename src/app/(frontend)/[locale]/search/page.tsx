@@ -161,6 +161,6 @@ export default async function Page({ searchParams: searchParamsPromise }: Args) 
 
 export function generateMetadata(): Metadata {
   return {
-    title: `Search Results | Jalsa Chhetri`,
+    title: `Search Results | Jalsa Buda Chhetri`,
   }
 }

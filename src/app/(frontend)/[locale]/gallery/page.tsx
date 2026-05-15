@@ -82,7 +82,7 @@ export default async function GalleryPage() {
             फोटो ग्यालरी
           </h1>
           <p className="text-slate-300 max-w-2xl text-lg md:text-xl font-bold mx-auto leading-relaxed">
-            Jalsa Chhetri का विविध गतिविधि, भ्रमण र कार्यक्रमका उल्लेखनीय तस्बिरहरूको सङ्गालो
+            Jalsa Buda Chhetri का विविध गतिविधि, भ्रमण र कार्यक्रमका उल्लेखनीय तस्बिरहरूको सङ्गालो
           </p>
         </div>
       </section>

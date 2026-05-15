@@ -11,8 +11,8 @@ import { SectionHeading } from '@/components/SectionHeading'
 import { Calendar, ChevronRight, Clock, Newspaper } from 'lucide-react'
 
 export const metadata: Metadata = {
-  title: 'समाचार | Jalsa Chhetri',
-  description: 'Jalsa Chhetri को ताजा समाचार, भाषण र आधिकारिक घोषणाहरू।',
+  title: 'समाचार | Jalsa Buda Chhetri',
+  description: 'Jalsa Buda Chhetri को ताजा समाचार, भाषण र आधिकारिक घोषणाहरू।',
 }
 
 export const revalidate = 60
@@ -83,8 +83,8 @@ export default async function NewsList({ params: paramsPromise }: Args) {
           </h1>
           <p className="text-slate-400 font-bold mt-6 mb-12 text-lg md:text-xl max-w-2xl leading-relaxed">
             {locale === 'en'
-              ? 'Jalsa Chhetri’s official speeches, announcements and latest updates.'
-              : 'जलसा क्षेत्री को आधिकारिक भाषण, घोषणा र ताजा अपडेट।'}
+              ? 'Jalsa Buda Chhetri’s official speeches, announcements and latest updates.'
+              : 'जलसा बुढा क्षेत्री को आधिकारिक भाषण, घोषणा र ताजा अपडेट।'}
           </p>
         </div>
 

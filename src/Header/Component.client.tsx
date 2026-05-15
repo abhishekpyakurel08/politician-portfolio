@@ -50,6 +50,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
   const { headerTheme, setHeaderTheme } = useHeaderTheme()
   const pathname = usePathname()
   const [mounted, setMounted] = useState(false)
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   const currentTheme =
     appTheme ??
@@ -88,10 +89,10 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
         isScrolled
           ? activeTheme === 'light'
             ? 'py-2 bg-white/95 backdrop-blur-xl border-b border-slate-200/70 shadow-md h-16 md:h-20 text-slate-900'
-            : 'py-2 bg-slate-950/95 backdrop-blur-xl border-b border-slate-800/70 shadow-md h-16 md:h-20 text-white'
+            : 'py-4 md:py-8 bg-linear-to-b from-slate-950/85 via-slate-950/75 to-slate-950/60 backdrop-blur-xl border-b border-slate-800/60 shadow-none h-24 md:h-32 text-white'
           : activeTheme === 'light'
             ? 'py-4 md:py-8 bg-white/85 text-slate-950 border-b border-slate-200/70 backdrop-blur-xl h-24 md:h-32 shadow-sm'
-            : 'py-4 md:py-8 bg-gradient-to-b from-slate-950/70 via-slate-950/30 to-transparent text-white h-24 md:h-32 shadow-none border-b border-transparent',
+            : 'py-4 md:py-8 bg-linear-to-b from-slate-950/70 via-slate-950/30 to-transparent text-white h-24 md:h-32 shadow-none border-b border-transparent',
       )}
       {...(theme && !isScrolled ? { 'data-theme': theme } : {})}
     >
@@ -101,7 +102,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
         style={{ scaleX }}
       />
 
-      <div className="container mx-auto max-w-[1240px] px-6 h-full flex items-center justify-between">
+      <div className="container mx-auto max-w-310 px-6 h-full flex items-center justify-between">
         {/* Brand / Logo Area */}
         <Link href={`/${locale}`} className="flex items-center gap-5 group">
           <div className="flex flex-col">
@@ -117,7 +118,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
                     : 'text-2xl md:text-5xl text-white',
               )}
             >
-              {locale === 'en' ? 'Jalsa Chhetri' : 'जलसा क्षेत्री'}
+              {locale === 'en' ? 'Jalsa Buda Chhetri' : 'जलसा बुढा क्षेत्री'}
             </span>
             <span
               className={cn(
@@ -131,7 +132,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
                     : 'text-white',
               )}
             >
-              {locale === 'en' ? 'Personal Portal' : 'व्यक्तिगत पोर्टल'}
+            
             </span>
           </div>
         </Link>
@@ -241,7 +242,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
               </DropdownMenuTrigger>
               <DropdownMenuContent
                 align="end"
-                className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white border-none shadow-2xl rounded-2xl p-2 min-w-[160px]"
+                className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white border-none shadow-2xl rounded-2xl p-2 min-w-40"
               >
                 <DropdownMenuItem
                   onClick={() => {
@@ -311,38 +312,85 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
               <span className="sr-only">Search</span>
             </Link>
           </Button>
-          <Sheet>
+          <Button
+            onClick={toggleTheme}
+            variant="ghost"
+            size="icon"
+            className={cn(
+              'h-10 w-10 rounded-xl transition-all',
+              isScrolled
+                ? activeTheme === 'light'
+                  ? 'text-slate-900 bg-slate-200/50'
+                  : 'text-slate-200 bg-slate-800'
+                : activeTheme === 'light'
+                  ? 'text-slate-900 bg-slate-100/90'
+                  : 'text-white bg-white/10',
+            )}
+            title={currentTheme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+          >
+            {currentTheme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+          </Button>
+          <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
             <SheetTrigger asChild>
               <Button
                 variant="ghost"
                 size="icon"
                 className={cn(
+                  'h-10 w-10 rounded-xl transition-all',
                   isScrolled
                     ? activeTheme === 'light'
-                      ? 'text-slate-900'
-                      : 'text-slate-200'
+                      ? 'bg-white text-slate-900 border border-slate-200 shadow-sm hover:bg-slate-50'
+                      : 'bg-slate-950 text-white border border-slate-700 shadow-sm hover:bg-slate-900'
                     : activeTheme === 'light'
-                      ? 'text-slate-900'
-                      : 'text-white',
+                      ? 'bg-white text-slate-900 border border-slate-200 shadow-sm hover:bg-slate-50'
+                      : 'bg-slate-950 text-white border border-slate-700 shadow-sm hover:bg-slate-900',
                 )}
+                aria-label="Open menu"
               >
-                <Menu className="w-8 h-8" />
+                <Menu className="w-5 h-5" />
               </Button>
             </SheetTrigger>
             <SheetContent
               side="right"
-              className="w-full sm:w-[400px] border-none glass-dark text-white p-0"
+              className={cn(
+                'w-full sm:w-100 p-0 border-l',
+                activeTheme === 'light'
+                  ? 'bg-white text-slate-900 border-slate-200'
+                  : 'bg-slate-950 text-white border-slate-800',
+              )}
             >
-              <SheetHeader className="p-8 border-b border-white/5 text-left">
-                <SheetTitle className="text-white flex items-center gap-4">
-                  <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center text-[#B31B20] font-black text-2xl shadow-xl">
+              <SheetHeader
+                className={cn(
+                  'p-8 border-b text-left',
+                  activeTheme === 'light' ? 'border-slate-200' : 'border-white/10',
+                )}
+              >
+                <SheetTitle
+                  className={cn(
+                    'flex items-center gap-4',
+                    activeTheme === 'light' ? 'text-slate-900' : 'text-white',
+                  )}
+                >
+                  <div
+                    className={cn(
+                      'w-12 h-12 rounded-2xl flex items-center justify-center font-black text-2xl shadow-xl',
+                      activeTheme === 'light'
+                        ? 'bg-slate-950 text-white'
+                        : 'bg-white text-[#B31B20]',
+                    )}
+                  >
                     ज
                   </div>
                   <div>
                     <div className="text-2xl font-black leading-none tracking-tighter">
-                      जलसा क्षेत्री
+                      जलसा बुढा क्षेत्री
                     </div>
-                    <div className="text-[10px] opacity-50 mt-1 uppercase tracking-[0.3em] font-black">
+                    <div
+                      className={cn(
+                        'text-[10px] mt-1 uppercase tracking-[0.3em] font-black',
+                        activeTheme === 'light' ? 'text-slate-500' : 'opacity-50',
+                      )}
+                    >
                       Personal Portal
                     </div>
                   </div>
@@ -355,12 +403,18 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
                     <Link
                       key={link.path}
                       href={link.path}
+                      onClick={() => setMobileMenuOpen(false)}
                       className={cn(
-                        'flex items-center gap-4 px-6 py-4 rounded-2xl text-xl font-bold transition-all',
+                        'flex items-center gap-4 px-6 py-4 rounded-2xl text-xl font-bold transition-all border',
                         isActive
-                          ? 'bg-[#B31B20] text-white shadow-2xl glow-red'
-                          : 'text-white/60 hover:text-white hover:bg-white/5',
+                          ? activeTheme === 'light'
+                            ? 'bg-[#B31B20] text-white shadow-2xl glow-red'
+                            : 'bg-[#B31B20] text-white shadow-2xl ring-2 ring-white/25 border-transparent'
+                          : activeTheme === 'light'
+                            ? 'text-slate-700 hover:text-slate-950 hover:bg-slate-100 border-transparent hover:border-slate-200'
+                            : 'text-white/80 hover:text-white hover:bg-white/10 border-transparent hover:border-white/10',
                       )}
+                      aria-current={isActive ? 'page' : undefined}
                     >
                       {link.name}
                     </Link>
@@ -368,49 +422,45 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
                 })}
               </div>
               <div className="mt-auto p-10 flex flex-col gap-8">
-                <div className="flex gap-4 justify-center">
-                  <Button
-                    onClick={toggleTheme}
-                    size="icon"
-                    variant="ghost"
-                    className="bg-white/5 rounded-2xl w-14 h-14 hover:bg-slate-200/20 transition-all text-white"
-                  >
-                    {currentTheme === 'dark' ? (
-                      <Sun className="w-6 h-6" />
-                    ) : (
-                      <Moon className="w-6 h-6" />
+                <div
+                  className={cn(
+                    'rounded-2xl px-5 py-4 border',
+                    activeTheme === 'light'
+                      ? 'bg-slate-50 border-slate-200'
+                      : 'bg-white/5 border-white/10',
+                  )}
+                >
+                  <div
+                    className={cn(
+                      'text-[10px] uppercase tracking-[0.3em] font-black',
+                      activeTheme === 'light' ? 'text-slate-500' : 'text-white/50',
                     )}
-                  </Button>
-                  <Button
-                    size="icon"
-                    variant="ghost"
-                    className="bg-white/5 rounded-2xl w-14 h-14 hover:bg-[#1877F2] transition-all"
                   >
-                    <Facebook className="w-6 h-6" />
-                  </Button>
-                  <Button
-                    size="icon"
-                    variant="ghost"
-                    className="bg-white/5 rounded-2xl w-14 h-14 hover:bg-[#1DA1F2] transition-all"
+                    Current language
+                  </div>
+                  <div
+                    className={cn(
+                      'mt-1 text-lg font-black',
+                      activeTheme === 'light' ? 'text-slate-950' : 'text-white',
+                    )}
                   >
-                    <Twitter className="w-6 h-6" />
-                  </Button>
-                  <Button
-                    size="icon"
-                    variant="ghost"
-                    className="bg-white/5 rounded-2xl w-14 h-14 hover:bg-red-600 transition-all"
-                  >
-                    <Youtube className="w-6 h-6" />
-                  </Button>
+                    {locale === 'ne' ? 'नेपाली' : 'English'}
+                  </div>
                 </div>
                 <Button
                   onClick={() => {
+                    setMobileMenuOpen(false)
                     const newLocale = locale === 'ne' ? 'en' : 'ne'
                     setLocale(newLocale)
                     const newPathname = pathname.replace(`/${locale}`, `/${newLocale}`)
                     router.push(newPathname)
                   }}
-                  className="w-full bg-white text-slate-950 font-black h-16 rounded-2xl hover:bg-[#B31B20] hover:text-white transition-all text-sm uppercase tracking-widest shadow-2xl"
+                  className={cn(
+                    'w-full font-black h-16 rounded-2xl transition-all text-sm uppercase tracking-widest shadow-2xl',
+                    activeTheme === 'light'
+                      ? 'bg-slate-950 text-white hover:bg-[#B31B20] hover:text-white'
+                      : 'bg-white text-slate-950 hover:bg-[#B31B20] hover:text-white',
+                  )}
                 >
                   Switch to {locale === 'ne' ? 'English (UK)' : 'नेपाली (NP)'}
                 </Button>

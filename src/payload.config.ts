@@ -1,4 +1,5 @@
 import { mongooseAdapter } from '@payloadcms/db-mongodb'
+import { s3Storage } from '@payloadcms/storage-s3'
 import sharp from 'sharp'
 import path from 'path'
 import { buildConfig, PayloadRequest } from 'payload'
@@ -81,10 +82,39 @@ export default buildConfig({
   db: mongooseAdapter({
     url: process.env.DATABASE_URL || '',
   }),
-  collections: [Pages, Posts, Media, Categories, Users, News, Gallery, Videos, Timeline, Sliders, Activities],
+  collections: [
+    Pages,
+    Posts,
+    Media,
+    Categories,
+    Users,
+    News,
+    Gallery,
+    Videos,
+    Timeline,
+    Sliders,
+    Activities,
+  ],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [Header, Footer],
-  plugins,
+  plugins: [
+    s3Storage({
+      collections: {
+        media: true,
+      },
+      bucket: process.env.MINIO_BUCKET || 'media',
+      config: {
+        credentials: {
+          accessKeyId: process.env.MINIO_ADMIN_USER || '',
+          secretAccessKey: process.env.MINIO_ADMIN_PASSWORD || '',
+        },
+        endpoint: process.env.MINIO_S3_API_URL,
+        forcePathStyle: true,
+        region: process.env.MINIO_REGION || 'us-east-1',
+      },
+    }),
+    ...plugins,
+  ],
   secret: process.env.PAYLOAD_SECRET,
   sharp,
   typescript: {
