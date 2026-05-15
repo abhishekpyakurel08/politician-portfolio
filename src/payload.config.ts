@@ -98,21 +98,27 @@ export default buildConfig({
   cors: [getServerSideURL()].filter(Boolean),
   globals: [Header, Footer],
   plugins: [
-    s3Storage({
-      collections: {
-        media: true,
-      },
-      bucket: process.env.MINIO_BUCKET || 'media',
-      config: {
-        credentials: {
-          accessKeyId: process.env.MINIO_ADMIN_USER || '',
-          secretAccessKey: process.env.MINIO_ADMIN_PASSWORD || '',
-        },
-        endpoint: process.env.MINIO_S3_API_URL,
-        forcePathStyle: true,
-        region: process.env.MINIO_REGION || 'us-east-1',
-      },
-    }),
+    ...(process.env.MINIO_S3_API_URL &&
+    process.env.MINIO_ADMIN_USER &&
+    process.env.MINIO_ADMIN_PASSWORD
+      ? [
+          s3Storage({
+            collections: {
+              media: true,
+            },
+            bucket: process.env.MINIO_BUCKET || 'media',
+            config: {
+              credentials: {
+                accessKeyId: process.env.MINIO_ADMIN_USER,
+                secretAccessKey: process.env.MINIO_ADMIN_PASSWORD,
+              },
+              endpoint: process.env.MINIO_S3_API_URL,
+              forcePathStyle: true,
+              region: process.env.MINIO_REGION || 'us-east-1',
+            },
+          }),
+        ]
+      : []),
     ...plugins,
   ],
   secret: process.env.PAYLOAD_SECRET,
